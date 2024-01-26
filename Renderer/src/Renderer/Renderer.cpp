@@ -10,6 +10,7 @@ namespace Renderer
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f));
 	Shader sColor;
 	Shader sObject;
+	Shader sLighting;
 	Model monkey;
 }
 
@@ -21,10 +22,11 @@ void Renderer::Init()
 
 	sColor.Load("res/shaders/color.vert", "res/shaders/color.frag");
 	sObject.Load("res/shaders/object.vert", "res/shaders/object.frag");
+	sLighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 
 	monkey.Load("res/models/backpack/backpack.obj");
 
-	sObject.Bind();
+	sLighting.Bind();
 }
 
 void Renderer::RenderFrame()
@@ -44,7 +46,7 @@ void Renderer::RenderFrame()
 				model = glm::translate(model, glm::vec3(x * 5.0f, y * 5.0f, -z * 5.0f));
 				sObject.SetMat4("model", model);
 				camera.UploadViewProjection(sObject);
-				monkey.Draw(sObject);
+				monkey.Draw(sLighting);
 			}
 		}
 	}

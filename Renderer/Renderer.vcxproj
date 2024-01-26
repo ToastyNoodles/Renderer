@@ -534,6 +534,8 @@
     <None Include="res\models\suzanne.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
+    <None Include="res\shaders\lighting.frag" />
+    <None Include="res\shaders\lighting.vert" />
     <None Include="res\shaders\object.frag" />
     <None Include="res\shaders\object.vert" />
     <None Include="vendor\assimp\include\assimp\color4.inl" />
