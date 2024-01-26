@@ -8,10 +8,9 @@
 namespace Renderer
 {
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f));
-	Shader sColor;
-	Shader sObject;
-	Shader sLighting;
-	Model monkey;
+	Shader color;
+	Shader object;
+	Shader lighting;
 }
 
 void Renderer::Init()
@@ -20,13 +19,9 @@ void Renderer::Init()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	sColor.Load("res/shaders/color.vert", "res/shaders/color.frag");
-	sObject.Load("res/shaders/object.vert", "res/shaders/object.frag");
-	sLighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
-
-	monkey.Load("res/models/backpack/backpack.obj");
-
-	sLighting.Bind();
+	color.Load("res/shaders/color.vert", "res/shaders/color.frag");
+	object.Load("res/shaders/object.vert", "res/shaders/object.frag");
+	lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 }
 
 void Renderer::RenderFrame()
@@ -35,19 +30,4 @@ void Renderer::RenderFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera.Input(GL::GetWindowPtr());
-
-	for (int x = 0; x < 5; x++)
-	{
-		for (int y = 0; y < 5; y++)
-		{
-			for (int z = 0; z < 5; z++)
-			{
-				glm::mat4 model = glm::mat4(1.0f);
-				model = glm::translate(model, glm::vec3(x * 5.0f, y * 5.0f, -z * 5.0f));
-				sObject.SetMat4("model", model);
-				camera.UploadViewProjection(sObject);
-				monkey.Draw(sLighting);
-			}
-		}
-	}
 }

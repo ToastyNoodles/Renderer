@@ -1,8 +1,4 @@
 #include "Model.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
-uint32_t TextureFromFile(const char* filepath);
 
 void Model::Load(const char* filepath)
 {
@@ -116,62 +112,23 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material, aiTexture
 		bool skip = false;
 		for (unsigned int j = 0; j < loadedTextures.size(); j++)
 		{
-			if (std::strcmp(loadedTextures[j].path.data(), path.C_Str()) == 0)
+			/*if (std::strcmp(loadedTextures[j].path.data(), path.C_Str()) == 0)
 			{
 				textures.push_back(loadedTextures[j]);
 				skip = true;
 				break;
-			}
+			}*/
 		}
 		if (!skip)
 		{
 			Texture texture;
-			texture.id = TextureFromFile(path.C_Str());
-			texture.type = typeName;
-			texture.path = path.C_Str();
+			//texture.id = TextureFromFile(path.C_Str());
+			//texture.type = typeName;
+			//texture.path = path.C_Str();
 			textures.push_back(texture);
 			loadedTextures.push_back(texture);
 		}
 	}
 
 	return textures;
-}
-
-uint32_t TextureFromFile(const char* filepath)
-{
-	std::string file = std::string(filepath);
-	file = "res/models/backpack/" + file;
-
-	uint32_t textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(file.c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		GLenum format{};
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		std::cout << "Loaded Texture " << file << std::endl;
-	}
-	else
-	{
-		std::cout << "Texture failed to load " << file << std::endl;
-	}
-
-	stbi_image_free(data);
-	return textureID;
 }

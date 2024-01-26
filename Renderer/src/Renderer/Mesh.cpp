@@ -50,7 +50,7 @@ void Mesh::Draw(Shader& shader)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
 
-			glUniform1i(glGetUniformLocation(shader.id, textures[i].type.c_str()), i);
+			//glUniform1i(glGetUniformLocation(shader.id, textures[i].type.c_str()), i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 		hasLoaded = true;
