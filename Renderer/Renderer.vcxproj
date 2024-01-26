@@ -70,20 +70,23 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -102,8 +105,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,14 +115,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -138,8 +141,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,6 +150,7 @@
     <ClCompile Include="src\Core\AssetManager.cpp" />
     <ClCompile Include="src\Core\Camera.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
+    <ClCompile Include="src\Editor\Editor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Renderer\Model.cpp" />
@@ -161,6 +165,7 @@
     <ClInclude Include="src\Core\AssetManager.h" />
     <ClInclude Include="src\Core\Camera.h" />
     <ClInclude Include="src\Core\GL.h" />
+    <ClInclude Include="src\Editor\Editor.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />
     <ClInclude Include="src\Renderer\Model.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
@@ -533,6 +538,13 @@
     <ClInclude Include="vendor\glm\glm\vec3.hpp" />
     <ClInclude Include="vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="vendor\imgui\include\imconfig.h" />
+    <ClInclude Include="vendor\imgui\include\imgui.h" />
+    <ClInclude Include="vendor\imgui\include\imgui_internal.h" />
+    <ClInclude Include="vendor\imgui\include\imgui_stdlib.h" />
+    <ClInclude Include="vendor\imgui\include\imstb_rectpack.h" />
+    <ClInclude Include="vendor\imgui\include\imstb_textedit.h" />
+    <ClInclude Include="vendor\imgui\include\imstb_truetype.h" />
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
