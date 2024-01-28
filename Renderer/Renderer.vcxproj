@@ -567,6 +567,10 @@
     <None Include="vendor\assimp\include\assimp\SmoothingGroups.inl" />
     <None Include="vendor\assimp\include\assimp\vector2.inl" />
     <None Include="vendor\assimp\include\assimp\vector3.inl" />
+    <None Include="vendor\assimp\lib\assimp-vc143-mt.dll" />
+    <None Include="vendor\assimp\lib\D3DCompiler_42.dll" />
+    <None Include="vendor\assimp\lib\D3DX9_42.dll" />
+    <None Include="vendor\GLFW\lib\glfw3.dll" />
     <None Include="vendor\glm\glm\detail\func_common.inl" />
     <None Include="vendor\glm\glm\detail\func_common_simd.inl" />
     <None Include="vendor\glm\glm\detail\func_exponential.inl" />
@@ -715,6 +719,8 @@
     <Image Include="res\textures\wall.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="vendor\assimp\lib\assimp.lib" />
+    <Library Include="vendor\GLFW\lib\glfw3.lib" />
     <Library Include="vendor\imgui\lib\imgui.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

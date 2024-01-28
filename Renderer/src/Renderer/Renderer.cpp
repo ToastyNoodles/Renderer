@@ -8,8 +8,8 @@ namespace Renderer
 {
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f));
 	Shader color;
-	Shader object;
-	Shader lighting;
+
+	Model object;
 }
 
 void Renderer::Init()
@@ -19,8 +19,9 @@ void Renderer::Init()
 	glCullFace(GL_BACK);
 
 	color.Load("res/shaders/color.vert", "res/shaders/color.frag");
-	object.Load("res/shaders/object.vert", "res/shaders/object.frag");
-	lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
+	color.Bind();
+
+	object.Load("res/models/suzanne.fbx");
 }
 
 void Renderer::RenderFrame()
@@ -29,4 +30,11 @@ void Renderer::RenderFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera.Input(GL::GetWindowPtr());
+
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	color.SetMat4("model", model);
+	camera.UploadViewProjection(color);
+
+	object.Draw(color);
 }
