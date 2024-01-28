@@ -79,13 +79,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor\glad\include;$(ProjectDir)vendor\GLFW;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\assimp\include;$(ProjectDir)vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)vendor\GLFW\lib;$(ProjectDir)vendor\assimp\lib;$(ProjectDir)vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor\glad\include;$(ProjectDir)vendor\GLFW;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\assimp\include;$(ProjectDir)vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -105,7 +105,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)vendor\GLFW\lib;$(ProjectDir)vendor\assimp\lib;$(ProjectDir)vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -115,13 +115,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor\glad\include;$(ProjectDir)vendor\GLFW;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\assimp\include;$(ProjectDir)vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)vendor\GLFW\lib;$(ProjectDir)vendor\assimp\lib;$(ProjectDir)vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor\glad\include;$(ProjectDir)vendor\GLFW;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\assimp\include;$(ProjectDir)vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -141,7 +141,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\Project\Renderer\vendor\GLFW\lib;C:\dev\Project\Renderer\vendor\assimp\lib;C:\dev\Project\Renderer\vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)vendor\GLFW\lib;$(ProjectDir)vendor\assimp\lib;$(ProjectDir)vendor\imgui\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>imgui.lib;assimp.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
