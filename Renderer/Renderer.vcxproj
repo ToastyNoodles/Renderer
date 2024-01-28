@@ -79,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -115,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\Project\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Project\Renderer\vendor\glad\include;C:\dev\Project\Renderer\vendor\GLFW;C:\dev\Project\Renderer\vendor\glm;C:\dev\Project\Renderer\vendor\stb_image;C:\dev\Project\Renderer\vendor\assimp\include;C:\dev\ScuffedRenderer\Renderer\vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -540,6 +540,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
     <ClInclude Include="vendor\imgui\include\imconfig.h" />
     <ClInclude Include="vendor\imgui\include\imgui.h" />
+    <ClInclude Include="vendor\imgui\include\imgui_impl_glfw.h" />
+    <ClInclude Include="vendor\imgui\include\imgui_impl_opengl3.h" />
+    <ClInclude Include="vendor\imgui\include\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="vendor\imgui\include\imgui_internal.h" />
     <ClInclude Include="vendor\imgui\include\imgui_stdlib.h" />
     <ClInclude Include="vendor\imgui\include\imstb_rectpack.h" />
@@ -710,6 +713,9 @@
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
     <Image Include="res\textures\wall.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="vendor\imgui\lib\imgui.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
