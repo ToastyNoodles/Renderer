@@ -20,6 +20,21 @@ struct Vertex
 	glm::vec3 bitangent;
 };
 
+struct Transform
+{
+	glm::vec3 position = glm::vec3(0.0f);
+	glm::vec3 rotation = glm::vec3(0.0f);;
+	glm::vec3 scale = glm::vec3(0.0f);;
+	glm::mat4 GetModelMatrix()
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, position);
+		model = glm::mat4_cast(glm::quat(rotation));
+		model = glm::scale(model, scale);
+		return model;
+	}
+};
+
 struct Material
 {
 	std::string name;

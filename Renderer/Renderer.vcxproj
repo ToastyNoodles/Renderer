@@ -559,6 +559,8 @@
     <None Include="res\shaders\lighting.vert" />
     <None Include="res\shaders\object.frag" />
     <None Include="res\shaders\object.vert" />
+    <None Include="res\shaders\texture.frag" />
+    <None Include="res\shaders\texture.vert" />
     <None Include="vendor\assimp\include\assimp\color4.inl" />
     <None Include="vendor\assimp\include\assimp\material.inl" />
     <None Include="vendor\assimp\include\assimp\matrix3x3.inl" />

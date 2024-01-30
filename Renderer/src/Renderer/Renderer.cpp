@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "../Common.h"
 #include "../Core/GL.h"
+#include "../Core/AssetManager.h"
 #include "Shader.h"
 #include "Model.h"
 
@@ -18,7 +19,7 @@ void Renderer::Init()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	color.Load("res/shaders/color.vert", "res/shaders/color.frag");
+	color.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
 	color.Bind();
 
 	object.Load("res/models/suzanne.fbx");
@@ -33,8 +34,10 @@ void Renderer::RenderFrame()
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0, 1, 0));
 	color.SetMat4("model", model);
 	camera.UploadViewProjection(color);
 
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTextureByName("container")->id);
 	object.Draw(color);
 }

@@ -1,10 +1,9 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->textures = textures;
 
 	Setup();
 }
@@ -42,23 +41,9 @@ void Mesh::Setup()
 	glBindVertexArray(0);
 }
 
-bool hasLoaded = false;
 void Mesh::Draw(Shader& shader)
 {
-	if (!hasLoaded) {
-		for (int i = 0; i < textures.size(); i++)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-
-			//glUniform1i(glGetUniformLocation(shader.id, textures[i].type.c_str()), i);
-			glBindTexture(GL_TEXTURE_2D, textures[i].id);
-		}
-		hasLoaded = true;
-	}
-	
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, indices.data());
 	glBindVertexArray(0);
-
-	//glActiveTexture(GL_TEXTURE0);
 }

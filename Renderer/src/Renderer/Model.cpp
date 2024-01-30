@@ -38,7 +38,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -77,17 +76,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			vertex.tangent = glm::vec3(0.0f, 0.0f, 0.0f);
 			vertex.bitangent = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
-
-		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-		std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-		std::vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-
 		vertices.push_back(vertex);
 	}
 
@@ -98,37 +86,5 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			indices.push_back(face.mIndices[j]);
 	}
 
-	return Mesh(vertices, indices, textures);
-}
-
-std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName)
-{
-	std::vector<Texture> textures;
-	for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
-	{
-		aiString path;
-		material->GetTexture(type, i, &path);
-
-		bool skip = false;
-		for (unsigned int j = 0; j < loadedTextures.size(); j++)
-		{
-			/*if (std::strcmp(loadedTextures[j].path.data(), path.C_Str()) == 0)
-			{
-				textures.push_back(loadedTextures[j]);
-				skip = true;
-				break;
-			}*/
-		}
-		if (!skip)
-		{
-			Texture texture;
-			//texture.id = TextureFromFile(path.C_Str());
-			//texture.type = typeName;
-			//texture.path = path.C_Str();
-			textures.push_back(texture);
-			loadedTextures.push_back(texture);
-		}
-	}
-
-	return textures;
+	return Mesh(vertices, indices);
 }

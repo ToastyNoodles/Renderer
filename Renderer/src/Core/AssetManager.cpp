@@ -27,6 +27,20 @@ void AssetManager::LoadAssets()
 	}
 }
 
+Texture* AssetManager::GetTextureByName(const char* name)
+{
+	for (Texture texture : textures)
+	{
+		if (texture.info.name == name)
+		{
+			return &texture;
+		}
+	}
+
+	std::cout << "Failed to find texture " << name << "\n";
+	return nullptr;
+}
+
 uint32_t TextureFromFile(const std::string& filepath)
 {
 	uint32_t textureID;
