@@ -14,10 +14,10 @@ void Model::Load(const char* filepath)
 	std::cout << "Loaded Model " << filepath << "\n";
 }
 
-void Model::Draw(Shader& shader)
+void Model::Draw()
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
-		meshes[i].Draw(shader);
+		meshes[i].Draw();
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
@@ -41,7 +41,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
-		Vertex vertex;
+		Vertex vertex{};
 		vertex.position.x = mesh->mVertices[i].x;
 		vertex.position.y = mesh->mVertices[i].y;
 		vertex.position.z = mesh->mVertices[i].z;

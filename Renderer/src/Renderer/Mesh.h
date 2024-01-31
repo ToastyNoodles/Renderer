@@ -7,7 +7,7 @@ class Mesh
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	void Setup();
-	void Draw(Shader& shader);
+	void Draw();
 private:
 	unsigned int vao = 0, vbo = 0, ebo = 0;
 	std::vector<Vertex> vertices;

@@ -1,10 +1,12 @@
 #include "AssetManager.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include "../Renderer/Model.h"
 
 namespace AssetManager
 {
 	std::vector<Texture> textures;
+	std::vector<Model> models;
 }
 
 uint32_t TextureFromFile(const std::string& filepath);
@@ -12,6 +14,7 @@ uint32_t TextureFromFile(const std::string& filepath);
 void AssetManager::LoadAssets()
 {
 	static auto textureFiles = std::filesystem::directory_iterator("res/textures/");
+	static auto modelFiles = std::filesystem::directory_iterator("res/models/");
 
 	for (const auto& file : textureFiles)
 	{
@@ -25,9 +28,22 @@ void AssetManager::LoadAssets()
 			textures.push_back(texture);
 		}	
 	}
+
+	for (const auto& file : modelFiles)
+	{
+		const std::filesystem::path filepath = file.path();
+		FileInfo fileInfo = GetFileInfo(filepath);
+		if (fileInfo.extension == "obj" || fileInfo.extension == "fbx")
+		{
+			Model model;
+			model.Load(fileInfo.path.c_str());
+			model.info = fileInfo;
+			models.push_back(model);
+		}
+	}
 }
 
-Texture* AssetManager::GetTextureByName(const char* name)
+Texture* AssetManager::GetTexture(const std::string& name)
 {
 	for (Texture texture : textures)
 	{
@@ -38,6 +54,20 @@ Texture* AssetManager::GetTextureByName(const char* name)
 	}
 
 	std::cout << "Failed to find texture " << name << "\n";
+	return nullptr;
+}
+
+Model* AssetManager::GetModel(const std::string& name)
+{
+	for (Model model : models)
+	{
+		if (model.info.name == name)
+		{
+			return &model;
+		}
+	}
+
+	std::cout << "Failed to find model " << name << "\n";
 	return nullptr;
 }
 
@@ -74,6 +104,7 @@ uint32_t TextureFromFile(const std::string& filepath)
 	}
 
 	stbi_image_free(data);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	return textureID;
 }
 

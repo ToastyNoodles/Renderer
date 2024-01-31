@@ -8,9 +8,7 @@
 namespace Renderer
 {
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f));
-	Shader color;
-
-	Model object;
+	Shader shader;
 }
 
 void Renderer::Init()
@@ -19,10 +17,8 @@ void Renderer::Init()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	color.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
-	color.Bind();
-
-	object.Load("res/models/suzanne.fbx");
+	shader.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
+	shader.Bind();
 }
 
 void Renderer::RenderFrame()
@@ -32,12 +28,8 @@ void Renderer::RenderFrame()
 
 	camera.Input(GL::GetWindowPtr());
 
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0, 1, 0));
-	color.SetMat4("model", model);
-	camera.UploadViewProjection(color);
-
-	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTextureByName("container")->id);
-	object.Draw(color);
+	AssetManager::GetTexture("wall")->Bind(0);
+	Transform transform = Transform();
+	shader.SetMat4("model", transform.GetModelMatrix());
+	camera.UploadViewProjection(shader);
 }

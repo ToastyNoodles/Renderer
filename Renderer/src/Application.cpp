@@ -7,7 +7,6 @@
 void Application::Run()
 {
 	Init();
-	AssetManager::LoadAssets();
 
 	while (!GL::WindowShouldClose())
 	{
@@ -26,6 +25,7 @@ void Application::Init()
 {
 	GL::Init(1280, 720, "Renderer");
 	Editor::Init(GL::GetWindowPtr());
+	AssetManager::LoadAssets();
 
 	Renderer::Init();
 }
