@@ -1,4 +1,5 @@
 #include "Editor.h"
+#include "../Core/Scene.h"
 
 namespace Editor
 {
@@ -23,11 +24,13 @@ void Editor::RenderEditor()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-	//ImGui::DockSpaceOverViewport(); //Dock to the window itself
 
 	if (ShowDemoWindow)
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
+	ImGui::Begin("noodles debugger");
+	ImGui::DragFloat3("light position", (float*)&Scene::light.position);
+	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

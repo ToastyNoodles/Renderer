@@ -18,6 +18,7 @@ void Camera::UploadViewProjection(Shader& shader)
 	shader.SetMat4("viewProjection", projection * view);
 }
 
+bool lockCursor = false;
 void Camera::Input(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -32,7 +33,10 @@ void Camera::Input(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		position += speed * glm::normalize(glm::cross(orientation, up));
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		lockCursor = !lockCursor;
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && lockCursor)
 	{
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 

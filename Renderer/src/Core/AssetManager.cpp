@@ -7,6 +7,7 @@ namespace AssetManager
 {
 	std::vector<Texture> textures;
 	std::vector<Model> models;
+	std::vector<Material> materials;
 }
 
 uint32_t TextureFromFile(const std::string& filepath);

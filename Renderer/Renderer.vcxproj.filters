@@ -54,6 +54,9 @@
     <ClCompile Include="src\Core\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1226,6 +1229,9 @@
     <ClInclude Include="src\Core\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vendor\assimp\include\assimp\color4.inl">
@@ -1663,7 +1669,6 @@
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
     <None Include="res\models\CypressTree.fbx" />
-    <None Include="res\models\suzanne.fbx" />
     <None Include="res\shaders\object.frag" />
     <None Include="res\shaders\object.vert" />
     <None Include="res\shaders\lighting.frag" />
@@ -1674,6 +1679,7 @@
     <None Include="vendor\assimp\lib\D3DCompiler_42.dll" />
     <None Include="vendor\assimp\lib\D3DX9_42.dll" />
     <None Include="vendor\GLFW\lib\glfw3.dll" />
+    <None Include="res\textures\backpack.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1696,6 +1702,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\wall.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\ao.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\diffuse.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\roughness.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\specular.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

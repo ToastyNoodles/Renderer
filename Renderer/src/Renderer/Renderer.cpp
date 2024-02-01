@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "../Common.h"
 #include "../Core/GL.h"
+#include "../Core/Scene.h"
 #include "../Core/GameObject.h"
 #include "../Core/AssetManager.h"
 #include "Shader.h"
@@ -19,10 +20,10 @@ void Renderer::Init()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	shader.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
+	shader.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 	shader.Bind();
 
-	gameObject.SetModel("suzanne");
+	gameObject.SetModel("backpack");
 }
 
 void Renderer::RenderFrame()
@@ -32,7 +33,11 @@ void Renderer::RenderFrame()
 
 	camera.Input(GL::GetWindowPtr());
 
-	AssetManager::GetTexture("container")->Bind(0);
+	AssetManager::GetTexture("diffuse")->Bind(0);
+	shader.SetVec3("lightPosition", Scene::light.position);
+	shader.SetVec3("lightColor", Scene::light.color);
+	shader.SetVec3("viewPosition", camera.position);
+
 	shader.SetMat4("model", gameObject.transform.GetModelMatrix());;
 	camera.UploadViewProjection(shader);
 	gameObject.model->Draw();
