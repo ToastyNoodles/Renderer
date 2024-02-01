@@ -51,6 +51,9 @@
     <ClCompile Include="src\Editor\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1218,6 +1221,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vendor\imgui\include\imgui_impl_opengl3_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "../Common.h"
 #include "../Core/GL.h"
+#include "../Core/GameObject.h"
 #include "../Core/AssetManager.h"
 #include "Shader.h"
 #include "Model.h"
@@ -9,6 +10,7 @@ namespace Renderer
 {
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f));
 	Shader shader;
+	GameObject gameObject;
 }
 
 void Renderer::Init()
@@ -19,6 +21,8 @@ void Renderer::Init()
 
 	shader.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
 	shader.Bind();
+
+	gameObject.SetModel("suzanne");
 }
 
 void Renderer::RenderFrame()
@@ -28,8 +32,8 @@ void Renderer::RenderFrame()
 
 	camera.Input(GL::GetWindowPtr());
 
-	AssetManager::GetTexture("wall")->Bind(0);
-	Transform transform = Transform();
-	shader.SetMat4("model", transform.GetModelMatrix());
+	AssetManager::GetTexture("container")->Bind(0);
+	shader.SetMat4("model", gameObject.transform.GetModelMatrix());;
 	camera.UploadViewProjection(shader);
+	gameObject.model->Draw();
 }

@@ -20,21 +20,15 @@ void Editor::Init(GLFWwindow* window)
 
 void Editor::RenderEditor()
 {
-	if (ShowDemoWindow)
-		ImGui::ShowDemoWindow(&ShowDemoWindow);
-}
-
-void Editor::RenderEditorBegin()
-{
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	//ImGui::DockSpaceOverViewport(); //Dock to the window itself
-}
 
-void Editor::RenderEditorEnd()
-{
-	
+	if (ShowDemoWindow)
+		ImGui::ShowDemoWindow(&ShowDemoWindow);
+
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

@@ -149,6 +149,7 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Core\AssetManager.cpp" />
     <ClCompile Include="src\Core\Camera.cpp" />
+    <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
     <ClCompile Include="src\Editor\Editor.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Core\AssetManager.h" />
     <ClInclude Include="src\Core\Camera.h" />
+    <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Editor\Editor.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />

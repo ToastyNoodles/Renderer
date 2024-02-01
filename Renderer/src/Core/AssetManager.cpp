@@ -45,7 +45,7 @@ void AssetManager::LoadAssets()
 
 Texture* AssetManager::GetTexture(const std::string& name)
 {
-	for (Texture texture : textures)
+	for (Texture& texture : textures)
 	{
 		if (texture.info.name == name)
 		{
@@ -59,7 +59,7 @@ Texture* AssetManager::GetTexture(const std::string& name)
 
 Model* AssetManager::GetModel(const std::string& name)
 {
-	for (Model model : models)
+	for (Model& model : models)
 	{
 		if (model.info.name == name)
 		{

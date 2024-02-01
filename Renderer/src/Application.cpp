@@ -11,12 +11,10 @@ void Application::Run()
 	while (!GL::WindowShouldClose())
 	{
 		GL::ProcessWindowInput();
-		Editor::RenderEditorBegin();
 
 		Renderer::RenderFrame();
-		Editor::RenderEditor();
+		//Editor::RenderEditor();
 
-		Editor::RenderEditorEnd();
 		GL::PollEventsSwapBuffers();
 	}
 }
@@ -24,7 +22,7 @@ void Application::Run()
 void Application::Init()
 {
 	GL::Init(1280, 720, "Renderer");
-	Editor::Init(GL::GetWindowPtr());
+	//Editor::Init(GL::GetWindowPtr());
 	AssetManager::LoadAssets();
 
 	Renderer::Init();

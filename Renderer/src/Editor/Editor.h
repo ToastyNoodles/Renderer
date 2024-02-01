@@ -8,6 +8,4 @@ namespace Editor
 {
 	void Init(GLFWwindow* window);
 	void RenderEditor();
-	void RenderEditorBegin();
-	void RenderEditorEnd();
 }
