@@ -1,11 +1,6 @@
 #include "Scene.h"
 #include "AssetManager.h"
 
-namespace Scene
-{
-	GameObject* test; //instead of this get an object in the scene with its name
-}
-
 void Scene::Init()
 {
 	Light& light = lights.emplace_back();
@@ -24,11 +19,9 @@ void Scene::Init()
 	backpack.transform.position = glm::vec3(0.0f, 2.5f, 0.0f);
 	backpack.material.diffuse = *AssetManager::GetTexture("backpack_diffuse");
 	backpack.material.specular = *AssetManager::GetTexture("backpack_specular");
-
-	test = &backpack;
 }
 
 void Scene::Update(float deltaTime)
 {
-	test->transform.rotation.y += (0.1f * deltaTime);
+
 }

@@ -9,7 +9,6 @@ void Application::Run()
 {
 	Init();
 
-
 	double lastTime = glfwGetTime();
 
 	while (!GL::WindowShouldClose())
@@ -25,7 +24,6 @@ void Application::Run()
 
 		GL::PollEventsSwapBuffers();
 
-		std::cout << deltaTime << "\n";
 		lastTime = currentTime;
 	}
 }
