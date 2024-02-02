@@ -30,7 +30,18 @@ void Editor::RenderEditor()
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
 	ImGui::Begin("Window");
-	ImGui::DragFloat3("Light Position", (float*)&Scene::lights[0].position);
+	for (uint32_t i = 0; i < Scene::gameObjects.size() - 1; i++)
+	{
+		const char* positionLabel = "Light Position " + i;
+		const char* colorLabel = "Light Color";
+		ImGui::DragFloat3(positionLabel, (float*)&Scene::lights[i].position, 0.1f);
+		ImGui::ColorEdit3(colorLabel, (float*)&Scene::lights[i].color);
+	}
+	for (uint32_t i = 0; i < Scene::gameObjects.size(); i++)
+	{
+		const char* positionLabel = "GameObject Position " + i;
+		ImGui::DragFloat3(positionLabel, (float*)&Scene::gameObjects[i].transform.position, 0.1f);
+	}
 	ImGui::End();
 
 	ImGui::Render();

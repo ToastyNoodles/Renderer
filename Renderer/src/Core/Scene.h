@@ -11,5 +11,4 @@ namespace Scene
 
 	void Init();
 	void Update();
-	void Draw(Shader& shader);
 }

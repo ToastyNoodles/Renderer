@@ -13,14 +13,15 @@ out vec3 f_norm;
 out vec2 f_uv;
 out vec3 f_tan;
 out vec3 f_bitan;
+out vec3 f_crntPos;
 
 void main()
 {
-	f_pos = position;
+	f_pos = vec3(model * vec4(position, 1.0));;
 	f_norm = normal;
 	f_uv = uv;
 	f_tan = tangent;
 	f_bitan = bitangent;
 
-	gl_Position = viewProjection * model * vec4(position, 1.0);
+	gl_Position = viewProjection * vec4(f_pos, 1.0);
 }
