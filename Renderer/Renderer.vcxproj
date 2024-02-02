@@ -564,7 +564,6 @@
     <None Include="res\shaders\object.vert" />
     <None Include="res\shaders\texture.frag" />
     <None Include="res\shaders\texture.vert" />
-    <None Include="res\textures\backpack.mtl" />
     <None Include="vendor\assimp\include\assimp\color4.inl" />
     <None Include="vendor\assimp\include\assimp\material.inl" />
     <None Include="vendor\assimp\include\assimp\matrix3x3.inl" />
@@ -715,21 +714,20 @@
     <None Include="vendor\glm\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\ao.jpg" />
-    <Image Include="res\textures\awesomeface.png" />
+    <Image Include="res\textures\backpack_ao.jpg" />
+    <Image Include="res\textures\backpack_diffuse.jpg" />
+    <Image Include="res\textures\backpack_normal.png" />
+    <Image Include="res\textures\backpack_roughness.jpg" />
+    <Image Include="res\textures\backpack_specular.jpg" />
     <Image Include="res\textures\Bark_BaseColor.png" />
     <Image Include="res\textures\Bark_Normal.png" />
-    <Image Include="res\textures\container.jpg" />
     <Image Include="res\textures\container_diffuse.png" />
     <Image Include="res\textures\container_specular.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
-    <Image Include="res\textures\diffuse.jpg" />
-    <Image Include="res\textures\normal.png" />
-    <Image Include="res\textures\roughness.jpg" />
-    <Image Include="res\textures\specular.jpg" />
-    <Image Include="res\textures\wall.jpg" />
+    <Image Include="res\textures\wood_diff.png" />
+    <Image Include="res\textures\wood_spec.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\assimp\lib\assimp.lib" />

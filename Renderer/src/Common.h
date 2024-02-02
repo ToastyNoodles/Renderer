@@ -43,14 +43,6 @@ struct Light
 	float radius = 1.0f;
 };
 
-struct Material
-{
-	std::string name;
-	uint32_t albedo;
-	uint32_t normal;
-	uint32_t rma;
-};
-
 struct FileInfo
 {
 	std::string path = "";
@@ -77,4 +69,10 @@ struct Texture
 		glActiveTexture(GL_TEXTURE0 + textureSlot);
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
+};
+
+struct Material
+{
+	Texture diffuse;
+	Texture specular;
 };

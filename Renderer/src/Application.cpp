@@ -9,15 +9,24 @@ void Application::Run()
 {
 	Init();
 
+
+	double lastTime = glfwGetTime();
+
 	while (!GL::WindowShouldClose())
 	{
+		double currentTime = glfwGetTime();
+		double deltaTime = currentTime - lastTime;
+
 		GL::ProcessWindowInput();
 
-		Scene::Update();
+		Scene::Update((float)deltaTime);
 		Renderer::RenderFrame();
 		Editor::RenderEditor();
 
 		GL::PollEventsSwapBuffers();
+
+		std::cout << deltaTime << "\n";
+		lastTime = currentTime;
 	}
 }
 

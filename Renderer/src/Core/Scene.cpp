@@ -1,26 +1,34 @@
 #include "Scene.h"
 #include "AssetManager.h"
 
-void Scene::Init()
+namespace Scene
 {
-	Light light;
-	light.position = glm::vec3(0.0f, 3.0f, 0.0f);
-	light.color = glm::vec3(0.96f, 0.96f, 0.82f);
-	lights.push_back(light);
-
-	GameObject left;
-	left.SetModel("plane");
-	left.transform.position = glm::vec3(0.0f, 0.0f, 0.0f);
-	left.transform.scale = glm::vec3(2.0f);
-	gameObjects.emplace_back(left);
-
-	GameObject right;
-	right.SetModel("cube");
-	right.transform.position = glm::vec3(4.0f, 0.0f, 0.0f);
-	gameObjects.emplace_back(right);
+	GameObject* test; //instead of this get an object in the scene with its name
 }
 
-void Scene::Update()
+void Scene::Init()
 {
-	//for changing data in the scene before rendering. player positon, camera rotation. etc
+	Light& light = lights.emplace_back();
+	light.position = glm::vec3(0.0f, 2.0f, 0.0f);
+	light.color = glm::vec3(0.9f, 0.86f, 0.68f);
+
+	GameObject& plane = gameObjects.emplace_back();
+	plane.SetModel("plane");
+	plane.transform.position = glm::vec3(0.0f, 0.0f, 0.0f);
+	plane.transform.scale = glm::vec3(5.0f);
+	plane.material.diffuse = *AssetManager::GetTexture("wood_diff");
+	plane.material.specular = *AssetManager::GetTexture("wood_spec");
+
+	GameObject& backpack = gameObjects.emplace_back();
+	backpack.SetModel("backpack");
+	backpack.transform.position = glm::vec3(0.0f, 2.5f, 0.0f);
+	backpack.material.diffuse = *AssetManager::GetTexture("backpack_diffuse");
+	backpack.material.specular = *AssetManager::GetTexture("backpack_specular");
+
+	test = &backpack;
+}
+
+void Scene::Update(float deltaTime)
+{
+	test->transform.rotation.y += (0.1f * deltaTime);
 }
