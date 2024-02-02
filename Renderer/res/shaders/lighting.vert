@@ -5,14 +5,14 @@ layout (location = 2) in vec2 uv;
 layout (location = 3) in vec3 tangent;
 layout (location = 4) in vec3 bitangent;
 
+uniform mat4 viewProjection;
+uniform mat4 model;
+
 out vec3 f_pos;
 out vec3 f_norm;
 out vec2 f_uv;
 out vec3 f_tan;
 out vec3 f_bitan;
-
-uniform mat4 viewProjection;
-uniform mat4 model;
 
 void main()
 {

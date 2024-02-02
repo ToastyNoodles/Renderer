@@ -1,5 +1,6 @@
 #include "Editor.h"
 #include "../Core/Scene.h"
+#include <sstream>
 
 namespace Editor
 {
@@ -28,8 +29,8 @@ void Editor::RenderEditor()
 	if (ShowDemoWindow)
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
-	ImGui::Begin("noodles debugger");
-	ImGui::DragFloat3("light position", (float*)&Scene::light.position);
+	ImGui::Begin("Window");
+	ImGui::DragFloat3("Light Position", (float*)&Scene::lights[0].position);
 	ImGui::End();
 
 	ImGui::Render();

@@ -1719,6 +1719,12 @@
     <Image Include="res\textures\specular.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\container_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\container_specular.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\imgui\lib\imgui.lib" />

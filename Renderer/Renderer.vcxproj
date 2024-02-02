@@ -720,6 +720,8 @@
     <Image Include="res\textures\Bark_BaseColor.png" />
     <Image Include="res\textures\Bark_Normal.png" />
     <Image Include="res\textures\container.jpg" />
+    <Image Include="res\textures\container_diffuse.png" />
+    <Image Include="res\textures\container_specular.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />

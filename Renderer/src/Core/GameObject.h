@@ -4,8 +4,10 @@
 
 struct GameObject
 {
-	GameObject();
+	GameObject() {};
+	GameObject(const std::string& name);
 	void SetModel(const std::string& name);
-	Transform transform = Transform();
+	Transform transform;
 	Model* model = nullptr;
+	std::string name;
 };
