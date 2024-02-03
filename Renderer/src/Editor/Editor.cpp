@@ -31,7 +31,7 @@ void Editor::RenderEditor()
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
 	ImGui::Begin("Scene");
-
+	
 	for (uint32_t i = 0; i < Scene::gameObjects.size() - 1; i++)
 	{
 		std::string label = "Light " + std::to_string(i);
@@ -47,17 +47,16 @@ void Editor::RenderEditor()
 	}
 
 	std::string textureLabel = "";
-	for (uint32_t i = 0; i < Scene::gameObjects.size(); i++)
+	for (GameObject& gameObject : Scene::gameObjects)
 	{
-		std::string label = "GameObject " + std::to_string(i);
-		if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+		if (ImGui::TreeNodeEx(gameObject.model->info.name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::DragFloat3("Position", (float*)&Scene::gameObjects[i].transform.position, 0.1f);
-			ImGui::DragFloat3("Rotation", (float*)&Scene::gameObjects[i].transform.rotation, 0.1f);
-			ImGui::DragFloat3("Scale", (float*)&Scene::gameObjects[i].transform.scale, 0.1f);
-			textureLabel = "Diffuse: " + Scene::gameObjects[i].material.diffuse.info.name;
+			ImGui::DragFloat3("Position", (float*)&gameObject.transform.position, 0.1f);
+			ImGui::DragFloat3("Rotation", (float*)&gameObject.transform.rotation, 0.1f);
+			ImGui::DragFloat3("Scale", (float*)&gameObject.transform.scale, 0.1f);
+			textureLabel = "Diffuse: " + gameObject.material.diffuse.info.name;
 			ImGui::Text(textureLabel.c_str());
-			textureLabel = "Specular: " + Scene::gameObjects[i].material.specular.info.name;
+			textureLabel = "Specular: " + gameObject.material.specular.info.name;
 			ImGui::Text(textureLabel.c_str());
 			ImGui::TreePop();
 		}
