@@ -38,11 +38,11 @@ void Renderer::RenderFrame()
 		for (PointLight& light : Scene::lights)
 		{
 			GameObject lightObject;
-			lightObject.SetModel("cube");
+			lightObject.SetModel("sphere");
 			lightObject.transform.position = light.position;
 			lightObject.transform.scale = glm::vec3(0.1f);
 
-			Scene::camera.UploadViewProjection(color);
+			color.SetMat4("viewProjection", Scene::camera.GetViewProjection());
 			color.SetMat4("model", lightObject.transform.GetModelMatrix());
 			color.SetVec3("color", light.color);
 
@@ -51,8 +51,6 @@ void Renderer::RenderFrame()
 	}
 	
 	lighting.Bind();
-	lighting.SetVec3("lights[0].position", Scene::lights[0].position);
-	lighting.SetVec3("lights[1].position", Scene::lights[1].position);
 	for (GameObject& gameObject : Scene::gameObjects)
 	{
 		//Material Uniforms
@@ -80,7 +78,7 @@ void Renderer::RenderFrame()
 			i++;
 		}
 
-		Scene::camera.UploadViewProjection(lighting);
+		lighting.SetMat4("viewProjection", Scene::camera.GetViewProjection());
 		lighting.SetMat4("model", gameObject.transform.GetModelMatrix());
 		lighting.SetVec3("viewPosition", Scene::camera.position);
 

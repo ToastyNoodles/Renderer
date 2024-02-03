@@ -7,7 +7,7 @@ class Camera
 {
 public:
 	Camera(glm::vec3 position);
-	void UploadViewProjection(Shader& shader);
+	glm::mat4 GetViewProjection();
 	void Input(GLFWwindow* window);
 	glm::vec3 position;
 	glm::vec3 orientation;

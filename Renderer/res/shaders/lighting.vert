@@ -17,7 +17,7 @@ out vec3 f_bitan;
 void main()
 {
 	f_pos = vec3(model * vec4(position, 1.0));;
-	f_norm = normal;
+	f_norm = vec3(model * vec4(normal, 1.0));
 	f_uv = uv;
 	f_tan = tangent;
 	f_bitan = bitangent;

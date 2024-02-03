@@ -63,7 +63,7 @@ inline FileInfo GetFileInfo(const std::filesystem::path& filepath)
 
 struct Texture
 {
-	uint32_t id;
+	uint32_t id = 0;
 	FileInfo info;
 	void Bind(uint32_t slot)
 	{

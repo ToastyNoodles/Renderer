@@ -22,10 +22,10 @@ void Scene::Init()
 	plane.material.shininess = 32.0f;
 
 	GameObject& backpack = gameObjects.emplace_back();
-	backpack.SetModel("cube");
-	backpack.transform.position = glm::vec3(0.0f, 1.0f, 0.0f);
-	backpack.material.diffuse = *AssetManager::GetTexture("container_diffuse");
-	backpack.material.specular = *AssetManager::GetTexture("container_specular");
+	backpack.SetModel("backpack");
+	backpack.transform.position = glm::vec3(0.0f, 2.0f, 0.0f);
+	backpack.material.diffuse = *AssetManager::GetTexture("backpack_diffuse");
+	backpack.material.specular = *AssetManager::GetTexture("backpack_specular");
 	backpack.material.shininess = 16.0f;
 }
 
