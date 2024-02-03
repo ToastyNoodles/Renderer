@@ -36,9 +36,6 @@ void Renderer::RenderFrame()
 	object.Bind();
 	for (Light& light : Scene::lights)
 	{
-		light.position.x = sin(glfwGetTime()) * 2.5f;
-		light.position.z = cos(glfwGetTime()) * 2.5f;
-
 		GameObject lightObject;
 		lightObject.SetModel("cube");
 		lightObject.transform.position = light.position;
@@ -62,10 +59,15 @@ void Renderer::RenderFrame()
 		{
 			lighting.SetVec3("lightPosition", light.position);
 			lighting.SetVec3("lightColor", light.color);
+			lighting.SetFloat("lightStrength", light.strength);
+			lighting.SetFloat("lightRadius", light.radius);
+			lighting.SetFloat("lightIntensity", light.intensity);
 		}
 
 		gameObject.material.diffuse.Bind(0);
 		gameObject.material.specular.Bind(1);
+		lighting.SetInt("tex0", 0);
+		lighting.SetInt("tex1", 1);
 		gameObject.model->Draw();
 	}
 }

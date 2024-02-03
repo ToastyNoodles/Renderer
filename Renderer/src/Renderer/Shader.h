@@ -14,6 +14,8 @@ public:
 
 	void SetMat4(const char* name, glm::mat4 value);
 	void SetVec3(const char* name, glm::vec3 value);
+	void SetFloat(const char* name, float value);
+	void SetInt(const char* name, float value);
 	uint32_t id;
 };
 

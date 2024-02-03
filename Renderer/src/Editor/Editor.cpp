@@ -34,22 +34,30 @@ void Editor::RenderEditor()
 	for (uint32_t i = 0; i < Scene::gameObjects.size() - 1; i++)
 	{
 		std::string label = "Light " + std::to_string(i);
-		if (ImGui::TreeNode(label.c_str()))
+		if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::DragFloat3("Position", (float*)&Scene::lights[i].position, 0.1f);
 			ImGui::ColorEdit3("Color", (float*)&Scene::lights[i].color);
+			ImGui::DragFloat("Strength", (float*)&Scene::lights[i].strength, 0.002f, 0.0f, 1.0f);
+			ImGui::DragFloat("Radius", (float*)&Scene::lights[i].radius, 0.002f, 0.0f, 1.0f);
+			ImGui::DragFloat("Intensity", (float*)&Scene::lights[i].intensity, 0.002f, 0.0f, 1.0f);
 			ImGui::TreePop();
 		}
 	}
 
+	std::string textureLabel = "";
 	for (uint32_t i = 0; i < Scene::gameObjects.size(); i++)
 	{
 		std::string label = "GameObject " + std::to_string(i);
-		if (ImGui::TreeNode(label.c_str()))
+		if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::DragFloat3("Position", (float*)&Scene::gameObjects[i].transform.position, 0.1f);
 			ImGui::DragFloat3("Rotation", (float*)&Scene::gameObjects[i].transform.rotation, 0.1f);
 			ImGui::DragFloat3("Scale", (float*)&Scene::gameObjects[i].transform.scale, 0.1f);
+			textureLabel = "Diffuse: " + Scene::gameObjects[i].material.diffuse.info.name;
+			ImGui::Text(textureLabel.c_str());
+			textureLabel = "Specular: " + Scene::gameObjects[i].material.specular.info.name;
+			ImGui::Text(textureLabel.c_str());
 			ImGui::TreePop();
 		}
 	}

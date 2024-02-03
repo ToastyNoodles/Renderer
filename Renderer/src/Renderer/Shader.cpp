@@ -101,3 +101,13 @@ void Shader::SetVec3(const char* name, glm::vec3 value)
 {
 	glUniform3fv(glGetUniformLocation(id, name), 1, &value[0]);
 }
+
+void Shader::SetFloat(const char* name, float value)
+{
+	glUniform1f(glGetUniformLocation(id, name), value);
+}
+
+void Shader::SetInt(const char* name, float value)
+{
+	glUniform1i(glGetUniformLocation(id, name), value);
+}

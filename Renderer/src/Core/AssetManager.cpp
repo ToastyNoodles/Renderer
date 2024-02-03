@@ -23,10 +23,9 @@ void AssetManager::LoadAssets()
 		FileInfo fileInfo = GetFileInfo(filepath);
 		if (fileInfo.extension == "png" || fileInfo.extension == "jpg" || fileInfo.extension == "bmp")
 		{
-			Texture texture;
+			Texture& texture = textures.emplace_back();
 			texture.id = TextureFromFile(filepath.string());
 			texture.info = fileInfo;
-			textures.push_back(texture);
 		}	
 	}
 
@@ -36,10 +35,9 @@ void AssetManager::LoadAssets()
 		FileInfo fileInfo = GetFileInfo(filepath);
 		if (fileInfo.extension == "obj" || fileInfo.extension == "fbx")
 		{
-			Model model;
+			Model& model = models.emplace_back();
 			model.Load(fileInfo.path.c_str());
 			model.info = fileInfo;
-			models.push_back(model);
 		}
 	}
 }

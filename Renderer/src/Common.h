@@ -41,6 +41,7 @@ struct Light
 	glm::vec3 color = glm::vec3(1.0f);
 	float strength = 1.0f;
 	float radius = 1.0f;
+	float intensity = 1.0f;
 };
 
 struct FileInfo
@@ -64,9 +65,9 @@ struct Texture
 {
 	uint32_t id;
 	FileInfo info;
-	void Bind(uint32_t textureSlot)
+	void Bind(uint32_t slot)
 	{
-		glActiveTexture(GL_TEXTURE0 + textureSlot);
+		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 };
