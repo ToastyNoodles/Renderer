@@ -10,6 +10,18 @@ Camera::Camera(glm::vec3 position)
 	this->projection = glm::mat4(1.0f);
 }
 
+glm::mat4 Camera::GetView()
+{
+	view = glm::lookAt(position, position + orientation, up);
+	return view;
+}
+
+glm::mat4 Camera::GetProjection()
+{
+	projection = glm::perspective(glm::radians(fov), ((float)GL::GetWindowWidth() / (float)GL::GetWindowHeight()), 0.01f, 100.0f);
+	return projection;
+}
+
 glm::mat4 Camera::GetViewProjection()
 {
 	view = glm::lookAt(position, position + orientation, up);

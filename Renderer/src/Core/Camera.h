@@ -7,6 +7,8 @@ class Camera
 {
 public:
 	Camera(glm::vec3 position);
+	glm::mat4 GetView();
+	glm::mat4 GetProjection();
 	glm::mat4 GetViewProjection();
 	void Input(GLFWwindow* window);
 	glm::vec3 position;

@@ -154,6 +154,7 @@
     <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Editor\Editor.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Renderer\Skybox.cpp" />
     <ClCompile Include="src\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Renderer\Model.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Editor\Editor.h" />
+    <ClInclude Include="src\Renderer\Skybox.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />
     <ClInclude Include="src\Renderer\Model.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
@@ -562,6 +564,8 @@
     <None Include="res\shaders\lighting.vert" />
     <None Include="res\shaders\object.frag" />
     <None Include="res\shaders\object.vert" />
+    <None Include="res\shaders\skybox.frag" />
+    <None Include="res\shaders\skybox.vert" />
     <None Include="res\shaders\texture.frag" />
     <None Include="res\shaders\texture.vert" />
     <None Include="vendor\assimp\include\assimp\color4.inl" />
@@ -726,8 +730,16 @@
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
+    <Image Include="res\textures\skybox\back.jpg" />
+    <Image Include="res\textures\skybox\bottom.jpg" />
+    <Image Include="res\textures\skybox\front.jpg" />
+    <Image Include="res\textures\skybox\left.jpg" />
+    <Image Include="res\textures\skybox\right.jpg" />
+    <Image Include="res\textures\skybox\top.jpg" />
     <Image Include="res\textures\wood_diff.png" />
+    <Image Include="res\textures\wood_diffuse.png" />
     <Image Include="res\textures\wood_spec.png" />
+    <Image Include="res\textures\wood_specular.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\assimp\lib\assimp.lib" />

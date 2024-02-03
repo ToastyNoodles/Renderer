@@ -57,6 +57,9 @@
     <ClCompile Include="src\Core\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1232,6 +1235,9 @@
     <ClInclude Include="src\Core\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vendor\assimp\include\assimp\color4.inl">
@@ -1679,6 +1685,8 @@
     <None Include="vendor\assimp\lib\D3DCompiler_42.dll" />
     <None Include="vendor\assimp\lib\D3DX9_42.dll" />
     <None Include="vendor\GLFW\lib\glfw3.dll" />
+    <None Include="res\shaders\skybox.vert" />
+    <None Include="res\shaders\skybox.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1719,6 +1727,30 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\wood_spec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_specular.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\back.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\bottom.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\front.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\left.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\right.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\top.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -1,5 +1,4 @@
 #include "AssetManager.h"
-#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include "../Renderer/Model.h"
 
@@ -7,7 +6,6 @@ namespace AssetManager
 {
 	std::vector<Texture> textures;
 	std::vector<Model> models;
-	std::vector<Material> materials;
 }
 
 uint32_t TextureFromFile(const std::string& filepath);
@@ -106,5 +104,3 @@ uint32_t TextureFromFile(const std::string& filepath)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return textureID;
 }
-
-

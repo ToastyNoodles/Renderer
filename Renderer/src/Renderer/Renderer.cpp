@@ -4,6 +4,7 @@
 #include "../Core/Scene.h"
 #include "../Core/AssetManager.h"
 #include "Shader.h"
+#include "Skybox.h"
 
 namespace Renderer
 {
@@ -11,6 +12,9 @@ namespace Renderer
 	Shader lighting;
 	Shader object;
 	Shader texture;
+	Shader skybox;
+
+	Skybox sky;
 }
 
 void Renderer::Init()
@@ -23,6 +27,19 @@ void Renderer::Init()
 	lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 	object.Load("res/shaders/object.vert", "res/shaders/object.frag");
 	texture.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
+	skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
+
+	std::vector<std::string> skyboxTextureFilepaths
+	{
+		"res/textures/skybox/right.jpg",
+		"res/textures/skybox/left.jpg",
+		"res/textures/skybox/top.jpg",
+		"res/textures/skybox/bottom.jpg",
+		"res/textures/skybox/front.jpg",
+		"res/textures/skybox/back.jpg"
+	};
+
+	sky.Load(skyboxTextureFilepaths);
 }
 
 void Renderer::RenderFrame()
@@ -32,6 +49,15 @@ void Renderer::RenderFrame()
 
 	Scene::camera.Input(GL::GetWindowPtr());
 
+	//Skybox
+	glDepthMask(GL_FALSE);
+	skybox.Bind();
+	glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
+	skybox.SetMat4("viewProjection", Scene::camera.GetProjection() * modifiedViewMatrix);
+	sky.Draw();
+	glDepthMask(GL_TRUE);
+
+	//Light Gameobjects
 	if (DrawLights)
 	{
 		color.Bind();
@@ -50,6 +76,7 @@ void Renderer::RenderFrame()
 		}
 	}
 	
+	//Gameobjects
 	lighting.Bind();
 	for (GameObject& gameObject : Scene::gameObjects)
 	{
