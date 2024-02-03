@@ -35,13 +35,13 @@ struct Transform
 	}
 };
 
-struct Light
+struct PointLight
 {
 	glm::vec3 position = glm::vec3(0.0f);
 	glm::vec3 color = glm::vec3(1.0f);
-	float strength = 1.0f;
-	float radius = 1.0f;
-	float intensity = 1.0f;
+	float quadratic = 0.2f;
+	float linear = 0.1f;
+	float constant = 1.0f;
 };
 
 struct FileInfo
@@ -76,4 +76,5 @@ struct Material
 {
 	Texture diffuse;
 	Texture specular;
+	float shininess;
 };

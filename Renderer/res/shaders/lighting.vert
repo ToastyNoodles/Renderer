@@ -13,7 +13,6 @@ out vec3 f_norm;
 out vec2 f_uv;
 out vec3 f_tan;
 out vec3 f_bitan;
-out vec3 f_crntPos;
 
 void main()
 {

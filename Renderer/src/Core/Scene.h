@@ -6,8 +6,8 @@
 namespace Scene
 {
 	inline Camera camera = Camera(glm::vec3(0.0f, 2.0f, 8.0f));
-	inline std::vector<Light> lights = {};
-	inline std::vector<GameObject> gameObjects = {};
+	inline std::vector<PointLight> lights;
+	inline std::vector<GameObject> gameObjects;
 
 	void Init();
 	void Update(float deltaTime);

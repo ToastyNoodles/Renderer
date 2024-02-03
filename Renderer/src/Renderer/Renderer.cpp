@@ -35,7 +35,7 @@ void Renderer::RenderFrame()
 	if (DrawLights)
 	{
 		color.Bind();
-		for (Light& light : Scene::lights)
+		for (PointLight& light : Scene::lights)
 		{
 			GameObject lightObject;
 			lightObject.SetModel("cube");
@@ -51,25 +51,39 @@ void Renderer::RenderFrame()
 	}
 	
 	lighting.Bind();
+	lighting.SetVec3("lights[0].position", Scene::lights[0].position);
+	lighting.SetVec3("lights[1].position", Scene::lights[1].position);
 	for (GameObject& gameObject : Scene::gameObjects)
 	{
+		//Material Uniforms
+		gameObject.material.diffuse.Bind(0);
+		gameObject.material.specular.Bind(1);
+		lighting.SetInt("material.diffuse", 0);
+		lighting.SetInt("material.specular", 1);
+		lighting.SetFloat("material.shininess", gameObject.material.shininess);
+		
+		//Point Light Uniforms
+		int i = 0;
+		for (PointLight& light : Scene::lights)
+		{
+			std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
+			std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
+			std::string quadratic = std::string("pointLights[" + std::to_string(i) + "].quadratic");
+			std::string linear = std::string("pointLights[" + std::to_string(i) + "].linear");
+			std::string constant = std::string("pointLights[" + std::to_string(i) + "].constant");
+
+			lighting.SetVec3(position.c_str(), light.position);
+			lighting.SetVec3(color.c_str(), light.color);
+			lighting.SetFloat(quadratic.c_str(), light.quadratic);
+			lighting.SetFloat(linear.c_str(), light.linear);
+			lighting.SetFloat(constant.c_str(), light.constant);
+			i++;
+		}
+
 		Scene::camera.UploadViewProjection(lighting);
 		lighting.SetMat4("model", gameObject.transform.GetModelMatrix());
 		lighting.SetVec3("viewPosition", Scene::camera.position);
 
-		for (Light& light : Scene::lights)
-		{
-			lighting.SetVec3("lightPosition", light.position);
-			lighting.SetVec3("lightColor", light.color);
-			lighting.SetFloat("lightStrength", light.strength);
-			lighting.SetFloat("lightRadius", light.radius);
-			lighting.SetFloat("lightIntensity", light.intensity);
-		}
-
-		gameObject.material.diffuse.Bind(0);
-		gameObject.material.specular.Bind(1);
-		lighting.SetInt("tex0", 0);
-		lighting.SetInt("tex1", 1);
 		gameObject.model->Draw();
 	}
 }

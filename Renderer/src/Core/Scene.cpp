@@ -3,30 +3,30 @@
 
 void Scene::Init()
 {
-	Light& red = lights.emplace_back();
-	red.position = glm::vec3(-2.0f, 3.0f, 2.0f);
-	red.color = glm::vec3(0.19f, 0.43f, 0.87f);
-	red.strength = 0.02f;
-	red.radius = 0.005f;
-	red.intensity = 1.0f;
+	PointLight& red = lights.emplace_back();
+	red.position = glm::vec3(-3.0f, 3.0f, 3.0f);
+	red.color = glm::vec3(0.96f, 0.34f, 0.32f);
 
-	Light& light = lights.emplace_back();
-	light.position = glm::vec3(2.0f, 2.0f, 2.0f);
-	light.color = glm::vec3(0.87f, 0.78f, 0.56f);
-	light.strength = 0.1f;
-	light.radius = 0.01f;
-	light.intensity = 0.850f;
+	PointLight& green = lights.emplace_back();
+	green.position = glm::vec3(3.0f, 3.0f, 3.0f);
+	green.color = glm::vec3(0.36f, 0.94f, 0.33f);
+
+	PointLight& blue = lights.emplace_back();
+	blue.position = glm::vec3(0.0f, 3.0f, -3.0f);
+	blue.color = glm::vec3(0.34f, 0.37f, 0.97f);
 
 	GameObject& plane = gameObjects.emplace_back();
 	plane.SetModel("plane");
 	plane.material.diffuse = *AssetManager::GetTexture("wood_diffuse");
 	plane.material.specular = *AssetManager::GetTexture("wood_specular");
+	plane.material.shininess = 32.0f;
 
 	GameObject& backpack = gameObjects.emplace_back();
 	backpack.SetModel("cube");
 	backpack.transform.position = glm::vec3(0.0f, 1.0f, 0.0f);
 	backpack.material.diffuse = *AssetManager::GetTexture("container_diffuse");
 	backpack.material.specular = *AssetManager::GetTexture("container_specular");
+	backpack.material.shininess = 16.0f;
 }
 
 void Scene::Update(float deltaTime)
