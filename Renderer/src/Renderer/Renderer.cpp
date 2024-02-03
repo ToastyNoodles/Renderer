@@ -32,22 +32,24 @@ void Renderer::RenderFrame()
 
 	Scene::camera.Input(GL::GetWindowPtr());
 
-	//Draw light objects
-	object.Bind();
-	for (Light& light : Scene::lights)
+	if (DrawLights)
 	{
-		GameObject lightObject;
-		lightObject.SetModel("cube");
-		lightObject.transform.position = light.position;
-		lightObject.transform.scale = glm::vec3(0.1f);
+		color.Bind();
+		for (Light& light : Scene::lights)
+		{
+			GameObject lightObject;
+			lightObject.SetModel("cube");
+			lightObject.transform.position = light.position;
+			lightObject.transform.scale = glm::vec3(0.1f);
 
-		Scene::camera.UploadViewProjection(object);
-		object.SetMat4("model", lightObject.transform.GetModelMatrix());
+			Scene::camera.UploadViewProjection(color);
+			color.SetMat4("model", lightObject.transform.GetModelMatrix());
+			color.SetVec3("color", light.color);
 
-		lightObject.model->Draw();
+			lightObject.model->Draw();
+		}
 	}
-
-	//Draw gameobjects
+	
 	lighting.Bind();
 	for (GameObject& gameObject : Scene::gameObjects)
 	{

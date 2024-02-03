@@ -12,10 +12,11 @@ public:
 	void Bind();
 	void Unbind();
 
-	void SetMat4(const char* name, glm::mat4 value);
-	void SetVec3(const char* name, glm::vec3 value);
+	void SetInt(const char* name, int value);
+	void SetBool(const char* name, bool value);
 	void SetFloat(const char* name, float value);
-	void SetInt(const char* name, float value);
+	void SetVec3(const char* name, glm::vec3 value);
+	void SetMat4(const char* name, glm::mat4 value);
 	uint32_t id;
 };
 

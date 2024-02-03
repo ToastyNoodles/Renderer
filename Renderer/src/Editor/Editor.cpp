@@ -1,5 +1,6 @@
 #include "Editor.h"
 #include "../Core/Scene.h"
+#include "../Renderer/Renderer.h"
 #include <sstream>
 
 namespace Editor
@@ -31,8 +32,8 @@ void Editor::RenderEditor()
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
 	ImGui::Begin("Scene");
-	
-	for (uint32_t i = 0; i < Scene::gameObjects.size() - 1; i++)
+	ImGui::Checkbox("Draw Lights", &Renderer::DrawLights);
+	for (uint32_t i = 0; i < Scene::gameObjects.size(); i++)
 	{
 		std::string label = "Light " + std::to_string(i);
 		if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))

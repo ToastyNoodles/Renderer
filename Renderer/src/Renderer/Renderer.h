@@ -5,4 +5,6 @@ namespace Renderer
 {
 	void Init();
 	void RenderFrame();
+
+	inline bool DrawLights = false;
 }
