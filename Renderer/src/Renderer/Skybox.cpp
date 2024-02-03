@@ -69,9 +69,9 @@ void Skybox::Load(const std::vector<std::string> skyboxTextureFilepaths)
 		}
 		else
 		{
-            stbi_image_free(data);
 			std::cout << "Skybox Texture failed to load " << skyboxTextureFilepaths[i].c_str() << std::endl;
 		}
+        stbi_image_free(data);
 	}
     glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 

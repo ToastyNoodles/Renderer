@@ -87,6 +87,10 @@ void Renderer::RenderFrame()
 		lighting.SetInt("material.specular", 1);
 		lighting.SetFloat("material.shininess", gameObject.material.shininess);
 		
+		//Directional Light Uniforms
+		lighting.SetVec3("sun.direction", Scene::sun.direction);
+		lighting.SetVec3("sun.color", Scene::sun.color);
+
 		//Point Light Uniforms
 		int i = 0;
 		for (PointLight& light : Scene::lights)

@@ -15,6 +15,12 @@ struct Material {
     float shininess;
 }; 
 
+struct DirectionalLight
+{
+	vec3 direction;
+	vec3 color;
+};
+
 struct PointLight
 {
 	vec3 position;
@@ -25,8 +31,27 @@ struct PointLight
 };
 
 uniform vec3 viewPosition;
+uniform DirectionalLight sun;
 uniform PointLight pointLights[NUM_POINTLIGHT];
 uniform Material material;
+
+vec3 CalcDirectionalLight(vec3 normal, vec3 fragPos, vec3 viewDir)
+{
+	vec3 lightDir = normalize(-sun.direction);
+
+	//diffuse
+	float diff = max(dot(normal, lightDir), 0.0);
+
+	//specular
+	vec3 reflectDir = reflect(-lightDir, normal);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+
+	vec3 ambient = (sun.color * 0.1) * vec3(texture(material.diffuse, f_uv));
+	vec3 diffuse = (diff * sun.color) * vec3(texture(material.diffuse, f_uv));
+	vec3 specular = (spec * sun.color) * vec3(texture(material.specular, f_uv)).r;
+
+	return (ambient + diffuse + specular);
+}
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
@@ -54,7 +79,7 @@ void main()
 {
 	vec3 norm = normalize(f_norm);
 	vec3 viewDir = normalize(viewPosition - f_pos);
-	vec3 result; //set this to directonal light when added
+	vec3 result = CalcDirectionalLight(norm, f_pos, viewDir);
 
 	for (int i = 0; i < NUM_POINTLIGHT; i++)
 		result += CalcPointLight(pointLights[i], norm, f_pos, viewDir); 
