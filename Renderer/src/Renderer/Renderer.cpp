@@ -5,32 +5,35 @@
 #include "../Core/AssetManager.h"
 #include "Shader.h"
 #include "Skybox.h"
+#include "Framebuffer.h"
 
 namespace Renderer
 {
 	Shader color;
 	Shader lighting;
-	Shader object;
-	Shader texture;
 	Shader skybox;
+	Shader screen;
 
 	Skybox sky;
 
+	Framebuffer framebuffer;
+
+	FullscreenQuad fullscreenQuad;
+
 	void RenderSkybox();
 	void RenderGeometry();
+	void RenderFullscreenQuad();
 }
 
 void Renderer::Init()
 {
-	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 	color.Load("res/shaders/color.vert", "res/shaders/color.frag");
 	lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
-	object.Load("res/shaders/object.vert", "res/shaders/object.frag");
-	texture.Load("res/shaders/texture.vert", "res/shaders/texture.frag");
 	skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
+	screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
 	std::vector<std::string> skyboxTextureFilepaths
 	{
@@ -43,17 +46,30 @@ void Renderer::Init()
 	};
 
 	sky.Load(skyboxTextureFilepaths);
+	framebuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
 }
 
 void Renderer::RenderFrame()
 {
+	Scene::camera.Input(GL::GetWindowPtr()); //This should be in scene update or anywhere else really
+
+	//First Pass
+	framebuffer.Bind();
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	Scene::camera.Input(GL::GetWindowPtr());
+	glEnable(GL_DEPTH_TEST);
 
 	RenderSkybox();
 	RenderGeometry();
+
+	//Second Pass
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+
+	RenderFullscreenQuad();
 }
 
 void Renderer::RenderSkybox()
@@ -129,4 +145,41 @@ void Renderer::RenderGeometry()
 
 		gameObject.model->Draw();
 	}
+}
+
+void Renderer::RenderFullscreenQuad()
+{
+	if (fullscreenQuad.vao == 0)
+	{
+		float vertices[] =
+		{
+			-1.0f, -1.0f, 0.0f, 0.0f,
+			 1.0f, -1.0f, 1.0f, 0.0f,
+			 1.0f,  1.0f, 1.0f, 1.0f,
+			 1.0f,  1.0f, 1.0f, 1.0f,
+			-1.0f,  1.0f, 0.0f, 1.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f
+		};
+
+		glGenVertexArrays(1, &fullscreenQuad.vao);
+		glBindVertexArray(fullscreenQuad.vao);
+
+		glGenBuffers(1, &fullscreenQuad.vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, fullscreenQuad.vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, nullptr);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(sizeof(float) * 2));
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+
+	screen.Bind();
+	glBindVertexArray(fullscreenQuad.vao);
+	glBindTexture(GL_TEXTURE_2D, framebuffer.colorBuffer);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
 }

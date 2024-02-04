@@ -84,3 +84,8 @@ struct Material
 	Texture specular;
 	float shininess;
 };
+
+struct FullscreenQuad
+{
+	uint32_t vao = 0, vbo = 0;
+};

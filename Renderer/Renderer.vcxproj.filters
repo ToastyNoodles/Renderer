@@ -60,6 +60,9 @@
     <ClCompile Include="src\Renderer\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\Framebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1238,6 +1241,9 @@
     <ClInclude Include="src\Renderer\Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\Framebuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vendor\assimp\include\assimp\color4.inl">
@@ -1675,12 +1681,10 @@
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
     <None Include="res\models\CypressTree.fbx" />
-    <None Include="res\shaders\object.frag" />
-    <None Include="res\shaders\object.vert" />
     <None Include="res\shaders\lighting.frag" />
     <None Include="res\shaders\lighting.vert" />
-    <None Include="res\shaders\texture.frag" />
-    <None Include="res\shaders\texture.vert" />
+    <None Include="res\shaders\screen.frag" />
+    <None Include="res\shaders\screen.vert" />
     <None Include="vendor\assimp\lib\assimp-vc143-mt.dll" />
     <None Include="vendor\assimp\lib\D3DCompiler_42.dll" />
     <None Include="vendor\assimp\lib\D3DX9_42.dll" />

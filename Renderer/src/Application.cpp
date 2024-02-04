@@ -20,7 +20,7 @@ void Application::Run()
 
 		Scene::Update((float)deltaTime);
 		Renderer::RenderFrame();
-		Editor::RenderEditor();
+		//Editor::RenderEditor();
 
 		GL::PollEventsSwapBuffers();
 
@@ -31,7 +31,7 @@ void Application::Run()
 void Application::Init()
 {
 	GL::Init(1280, 720, "Renderer");
-	Editor::Init(GL::GetWindowPtr());
+	//Editor::Init(GL::GetWindowPtr());
 	AssetManager::LoadAssets();
 	Scene::Init();
 
