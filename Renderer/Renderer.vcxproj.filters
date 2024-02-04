@@ -1733,28 +1733,22 @@
     <Image Include="res\textures\wood_spec.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\wood_diffuse.png">
+    <Image Include="res\textures\sky\back.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\wood_specular.png">
+    <Image Include="res\textures\sky\bottom.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\skybox\back.jpg">
+    <Image Include="res\textures\sky\front.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\skybox\bottom.jpg">
+    <Image Include="res\textures\sky\left.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\skybox\front.jpg">
+    <Image Include="res\textures\sky\right.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\skybox\left.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\skybox\right.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\skybox\top.jpg">
+    <Image Include="res\textures\sky\top.jpg">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\space\back.png">
@@ -1773,6 +1767,30 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\space\top.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_diffuse.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_specular.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\back.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\bottom.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\front.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\left.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\right.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\top.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -51,9 +51,6 @@ void Editor::RenderEditor()
 			{
 				ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
 				ImGui::ColorEdit3("Color", (float*)&light.color);
-				ImGui::DragFloat("Quadratic", &light.quadratic, 0.005f, 0.0f, 1.0f);
-				ImGui::DragFloat("Linear", &light.linear, 0.005f, 0.0f, 1.0f);
-				ImGui::DragFloat("Constant", &light.constant, 0.005f, 0.0f, 1.0f);
 				ImGui::TreePop();
 			}
 		}

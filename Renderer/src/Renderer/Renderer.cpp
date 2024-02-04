@@ -94,6 +94,8 @@ void Renderer::RenderGeometry()
 		color.Bind();
 		for (PointLight& light : Scene::lights)
 		{
+			light.position.y = sin(glfwGetTime() + light.speed) + 2;
+
 			GameObject lightObject;
 			lightObject.SetModel("sphere");
 			lightObject.transform.position = light.position;
@@ -128,15 +130,9 @@ void Renderer::RenderGeometry()
 		{
 			std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
 			std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
-			std::string quadratic = std::string("pointLights[" + std::to_string(i) + "].quadratic");
-			std::string linear = std::string("pointLights[" + std::to_string(i) + "].linear");
-			std::string constant = std::string("pointLights[" + std::to_string(i) + "].constant");
 
 			lighting.SetVec3(position.c_str(), light.position);
 			lighting.SetVec3(color.c_str(), light.color);
-			lighting.SetFloat(quadratic.c_str(), light.quadratic);
-			lighting.SetFloat(linear.c_str(), light.linear);
-			lighting.SetFloat(constant.c_str(), light.constant);
 			i++;
 		}
 

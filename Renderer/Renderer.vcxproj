@@ -730,6 +730,12 @@
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
+    <Image Include="res\textures\sky\back.jpg" />
+    <Image Include="res\textures\sky\bottom.jpg" />
+    <Image Include="res\textures\sky\front.jpg" />
+    <Image Include="res\textures\sky\left.jpg" />
+    <Image Include="res\textures\sky\right.jpg" />
+    <Image Include="res\textures\sky\top.jpg" />
     <Image Include="res\textures\skybox\back.jpg" />
     <Image Include="res\textures\skybox\bottom.jpg" />
     <Image Include="res\textures\skybox\front.jpg" />
@@ -743,9 +749,9 @@
     <Image Include="res\textures\space\right.png" />
     <Image Include="res\textures\space\top.png" />
     <Image Include="res\textures\wood_diff.png" />
-    <Image Include="res\textures\wood_diffuse.png" />
+    <Image Include="res\textures\wood_diffuse.jpg" />
     <Image Include="res\textures\wood_spec.png" />
-    <Image Include="res\textures\wood_specular.png" />
+    <Image Include="res\textures\wood_specular.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\assimp\lib\assimp.lib" />
