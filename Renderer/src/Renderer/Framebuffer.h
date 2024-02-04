@@ -5,7 +5,7 @@ struct Framebuffer
 {
 public:
 	void Init(int width, int height);
-	void Bind();
+	void Recreate(int width, int height);
 
 	uint32_t id = 0;
 	uint32_t rbo = 0;

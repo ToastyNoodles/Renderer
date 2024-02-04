@@ -50,7 +50,9 @@ void Renderer::Init()
 
 void Renderer::RenderFrame()
 {
-	Scene::camera.Input(GL::GetWindowPtr()); //This should be in scene update or anywhere else really
+	Scene::camera.Input(GL::GetWindowPtr()); //This should be anywhere else
+
+	framebuffer.Recreate(GL::GetWindowWidth(), GL::GetWindowHeight());
 
 	//First Pass
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.id);

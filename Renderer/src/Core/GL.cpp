@@ -8,9 +8,8 @@ namespace GL
 	GLFWwindow* window;
 	GLFWmonitor* monitor;
 	const GLFWvidmode* videoMode;
-	WindowMode windowMode;
-	uint32_t windowWidth;
-	uint32_t windowHeight;
+	int windowWidth;
+	int windowHeight;
 }
 
 void GL::Init(int width, int height, const char* title)
@@ -32,7 +31,6 @@ void GL::Init(int width, int height, const char* title)
 	windowHeight = height;
 
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	ToggleWindowMode(WINDOWED);
 
 	glfwMakeContextCurrent(window);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -44,36 +42,6 @@ void GL::ProcessWindowInput()
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE))
 		glfwSetWindowShouldClose(window, true);
-	
-	if (glfwGetKey(window, GLFW_KEY_I))
-		ToggleWindowMode(WINDOWED);
-	
-	if (glfwGetKey(window, GLFW_KEY_O))
-		ToggleWindowMode(FULLSCREEN_BORDERLESS);
-	
-	if (glfwGetKey(window, GLFW_KEY_P))
-		ToggleWindowMode(FULLSCREEN);
-}
-
-void GL::ToggleWindowMode(WindowMode mode)
-{
-	if (mode == WINDOWED)
-	{
-		glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_TRUE);
-		uint32_t windowPosX = (videoMode->width / 2) - (windowWidth / 2);
-		uint32_t windowPosY = (videoMode->height / 2) - (windowHeight / 2);
-		glfwSetWindowMonitor(window, nullptr, windowPosX, windowPosY, windowWidth, windowHeight, GLFW_DONT_CARE);
-	}
-	else if (mode == FULLSCREEN_BORDERLESS)
-	{
-		glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_FALSE);
-		glfwSetWindowMonitor(window, nullptr, 0, 0, videoMode->width, videoMode->height, GLFW_DONT_CARE);
-	}
-	else if (mode == FULLSCREEN)
-	{
-		glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_TRUE);
-		glfwSetWindowMonitor(window, monitor, 0, 0, videoMode->width, videoMode->height, videoMode->refreshRate);
-	}
 }
 
 void GL::PollEventsSwapBuffers()
@@ -104,5 +72,7 @@ int GL::GetWindowHeight()
 
 void FramebufferCallback(GLFWwindow* window, int width, int height)
 {
+	GL::windowWidth = width;
+	GL::windowHeight = height;
 	glViewport(0, 0, width, height);
 }
