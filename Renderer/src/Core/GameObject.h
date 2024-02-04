@@ -9,5 +9,5 @@ struct GameObject
 	Transform transform;
 	Model* model = nullptr;
 	Material material;
-	std::string name;
+	bool active;
 };

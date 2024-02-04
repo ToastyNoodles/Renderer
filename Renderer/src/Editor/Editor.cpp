@@ -64,12 +64,21 @@ void Editor::RenderEditor()
 		{
 			if (ImGui::TreeNodeEx(std::string("GameObject " + std::to_string(index++) + " | " + object.model->info.name).c_str()))
 			{
-				ImGui::DragFloat3("Position", (float*)&object.transform.position, 0.1f);
-				ImGui::DragFloat3("Rotation", (float*)&object.transform.rotation, 0.1f);
-				ImGui::DragFloat3("Scale", (float*)&object.transform.scale, 0.1f);
-				ImGui::Text(std::string(object.material.diffuse.info.name).c_str());
-				ImGui::Text(std::string(object.material.specular.info.name).c_str());
-				ImGui::DragFloat("Shininess", &object.material.shininess, 1.0f, 1.0f, 512.0f);
+				ImGui::Checkbox("Active", &object.active);
+				if (ImGui::TreeNodeEx("Transform"))
+				{
+					ImGui::DragFloat3("Position", (float*)&object.transform.position, 0.1f);
+					ImGui::DragFloat3("Rotation", (float*)&object.transform.rotation, 0.1f);
+					ImGui::DragFloat3("Scale", (float*)&object.transform.scale, 0.1f);
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNodeEx("Material"))
+				{
+					ImGui::Text(std::string("Diffuse Texture: " + object.material.diffuse.info.name).c_str());
+					ImGui::Text(std::string("Specular Texture: " + object.material.specular.info.name).c_str());
+					ImGui::DragFloat("Shininess", &object.material.shininess, 1.0f, 1.0f, 512.0f);
+					ImGui::TreePop();
+				}
 				ImGui::TreePop();
 			}
 		}

@@ -29,28 +29,29 @@ void Scene::Init()
 
 	GameObject& backpack = gameObjects.emplace_back();
 	backpack.SetModel("backpack");
-	backpack.transform.position = glm::vec3(0.0f, -5.0f, 0.0f);
+	backpack.transform.position = glm::vec3(0.0f, 5.0f, 0.0f);
 	backpack.material.diffuse = *AssetManager::GetTexture("backpack_diffuse");
 	backpack.material.specular = *AssetManager::GetTexture("backpack_specular");
 	backpack.material.shininess = 16.0f;
+	backpack.active = false;
 
 	GameObject& cube = gameObjects.emplace_back();
 	cube.SetModel("cube");
-	cube.transform.position = glm::vec3(0.0f, 1.0f, 5.0f);
+	cube.transform.position = glm::vec3(0.0f, 1.0f, -5.0f);
 	cube.material.diffuse = *AssetManager::GetTexture("container_diffuse");
 	cube.material.specular = *AssetManager::GetTexture("container_specular");
 	cube.material.shininess = 64.0f;
 
 	GameObject& cube2 = gameObjects.emplace_back();
 	cube2.SetModel("cube");
-	cube2.transform.position = glm::vec3(5.0f, 1.0f, -5.0f);
+	cube2.transform.position = glm::vec3(5.0f, 1.0f, 5.0f);
 	cube2.material.diffuse = *AssetManager::GetTexture("container_diffuse");
 	cube2.material.specular = *AssetManager::GetTexture("container_specular");
 	cube2.material.shininess = 64.0f;
 
 	GameObject& cube3 = gameObjects.emplace_back();
 	cube3.SetModel("cube");
-	cube3.transform.position = glm::vec3(-5.0f, 1.0f, -5.0f);
+	cube3.transform.position = glm::vec3(-5.0f, 1.0f, 5.0f);
 	cube3.material.diffuse = *AssetManager::GetTexture("container_diffuse");
 	cube3.material.specular = *AssetManager::GetTexture("container_specular");
 	cube3.material.shininess = 64.0f;

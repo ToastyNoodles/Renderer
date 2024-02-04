@@ -88,14 +88,19 @@ void Renderer::RenderSkybox()
 
 void Renderer::RenderGeometry()
 {
+	//Update Lights Position
+	for (PointLight& light : Scene::lights)
+	{
+		light.position.y = sin(glfwGetTime() + light.speed) + 2;
+		light.position.z = sin(glfwGetTime() + light.speed) * 3;
+	}
+
 	//Light Gameobjects
 	if (DrawLightObjects)
 	{
 		color.Bind();
 		for (PointLight& light : Scene::lights)
 		{
-			light.position.y = sin(glfwGetTime() + light.speed) + 2;
-
 			GameObject lightObject;
 			lightObject.SetModel("sphere");
 			lightObject.transform.position = light.position;
@@ -113,6 +118,8 @@ void Renderer::RenderGeometry()
 	lighting.Bind();
 	for (GameObject& gameObject : Scene::gameObjects)
 	{
+		if (!gameObject.active) { continue; }
+
 		//Material Uniforms
 		gameObject.material.diffuse.Bind(0);
 		gameObject.material.specular.Bind(1);
