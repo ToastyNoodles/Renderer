@@ -22,8 +22,3 @@ void Framebuffer::Init(int width, int height)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
-void Framebuffer::Bind()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, id);
-}

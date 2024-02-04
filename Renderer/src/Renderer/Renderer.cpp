@@ -17,7 +17,6 @@ namespace Renderer
 	Skybox sky;
 
 	Framebuffer framebuffer;
-
 	FullscreenQuad fullscreenQuad;
 
 	void RenderSkybox();
@@ -54,7 +53,7 @@ void Renderer::RenderFrame()
 	Scene::camera.Input(GL::GetWindowPtr()); //This should be in scene update or anywhere else really
 
 	//First Pass
-	framebuffer.Bind();
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.id);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -151,7 +150,7 @@ void Renderer::RenderFullscreenQuad()
 {
 	if (fullscreenQuad.vao == 0)
 	{
-		float vertices[] =
+		float quadVertices[] =
 		{
 			-1.0f, -1.0f, 0.0f, 0.0f,
 			 1.0f, -1.0f, 1.0f, 0.0f,
@@ -166,12 +165,12 @@ void Renderer::RenderFullscreenQuad()
 
 		glGenBuffers(1, &fullscreenQuad.vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, fullscreenQuad.vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, nullptr);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(sizeof(float) * 2));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
@@ -179,6 +178,7 @@ void Renderer::RenderFullscreenQuad()
 
 	screen.Bind();
 	glBindVertexArray(fullscreenQuad.vao);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, framebuffer.colorBuffer);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
