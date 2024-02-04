@@ -39,7 +39,7 @@ void Editor::RenderEditor()
 	{
 		if (ImGui::TreeNodeEx(std::string("Directional Light").c_str()))
 		{
-			ImGui::DragFloat3("Position", (float*)&Scene::sun.direction, 0.1f);
+			ImGui::DragFloat3("Position", (float*)&Scene::sun.direction, 0.01f);
 			ImGui::ColorEdit3("Color", (float*)&Scene::sun.color);
 			ImGui::TreePop();
 		}

@@ -67,9 +67,13 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
 
 	vec3 diffuseColor = pow(vec3(texture(material.diffuse, f_uv)), vec3(2.2));
-	vec3 ambient = ((light.color * 0.1) * attenuation) * diffuseColor;
-	vec3 diffuse = ((diff * light.color) * attenuation) * diffuseColor;
-	vec3 specular = ((spec * light.color) * attenuation) * vec3(texture(material.specular, f_uv));
+	vec3 ambient = 0.1 * light.color * diffuseColor;
+	vec3 diffuse = diff * light.color * diffuseColor;
+	vec3 specular = spec * light.color * vec3(texture(material.specular, f_uv));
+	
+	ambient *= attenuation;
+	diffuse *= attenuation;
+	specular *= attenuation;
 
 	return (ambient + diffuse + specular);
 }
