@@ -736,6 +736,12 @@
     <Image Include="res\textures\skybox\left.jpg" />
     <Image Include="res\textures\skybox\right.jpg" />
     <Image Include="res\textures\skybox\top.jpg" />
+    <Image Include="res\textures\space\back.png" />
+    <Image Include="res\textures\space\bottom.png" />
+    <Image Include="res\textures\space\front.png" />
+    <Image Include="res\textures\space\left.png" />
+    <Image Include="res\textures\space\right.png" />
+    <Image Include="res\textures\space\top.png" />
     <Image Include="res\textures\wood_diff.png" />
     <Image Include="res\textures\wood_diffuse.png" />
     <Image Include="res\textures\wood_spec.png" />

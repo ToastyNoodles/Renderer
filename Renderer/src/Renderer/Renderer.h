@@ -6,5 +6,6 @@ namespace Renderer
 	void Init();
 	void RenderFrame();
 
-	inline bool DrawLights = true;
+	inline bool DrawLightObjects = true;
+	inline bool DrawSkybox = true;
 }

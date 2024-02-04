@@ -3,8 +3,8 @@
 
 void Scene::Init()
 {
-	sun.direction = glm::vec3(0.0f, -1.0f, 0.0f);
-	sun.color = glm::vec3(1.0f);
+	sun.direction = glm::vec3(-1.0f, -0.4f, -0.5f);
+	sun.color = glm::vec3(0.23f, 0.23f, 0.37f);
 
 	PointLight& red = lights.emplace_back();
 	red.position = glm::vec3(-3.0f, 3.0f, 3.0f);

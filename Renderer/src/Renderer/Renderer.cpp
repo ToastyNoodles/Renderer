@@ -15,6 +15,9 @@ namespace Renderer
 	Shader skybox;
 
 	Skybox sky;
+
+	void RenderSkybox();
+	void RenderGeometry();
 }
 
 void Renderer::Init()
@@ -31,12 +34,12 @@ void Renderer::Init()
 
 	std::vector<std::string> skyboxTextureFilepaths
 	{
-		"res/textures/skybox/right.jpg",
-		"res/textures/skybox/left.jpg",
-		"res/textures/skybox/top.jpg",
-		"res/textures/skybox/bottom.jpg",
-		"res/textures/skybox/front.jpg",
-		"res/textures/skybox/back.jpg"
+		"res/textures/space/right.png",
+		"res/textures/space/left.png",
+		"res/textures/space/top.png",
+		"res/textures/space/bottom.png",
+		"res/textures/space/front.png",
+		"res/textures/space/back.png"
 	};
 
 	sky.Load(skyboxTextureFilepaths);
@@ -49,16 +52,27 @@ void Renderer::RenderFrame()
 
 	Scene::camera.Input(GL::GetWindowPtr());
 
-	//Skybox
-	glDepthMask(GL_FALSE);
-	skybox.Bind();
-	glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
-	skybox.SetMat4("viewProjection", Scene::camera.GetProjection() * modifiedViewMatrix);
-	sky.Draw();
-	glDepthMask(GL_TRUE);
+	RenderSkybox();
+	RenderGeometry();
+}
 
+void Renderer::RenderSkybox()
+{
+	if (DrawSkybox)
+	{
+		glDepthMask(GL_FALSE);
+		skybox.Bind();
+		glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
+		skybox.SetMat4("viewProjection", Scene::camera.GetProjection() * modifiedViewMatrix);
+		sky.Draw();
+		glDepthMask(GL_TRUE);
+	}
+}
+
+void Renderer::RenderGeometry()
+{
 	//Light Gameobjects
-	if (DrawLights)
+	if (DrawLightObjects)
 	{
 		color.Bind();
 		for (PointLight& light : Scene::lights)
@@ -75,7 +89,7 @@ void Renderer::RenderFrame()
 			lightObject.model->Draw();
 		}
 	}
-	
+
 	//Gameobjects
 	lighting.Bind();
 	for (GameObject& gameObject : Scene::gameObjects)
@@ -86,7 +100,7 @@ void Renderer::RenderFrame()
 		lighting.SetInt("material.diffuse", 0);
 		lighting.SetInt("material.specular", 1);
 		lighting.SetFloat("material.shininess", gameObject.material.shininess);
-		
+
 		//Directional Light Uniforms
 		lighting.SetVec3("sun.direction", Scene::sun.direction);
 		lighting.SetVec3("sun.color", Scene::sun.color);

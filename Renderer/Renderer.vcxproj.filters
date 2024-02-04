@@ -1753,6 +1753,24 @@
     <Image Include="res\textures\skybox\top.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\space\back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\space\bottom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\space\front.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\space\left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\space\right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\space\top.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\imgui\lib\imgui.lib" />

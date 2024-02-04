@@ -32,36 +32,54 @@ void Editor::RenderEditor()
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
 	ImGui::Begin("Scene");
-	ImGui::Checkbox("Draw Lights", &Renderer::DrawLights);
+	ImGui::Checkbox("Draw Light Objects", &Renderer::DrawLightObjects);
+	ImGui::Checkbox("Draw Skybox", &Renderer::DrawSkybox);
 
-	int index = 0;
-	for (PointLight& light : Scene::lights)
+	if (ImGui::TreeNodeEx("Lights"))
 	{
-		if (ImGui::TreeNodeEx(std::string("Light " + std::to_string(index++)).c_str()))
+		if (ImGui::TreeNodeEx(std::string("Directional Light").c_str()))
 		{
-			ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
-			ImGui::ColorEdit3("Color", (float*)&light.color);
-			ImGui::DragFloat("Quadratic", &light.quadratic, 0.005f, 0.0f, 1.0f);
-			ImGui::DragFloat("Linear", &light.linear, 0.005f, 0.0f, 1.0f);
-			ImGui::DragFloat("Constant", &light.constant, 0.005f, 0.0f, 1.0f);
+			ImGui::DragFloat3("Position", (float*)&Scene::sun.direction, 0.1f);
+			ImGui::ColorEdit3("Color", (float*)&Scene::sun.color);
 			ImGui::TreePop();
 		}
+
+		int index = 0;
+		for (PointLight& light : Scene::lights)
+		{
+			if (ImGui::TreeNodeEx(std::string("Point Light " + std::to_string(index++)).c_str()))
+			{
+				ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
+				ImGui::ColorEdit3("Color", (float*)&light.color);
+				ImGui::DragFloat("Quadratic", &light.quadratic, 0.005f, 0.0f, 1.0f);
+				ImGui::DragFloat("Linear", &light.linear, 0.005f, 0.0f, 1.0f);
+				ImGui::DragFloat("Constant", &light.constant, 0.005f, 0.0f, 1.0f);
+				ImGui::TreePop();
+			}
+		}
+		ImGui::TreePop();
 	}
 
-	index = 0;
-	for (GameObject& object : Scene::gameObjects)
+	if (ImGui::TreeNodeEx("GameObjects"))
 	{
-		if (ImGui::TreeNodeEx(std::string("GameObject " + std::to_string(index++) + " | " + object.model->info.name).c_str()))
+		int index = 0;
+		for (GameObject& object : Scene::gameObjects)
 		{
-			ImGui::DragFloat3("Position", (float*)&object.transform.position, 0.1f);
-			ImGui::DragFloat3("Rotation", (float*)&object.transform.rotation, 0.1f);
-			ImGui::DragFloat3("Scale", (float*)&object.transform.scale, 0.1f);
-			ImGui::Text(std::string(object.material.diffuse.info.name).c_str());
-			ImGui::Text(std::string(object.material.specular.info.name).c_str());
-			ImGui::DragFloat("Shininess", &object.material.shininess, 1.0f, 1.0f, 512.0f);
-			ImGui::TreePop();
+			if (ImGui::TreeNodeEx(std::string("GameObject " + std::to_string(index++) + " | " + object.model->info.name).c_str()))
+			{
+				ImGui::DragFloat3("Position", (float*)&object.transform.position, 0.1f);
+				ImGui::DragFloat3("Rotation", (float*)&object.transform.rotation, 0.1f);
+				ImGui::DragFloat3("Scale", (float*)&object.transform.scale, 0.1f);
+				ImGui::Text(std::string(object.material.diffuse.info.name).c_str());
+				ImGui::Text(std::string(object.material.specular.info.name).c_str());
+				ImGui::DragFloat("Shininess", &object.material.shininess, 1.0f, 1.0f, 512.0f);
+				ImGui::TreePop();
+			}
 		}
+		ImGui::TreePop();
 	}
+	
+	
 
 	ImGui::End();
 
