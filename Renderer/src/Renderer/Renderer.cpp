@@ -21,6 +21,8 @@ struct Shaders
 	Shader geometry;
 } shaders;
 
+Skybox sky;
+
 void DrawScene(Shader& shader);
 void GeometryPass();
 void RenderFullscreenQuad();
@@ -35,17 +37,17 @@ void Renderer::Init()
 
 	renderTarget.gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
 
-	//std::vector<std::string> skyboxTextureFilepaths
-	//{
-	//	"res/textures/space/right.png",
-	//	"res/textures/space/left.png",
-	//	"res/textures/space/top.png",
-	//	"res/textures/space/bottom.png",
-	//	"res/textures/space/front.png",
-	//	"res/textures/space/back.png"
-	//};
+	std::vector<std::string> skyboxTextureFilepaths
+	{
+		"res/textures/space/right.png",
+		"res/textures/space/left.png",
+		"res/textures/space/top.png",
+		"res/textures/space/bottom.png",
+		"res/textures/space/front.png",
+		"res/textures/space/back.png"
+	};
 
-	////sky.Load(skyboxTextureFilepaths);
+	sky.Load(skyboxTextureFilepaths);
 }
 
 void Renderer::RenderFrame()
@@ -58,19 +60,33 @@ void Renderer::RenderFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GeometryPass();
+
+	shaders.screen.Bind();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, renderTarget.gbuffer.colorTexture);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+	glDisable(GL_DEPTH_TEST);
 	RenderFullscreenQuad();
 }
 
 void DrawScene(Shader& shader)
 {
+	//Skybox - Make its own pass?
+	glDepthMask(GL_FALSE);
+	shaders.skybox.Bind();
+	glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
+	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
+	shaders.skybox.SetMat4("view", modifiedViewMatrix);
+	sky.Draw();
+	shaders.skybox.Bind();
+	glDepthMask(GL_TRUE);
+
 	//Render GameObjects
+	shader.Bind();
 	for (GameObject& gameObject : Scene::gameObjects)
 	{
 		if (!gameObject.active) { continue; }
 		shader.SetMat4("model", gameObject.transform.GetModelMatrix());
-		shader.SetInt("colorTexture", 0);
-		shader.SetInt("normalTexture", 1);
-		shader.SetInt("rmaTexture", 2);
 		gameObject.material.color.Bind(0);
 		gameObject.material.normal.Bind(1);
 		gameObject.material.rma.Bind(2);
@@ -126,26 +142,18 @@ void RenderFullscreenQuad()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	shaders.screen.Bind();
 	glBindVertexArray(vao);
-	shaders.screen.SetInt("screenTexture", 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, renderTarget.gbuffer.colorTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
+
 
 //
 //void Renderer::RenderSkybox()
 //{
 //	if (DrawSkybox)
 //	{
-//		glDepthMask(GL_FALSE);
-//		shaders.skybox.Bind();
-//		glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
-//		shaders.skybox.SetMat4("viewProjection", Scene::camera.GetProjection() * modifiedViewMatrix);
-//		sky.Draw();
-//		glDepthMask(GL_TRUE);
+//		
 //	}
 //}
 //
