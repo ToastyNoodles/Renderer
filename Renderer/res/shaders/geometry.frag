@@ -4,11 +4,13 @@ out vec4 FragColor;
 layout (location = 0) out vec4 colorTextureOut;
 layout (location = 1) out vec4 normalTextureOut;
 layout (location = 2) out vec4 rmaTextureOut;
+layout (location = 3) out vec4 positionTextureOut;
 
-uniform sampler2D colorTexture;
-uniform sampler2D normalTexture;
-uniform sampler2D rmaTexture;
+layout (binding = 0) uniform sampler2D colorTexture;
+layout (binding = 1) uniform sampler2D normalTexture;
+layout (binding = 2) uniform sampler2D rmaTexture;
 
+in vec4 f_pos;
 in vec3 f_normal;
 in vec2 f_uvs;
 
@@ -21,6 +23,5 @@ void main()
 	colorTextureOut = color;
 	normalTextureOut = normal;
 	rmaTextureOut = rma;
-
-	FragColor = vec4(1.0);
+	positionTextureOut = f_pos;
 }

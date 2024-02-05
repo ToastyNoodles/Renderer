@@ -562,6 +562,8 @@
     <None Include="res\models\CypressTree.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
+    <None Include="res\shaders\depth.frag" />
+    <None Include="res\shaders\depth.vert" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
     <None Include="res\shaders\lighting.frag" />

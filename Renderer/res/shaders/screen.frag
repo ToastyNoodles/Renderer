@@ -1,9 +1,9 @@
-#version 330 core
+#version 420 core
 out vec4 FragColor;
 
 in vec2 f_uv;
 
-uniform sampler2D inputTexture;
+layout (binding = 0) uniform sampler2D inputTexture;
 
 void main()
 {

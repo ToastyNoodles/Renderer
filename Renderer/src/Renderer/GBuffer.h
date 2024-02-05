@@ -12,6 +12,7 @@ public:
 	uint32_t colorTexture;
 	uint32_t normalTexture;
 	uint32_t rmaTexture;
+	uint32_t positionTexture;
 	uint32_t lightTexture;
 	uint32_t depthTexture;
 private:
