@@ -22,13 +22,6 @@ glm::mat4 Camera::GetProjection()
 	return projection;
 }
 
-glm::mat4 Camera::GetViewProjection()
-{
-	view = glm::lookAt(position, position + orientation, up);
-	projection = glm::perspective(glm::radians(fov), ((float)GL::GetWindowWidth() / (float)GL::GetWindowHeight()), 0.01f, 100.0f);
-	return projection * view;
-}
-
 void Camera::Input(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)

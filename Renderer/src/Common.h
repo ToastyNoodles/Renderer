@@ -78,9 +78,11 @@ struct Texture
 
 struct Material
 {
-	Texture diffuse;
-	Texture specular;
-	float shininess;
+	Texture color;
+	Texture normal;
+	Texture rma;
+	float roughness;
+	float metalic;
 };
 
 struct FullscreenQuad

@@ -1,0 +1,20 @@
+#pragma once
+#include "../Common.h"
+
+class GBuffer
+{
+public:
+	void Init(int width, int height);
+	void Bind();
+	void Unbind();
+	void Destory();
+
+	uint32_t colorTexture;
+	uint32_t normalTexture;
+	uint32_t rmaTexture;
+	uint32_t lightTexture;
+	uint32_t depthTexture;
+private:
+	uint32_t id;
+	int width, height;
+};

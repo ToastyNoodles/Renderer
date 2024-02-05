@@ -154,7 +154,7 @@
     <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Editor\Editor.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="src\Renderer\GBuffer.cpp" />
     <ClCompile Include="src\Renderer\Skybox.cpp" />
     <ClCompile Include="src\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Renderer\Model.cpp" />
@@ -172,7 +172,7 @@
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Editor\Editor.h" />
-    <ClInclude Include="src\Renderer\Framebuffer.h" />
+    <ClInclude Include="src\Renderer\GBuffer.h" />
     <ClInclude Include="src\Renderer\Skybox.h" />
     <ClInclude Include="src\Renderer\Mesh.h" />
     <ClInclude Include="src\Renderer\Model.h" />
@@ -562,6 +562,8 @@
     <None Include="res\models\CypressTree.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
+    <None Include="res\shaders\geometry.frag" />
+    <None Include="res\shaders\geometry.vert" />
     <None Include="res\shaders\lighting.frag" />
     <None Include="res\shaders\lighting.vert" />
     <None Include="res\shaders\skybox.frag" />

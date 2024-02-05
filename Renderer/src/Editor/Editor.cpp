@@ -31,7 +31,7 @@ void Editor::RenderEditor()
 	if (ShowDemoWindow)
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
-	ImGui::Begin("Scene");
+	/*ImGui::Begin("Scene");
 	ImGui::Checkbox("Draw Light Objects", &Renderer::DrawLightObjects);
 	ImGui::Checkbox("Draw Skybox", &Renderer::DrawSkybox);
 
@@ -83,9 +83,7 @@ void Editor::RenderEditor()
 			}
 		}
 		ImGui::TreePop();
-	}
-	
-	
+	}*/
 
 	ImGui::End();
 
