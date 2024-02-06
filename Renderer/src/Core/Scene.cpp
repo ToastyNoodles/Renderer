@@ -6,17 +6,14 @@ void Scene::Init()
 	PointLight& red = lights.emplace_back();
 	red.position = glm::vec3(-5.0f, 1.0f, 0.0f);
 	red.color = glm::vec3(0.6f, 1.0f, 0.0f);
-	red.speed = 1.0f;
 
 	PointLight& green = lights.emplace_back();
 	green.position = glm::vec3(0.0f, 1.0f, 0.0f);
 	green.color = glm::vec3(0.0f, 1.0f, 0.80f);
-	green.speed = 2.0f;
 
 	PointLight& blue = lights.emplace_back();
 	blue.position = glm::vec3(5.0f, 1.0f, 0.0f);
 	blue.color = glm::vec3(1.0f, 0.0f, 0.9f);
-	blue.speed = 3.0f;
 
 	GameObject& plane = gameObjects.emplace_back();
 	plane.SetModel("plane");

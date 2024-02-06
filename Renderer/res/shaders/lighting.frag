@@ -6,15 +6,13 @@ layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D rmaTexture;
 layout (binding = 3) uniform sampler2D positionTexture;
 
-in mat4 model;
-in vec3 f_pos;
-in vec3 f_norm;
 in vec2 f_uv;
 
 struct PointLight
 {
 	vec3 position;
 	vec3 color;
+	float radius;
 };
 
 #define NUM_POINTLIGHT 3
@@ -37,11 +35,25 @@ void main()
 	
 	for (int i = 0; i < NUM_POINTLIGHT; i++)
 	{
-		vec3 lightDir = normalize(pointLights[i].position - fragPos);
-		vec3 diffuse = max(dot(normal, lightDir), 0.0) * color * pointLights[i].color; //diffuse
-		vec3 specular = vec3(pow(max(dot(viewDir, reflect(-lightDir, normal)), 0.0), roughness)); //specular
-		result += diffuse;
-		result += specular;
+		float dist = length(pointLights[i].position - fragPos);
+		if (dist < pointLights[i].radius)
+		{
+			//diffuse
+			vec3 lightDir = normalize(pointLights[i].position - fragPos);
+			vec3 diffuse = max(dot(normal, lightDir), 0.0) * color * pointLights[i].color;
+
+			//specular
+			vec3 halfwayDir = normalize(lightDir + viewDir);
+			float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
+			vec3 specular = pointLights[i].color * spec * rma;
+
+			//attenuation
+			float attenuation = 1.0 / (dist * dist);
+			diffuse *= attenuation;
+			specular *= attenuation;
+
+			result += diffuse + specular;
+		}
 	}
 
 	lightTextureOut = vec4(result, 1.0);

@@ -52,10 +52,10 @@ void Renderer::Init()
 void Renderer::RenderFrame()
 {
 	gbuffer.Bind();
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GeometryPass();
@@ -125,8 +125,10 @@ void LightPass()
 	{
 		std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
 		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
+		std::string radius = std::string("pointLights[" + std::to_string(i) + "].radius");
 		shaders.lighting.SetVec3(position.c_str(), light.position);
 		shaders.lighting.SetVec3(color.c_str(), light.color);
+		shaders.lighting.SetFloat(radius.c_str(), light.radius);
 		i++;
 	}
 
@@ -169,7 +171,7 @@ void DrawFullscreenQuad()
 	glBindVertexArray(0);
 }
 
-//Skybox - Make its own pass? Needs to happen after geometry pass.
+//Skybox
 /*
 glDepthMask(GL_FALSE);
 shaders.skybox.Bind();

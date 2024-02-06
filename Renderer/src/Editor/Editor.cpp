@@ -32,6 +32,22 @@ void Editor::RenderEditor()
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
 	ImGui::Begin("Scene");
+	if (ImGui::TreeNodeEx("Lights"))
+	{
+		int index = 0;
+		for (PointLight& light : Scene::lights)
+		{
+			if (ImGui::TreeNodeEx(std::string("Light " + std::to_string(index++)).c_str()))
+			{
+				ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
+				ImGui::ColorEdit3("Color", (float*)&light.color, 0.1f);
+				ImGui::DragFloat("Radius", (float*)&light.radius, 0.1f);
+				ImGui::TreePop();
+			}
+		}
+		ImGui::TreePop();
+	}
+
 	if (ImGui::TreeNodeEx("GameObjects"))
 	{
 		int index = 0;

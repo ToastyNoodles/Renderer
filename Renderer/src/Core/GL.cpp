@@ -31,6 +31,7 @@ void GL::Init(int width, int height, const char* title)
 	windowHeight = height;
 
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	glfwSetWindowPos(window, (videoMode->width / 2) - (width / 2), (videoMode->height / 2) - (height / 2));
 
 	glfwMakeContextCurrent(window);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);

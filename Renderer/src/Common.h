@@ -45,7 +45,7 @@ struct PointLight
 {
 	glm::vec3 position = glm::vec3(0.0f);
 	glm::vec3 color = glm::vec3(1.0f);
-	float speed = 1.0f;
+	float radius = 1.0f;
 };
 
 struct FileInfo
