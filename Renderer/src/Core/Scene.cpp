@@ -3,9 +3,6 @@
 
 void Scene::Init()
 {
-	sun.direction = glm::vec3(0.0f, -1.0f, 0.0f);
-	sun.color = glm::vec3(0.0f);
-
 	PointLight& red = lights.emplace_back();
 	red.position = glm::vec3(-5.0f, 1.0f, 0.0f);
 	red.color = glm::vec3(0.6f, 1.0f, 0.0f);
@@ -38,18 +35,21 @@ void Scene::Init()
 	cube.SetModel("cube");
 	cube.transform.position = glm::vec3(0.0f, 1.0f, -5.0f);
 	cube.material.color = *AssetManager::GetTexture("container_diffuse");
+	cube.material.normal = *AssetManager::GetTexture("container_normal");
 	cube.material.rma = *AssetManager::GetTexture("container_specular");
 
 	GameObject& cube2 = gameObjects.emplace_back();
 	cube2.SetModel("cube");
 	cube2.transform.position = glm::vec3(5.0f, 1.0f, 5.0f);
 	cube2.material.color = *AssetManager::GetTexture("container_diffuse");
+	cube2.material.normal = *AssetManager::GetTexture("container_normal");
 	cube2.material.rma = *AssetManager::GetTexture("container_specular");
 
 	GameObject& cube3 = gameObjects.emplace_back();
 	cube3.SetModel("cube");
 	cube3.transform.position = glm::vec3(-5.0f, 1.0f, 5.0f);
 	cube3.material.color = *AssetManager::GetTexture("container_diffuse");
+	cube3.material.normal = *AssetManager::GetTexture("container_normal");
 	cube3.material.rma = *AssetManager::GetTexture("container_specular");
 }
 

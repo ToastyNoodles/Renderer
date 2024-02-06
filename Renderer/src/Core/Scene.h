@@ -5,8 +5,7 @@
 
 namespace Scene
 {
-	inline Camera camera = Camera(glm::vec3(0.0f, 2.0f, 8.0f));
-	inline DirectionalLight sun;
+	inline Camera camera = Camera(glm::vec3(0.0f, 2.0f, 10.0f));
 	inline std::vector<PointLight> lights;
 	inline std::vector<GameObject> gameObjects;
 

@@ -81,8 +81,6 @@ struct Material
 	Texture color;
 	Texture normal;
 	Texture rma;
-	float roughness;
-	float metalic;
 };
 
 struct FullscreenQuad

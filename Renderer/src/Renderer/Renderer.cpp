@@ -22,7 +22,8 @@ Skybox sky;
 
 void DrawScene(Shader& shader);
 void GeometryPass();
-void RenderFullscreenQuad();
+void LightPass();
+void DrawFullscreenQuad();
 
 void Renderer::Init()
 {
@@ -50,31 +51,25 @@ void Renderer::Init()
 
 void Renderer::RenderFrame()
 {
+	gbuffer.Bind();
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
+
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GeometryPass();
+	LightPass();
 
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.colorTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
 	glDisable(GL_DEPTH_TEST);
-	RenderFullscreenQuad();
+	DrawFullscreenQuad();
 }
 
 void DrawScene(Shader& shader)
 {
-	//Skybox - Make its own pass?
-	glDepthMask(GL_FALSE);
-	shaders.skybox.Bind();
-	glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
-	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
-	shaders.skybox.SetMat4("view", modifiedViewMatrix);
-	sky.Draw();
-	shaders.skybox.Bind();
-	glDepthMask(GL_TRUE);
-
-	//Render GameObjects
 	shader.Bind();
 	for (GameObject& gameObject : Scene::gameObjects)
 	{
@@ -90,11 +85,11 @@ void DrawScene(Shader& shader)
 void GeometryPass()
 {
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_ALWAYS);
+	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	gbuffer.Bind();
+	gbuffer.Bind(); //ColorTexture, NormalTexture, RMATexture, PositionTexture
 	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
@@ -105,7 +100,41 @@ void GeometryPass()
 	gbuffer.Unbind();
 }
 
-void RenderFullscreenQuad()
+void LightPass()
+{
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	gbuffer.Bind(); //Light Texture
+	glDrawBuffer(GL_COLOR_ATTACHMENT4);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.colorTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.normalTexture);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.rmaTexture);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
+
+	shaders.lighting.Bind();
+	shaders.lighting.SetVec3("viewPosition", Scene::camera.position);
+
+	int i = 0;
+	for (PointLight& light : Scene::lights)
+	{
+		std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
+		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
+		shaders.lighting.SetVec3(position.c_str(), light.position);
+		shaders.lighting.SetVec3(color.c_str(), light.color);
+		i++;
+	}
+
+	DrawFullscreenQuad();
+	gbuffer.Unbind();
+}
+
+void DrawFullscreenQuad()
 {
 	static uint32_t vao = 0;
 	if (vao == 0)
@@ -139,3 +168,15 @@ void RenderFullscreenQuad()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
+
+//Skybox - Make its own pass? Needs to happen after geometry pass.
+/*
+glDepthMask(GL_FALSE);
+shaders.skybox.Bind();
+glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
+shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
+shaders.skybox.SetMat4("view", modifiedViewMatrix);
+sky.Draw();
+shaders.skybox.Bind();
+glDepthMask(GL_TRUE);
+*/

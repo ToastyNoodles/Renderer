@@ -7,15 +7,15 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 
-out vec4 f_pos;
+out vec4 f_worldPos;
 out vec3 f_normal;
 out vec2 f_uvs;
 
 void main()
 {
-	f_pos = model * vec4(position, 1.0);
+	f_worldPos = model * vec4(position, 1.0);
 	f_normal = normal;
 	f_uvs = uvs;
 
-	gl_Position = projection * view * f_pos;
+	gl_Position = projection * view * f_worldPos;
 }
