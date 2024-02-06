@@ -125,9 +125,13 @@ void LightPass()
 	{
 		std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
 		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
+		std::string linear = std::string("pointLights[" + std::to_string(i) + "].linear");
+		std::string quadratic = std::string("pointLights[" + std::to_string(i) + "].quadratic");
 		std::string radius = std::string("pointLights[" + std::to_string(i) + "].radius");
 		shaders.lighting.SetVec3(position.c_str(), light.position);
 		shaders.lighting.SetVec3(color.c_str(), light.color);
+		shaders.lighting.SetFloat(linear.c_str(), light.linear);
+		shaders.lighting.SetFloat(quadratic.c_str(), light.quadratic);
 		shaders.lighting.SetFloat(radius.c_str(), light.radius);
 		i++;
 	}

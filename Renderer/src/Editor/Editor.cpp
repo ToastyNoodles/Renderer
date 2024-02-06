@@ -41,6 +41,8 @@ void Editor::RenderEditor()
 			{
 				ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
 				ImGui::ColorEdit3("Color", (float*)&light.color, 0.1f);
+				ImGui::DragFloat("Linear", (float*)&light.linear, 0.1f);
+				ImGui::DragFloat("Quadratic", (float*)&light.quadratic, 0.1f);
 				ImGui::DragFloat("Radius", (float*)&light.radius, 0.1f);
 				ImGui::TreePop();
 			}
@@ -59,6 +61,7 @@ void Editor::RenderEditor()
 				ImGui::DragFloat3("Position", (float*)&object.transform.position, 0.1f);
 				ImGui::DragFloat3("Rotation", (float*)&object.transform.rotation, 0.1f);
 				ImGui::DragFloat3("Scale", (float*)&object.transform.scale, 0.1f);
+				ImGui::DragFloat("Specular", (float*)&object.material.specular, 0.1f);
 				ImGui::TreePop();
 			}
 		}

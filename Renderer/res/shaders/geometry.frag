@@ -8,6 +8,8 @@ layout (binding = 0) uniform sampler2D colorTexture;
 layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D rmaTexture;
 
+uniform vec4 objectColor;
+
 in vec4 f_worldPos;
 in vec3 f_normal;
 in vec2 f_uvs;
@@ -22,7 +24,15 @@ void main()
 	normal = texture(normalTexture, f_uvs);
 	rma = texture(rmaTexture, f_uvs);
 
-	colorTextureOut = color;
+	if (color.r != 0)
+	{
+		colorTextureOut = color;
+	}
+	else
+	{
+		colorTextureOut = objectColor;
+	}
+
 	normalTextureOut = normal;
 	rmaTextureOut = rma;
 	positionTextureOut = f_worldPos;
