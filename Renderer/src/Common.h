@@ -47,7 +47,6 @@ struct PointLight
 	glm::vec3 color = glm::vec3(1.0f);
 	float linear = 1.0f;
 	float quadratic = 1.0f;
-	float radius = 5.0f;
 };
 
 struct FileInfo
@@ -83,7 +82,7 @@ struct Material
 	Texture color;
 	Texture normal;
 	Texture rma;
-	float specular = 32.0f;
+	float meta = 32.0f;
 };
 
 struct FullscreenQuad

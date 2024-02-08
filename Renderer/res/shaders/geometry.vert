@@ -14,7 +14,7 @@ out vec2 f_uvs;
 void main()
 {
 	f_worldPos = model * vec4(position, 1.0);
-	f_normal = normal;
+	f_normal =  normal;
 	f_uvs = uvs;
 
 	gl_Position = projection * view * f_worldPos;

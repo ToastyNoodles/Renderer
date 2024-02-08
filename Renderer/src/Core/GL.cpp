@@ -1,5 +1,5 @@
 #include "GL.h"
-#include <iostream>
+#include "../Renderer/Renderer.h"
 
 void FramebufferCallback(GLFWwindow* window, int width, int height);
 

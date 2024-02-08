@@ -61,6 +61,8 @@ void Renderer::RenderFrame()
 	GeometryPass();
 	LightPass();
 
+	
+
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
@@ -118,7 +120,11 @@ void LightPass()
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
 
 	shaders.lighting.Bind();
-	shaders.lighting.SetVec3("viewPosition", Scene::camera.position);
+	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
+	shaders.lighting.SetVec3("meta", Scene::camera.position);
+
+	shaders.lighting.SetVec3("light.direction", Scene::sunLight.direction);
+	shaders.lighting.SetVec3("light.color", Scene::sunLight.color);
 
 	int i = 0;
 	for (PointLight& light : Scene::lights)
@@ -127,12 +133,10 @@ void LightPass()
 		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
 		std::string linear = std::string("pointLights[" + std::to_string(i) + "].linear");
 		std::string quadratic = std::string("pointLights[" + std::to_string(i) + "].quadratic");
-		std::string radius = std::string("pointLights[" + std::to_string(i) + "].radius");
 		shaders.lighting.SetVec3(position.c_str(), light.position);
 		shaders.lighting.SetVec3(color.c_str(), light.color);
 		shaders.lighting.SetFloat(linear.c_str(), light.linear);
 		shaders.lighting.SetFloat(quadratic.c_str(), light.quadratic);
-		shaders.lighting.SetFloat(radius.c_str(), light.radius);
 		i++;
 	}
 

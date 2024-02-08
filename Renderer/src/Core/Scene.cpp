@@ -3,8 +3,11 @@
 
 void Scene::Init()
 {
+	sunLight.direction = glm::normalize(glm::vec3(-0.1f, -0.1f, 0.1f));
+	sunLight.color = glm::vec3(1.0f, 0.94f, 0.67f);
+
 	PointLight& red = lights.emplace_back();
-	red.position = glm::vec3(-5.0f, 1.0f, 0.0f);
+	red.position = glm::vec3(-10.0f, 1.0f, 0.0f);
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	PointLight& green = lights.emplace_back();
@@ -12,14 +15,25 @@ void Scene::Init()
 	green.color = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	PointLight& blue = lights.emplace_back();
-	blue.position = glm::vec3(5.0f, 1.0f, 0.0f);
+	blue.position = glm::vec3(10.0f, 1.0f, 0.0f);
 	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	GameObject& plane = gameObjects.emplace_back();
-	plane.SetModel("plane");
-	plane.material.color = *AssetManager::GetTexture("wood_diffuse");
-	plane.material.normal = *AssetManager::GetTexture("wood_normal");
-	plane.material.rma = *AssetManager::GetTexture("wood_specular");
+	PointLight& white = lights.emplace_back();
+	white.position = glm::vec3(0.0f, 1.0f, 0.0f);
+	white.color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	for (int x = -1; x < 2; x++)
+	{
+		for (int y = -1; y < 2; y++)
+		{
+			GameObject& plane = gameObjects.emplace_back();
+			plane.SetModel("plane");
+			plane.transform.position = glm::vec3(x * 20, 0, y * 20);
+			plane.material.color = *AssetManager::GetTexture("wood_diffuse");
+			plane.material.normal = *AssetManager::GetTexture("wood_normal");
+			plane.material.rma = *AssetManager::GetTexture("wood_specular");
+		}
+	}
 
 	GameObject& backpack = gameObjects.emplace_back();
 	backpack.SetModel("backpack");
@@ -53,4 +67,7 @@ void Scene::Init()
 void Scene::Update(float deltaTime)
 {
 	camera.Input(GL::GetWindowPtr());
+
+	lights[3].position.x = sin(glfwGetTime()) * 20;
+	lights[3].position.z = cos(glfwGetTime()) * 20;
 }

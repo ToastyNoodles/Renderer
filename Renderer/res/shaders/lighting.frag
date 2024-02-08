@@ -8,56 +8,68 @@ layout (binding = 3) uniform sampler2D positionTexture;
 
 in vec2 f_uv;
 
+struct DirectLight
+{
+	vec3 direction;
+	vec3 color;
+};
+
 struct PointLight
 {
 	vec3 position;
 	vec3 color;
     float linear;
     float quadratic;
-	float radius;
 };
 
-#define NUM_POINTLIGHT 3
+#define NUM_POINTLIGHT 4
 uniform PointLight pointLights[NUM_POINTLIGHT];
-
-uniform vec3 viewPosition;
-
-vec3 CalcPointLight(PointLight light, vec3 pos, vec3 norm, vec3 diff, vec3 spec)
-{
-    // attenuation
-    float dist = length(light.position - pos);
-    float attenuation = 1.0 / (1.0 + light.linear * dist + light.quadratic * dist * dist);
-
-    //ambient
-    vec3 ambient = diff * 0.1;
-    vec3 viewDir  = normalize(viewPosition - pos);
-
-    // diffuse
-    vec3 lightDir = normalize(light.position - pos);
-    vec3 diffuse = max(dot(norm, lightDir), 0.0) * diff * light.color;
-
-    // specular
-    vec3 halfwayDir = normalize(lightDir + viewDir);
-    vec3 specular = light.color * spec;
-
-    ambient *= attenuation;
-    diffuse *= attenuation;
-    specular *= attenuation;
-
-    vec3 lighting = (ambient + diffuse + specular);
-    return lighting;
-}
+uniform DirectLight light;
+uniform vec3 viewPos;
+uniform float meta;
 
 void main()
 {
-    vec3 FragPos = texture(positionTexture, f_uv).rgb;
-    vec3 Normal = texture(normalTexture, f_uv).rgb;
-    vec3 Diffuse = texture(colorTexture, f_uv).rgb;
-    vec3 Specular = texture(rmaTexture, f_uv).rgb;
+    vec3 color = vec3(texture(colorTexture, f_uv));
+    vec3 normal = normalize(vec3(texture(normalTexture, f_uv)));
+    vec3 rma = vec3(texture(rmaTexture, f_uv));
+    vec3 fragpos = vec3(texture(positionTexture, f_uv));
     
-    vec3 result;
-    for(int i = 0; i < NUM_POINTLIGHT; i++)
-        result += CalcPointLight(pointLights[i], FragPos, Normal, Diffuse, Specular);
+    vec3 result = color * 0.1;
+    vec3 viewDir  = normalize(viewPos - fragpos);
+
+    //Direct light
+    // diffuse
+    vec3 lightDir = normalize(-light.direction);
+    vec3 diffuse = max(dot(normal, lightDir), 0.0) * color * light.color;
+
+    // specular
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
+    vec3 specular = rma * spec * light.color;
+
+    result += diffuse + specular;
+
+    //Point light
+    for (int i = 0; i < NUM_POINTLIGHT; i++)
+    {
+        // diffuse
+        vec3 lightDir = normalize(pointLights[i].position - fragpos);
+        vec3 diffuse = max(dot(normal, lightDir), 0.0) * color * pointLights[i].color;
+
+        // specular
+        vec3 halfwayDir = normalize(lightDir + viewDir);
+        float specReflect = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
+        vec3 specular = rma * specReflect * pointLights[i].color;
+        
+        //attenuation
+        float dist = length(pointLights[i].position - fragpos);
+        float attenuation = 1.0 / (1.0 + pointLights[i].linear * dist + pointLights[i].quadratic * dist * dist);
+
+        diffuse *= attenuation;
+        specular *= attenuation;
+        result += diffuse + specular;
+    }
     
     lightTextureOut = vec4(result, 1.0);
 }
