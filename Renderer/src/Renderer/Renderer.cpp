@@ -23,6 +23,7 @@ Skybox sky;
 void DrawScene(Shader& shader);
 void GeometryPass();
 void LightPass();
+void SkyboxPass();
 void DrawFullscreenQuad();
 
 void Renderer::Init()
@@ -60,9 +61,8 @@ void Renderer::RenderFrame()
 
 	GeometryPass();
 	LightPass();
-
+	SkyboxPass();
 	
-
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
@@ -144,6 +144,23 @@ void LightPass()
 	gbuffer.Unbind();
 }
 
+void SkyboxPass()
+{
+	glDepthMask(GL_FALSE);
+
+	gbuffer.Bind(); //Light Texture
+	glDrawBuffer(GL_COLOR_ATTACHMENT4);
+
+	shaders.skybox.Bind();
+	glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
+	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
+	shaders.skybox.SetMat4("view", modifiedViewMatrix);
+	sky.Draw();
+
+	gbuffer.Unbind();
+	glDepthMask(GL_TRUE);
+}
+
 void DrawFullscreenQuad()
 {
 	static uint32_t vao = 0;
@@ -178,15 +195,3 @@ void DrawFullscreenQuad()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
-
-//Skybox
-/*
-glDepthMask(GL_FALSE);
-shaders.skybox.Bind();
-glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
-shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
-shaders.skybox.SetMat4("view", modifiedViewMatrix);
-sky.Draw();
-shaders.skybox.Bind();
-glDepthMask(GL_TRUE);
-*/
