@@ -146,7 +146,7 @@ void LightPass()
 
 void SkyboxPass()
 {
-	glDepthMask(GL_FALSE);
+	glEnable(GL_DEPTH_TEST);
 
 	gbuffer.Bind(); //Light Texture
 	glDrawBuffer(GL_COLOR_ATTACHMENT4);
@@ -158,7 +158,6 @@ void SkyboxPass()
 	sky.Draw();
 
 	gbuffer.Unbind();
-	glDepthMask(GL_TRUE);
 }
 
 void DrawFullscreenQuad()

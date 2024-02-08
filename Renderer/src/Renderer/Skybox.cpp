@@ -99,8 +99,9 @@ void Skybox::Load(const std::vector<std::string> skyboxTextureFilepaths)
 
 void Skybox::Draw()
 {
-	glBindVertexArray(vao);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }
