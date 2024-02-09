@@ -730,6 +730,7 @@
     <Image Include="res\textures\Bark_BaseColor.png" />
     <Image Include="res\textures\Bark_Normal.png" />
     <Image Include="res\textures\container_diffuse.png" />
+    <Image Include="res\textures\container_normal.png" />
     <Image Include="res\textures\container_specular.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
@@ -754,8 +755,11 @@
     <Image Include="res\textures\space\top.png" />
     <Image Include="res\textures\wood_diff.png" />
     <Image Include="res\textures\wood_diffuse.jpg" />
+    <Image Include="res\textures\wood_diffuse.png" />
+    <Image Include="res\textures\wood_normal.jpg" />
     <Image Include="res\textures\wood_spec.png" />
     <Image Include="res\textures\wood_specular.jpg" />
+    <Image Include="res\textures\wood_specular.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\assimp\lib\assimp.lib" />

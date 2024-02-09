@@ -8,6 +8,7 @@ public:
 	void Bind();
 	void Unbind();
 	void Destory();
+	uint32_t GetID() { return id; }
 
 	uint32_t colorTexture;
 	uint32_t normalTexture;

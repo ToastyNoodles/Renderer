@@ -60,7 +60,7 @@
     <ClCompile Include="src\Renderer\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Framebuffer.cpp">
+    <ClCompile Include="src\Renderer\GBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1241,7 +1241,7 @@
     <ClInclude Include="src\Renderer\Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Framebuffer.h">
+    <ClInclude Include="src\Renderer\GBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1691,6 +1691,10 @@
     <None Include="vendor\GLFW\lib\glfw3.dll" />
     <None Include="res\shaders\skybox.vert" />
     <None Include="res\shaders\skybox.frag" />
+    <None Include="res\shaders\depth.frag" />
+    <None Include="res\shaders\depth.vert" />
+    <None Include="res\shaders\geometry.frag" />
+    <None Include="res\shaders\geometry.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1791,6 +1795,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\skybox\top.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\container_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_normal.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_specular.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
