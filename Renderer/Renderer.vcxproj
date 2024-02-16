@@ -24,7 +24,7 @@
     <ProjectGuid>{0e27fdad-8a2c-4607-92cc-5d6d864f6c4f}</ProjectGuid>
     <RootNamespace>Renderer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>ScuffedRenderer</ProjectName>
+    <ProjectName>Renderer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

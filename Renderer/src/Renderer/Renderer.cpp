@@ -149,7 +149,7 @@ void LightPass()
 
 void SkyboxPass()
 {
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView())); //remove translation
