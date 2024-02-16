@@ -139,22 +139,24 @@ void LightPass()
 		i++;
 	}
 
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, gbuffer.GetID());
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // write to default framebuffer
+	glBlitFramebuffer(0, 0, GL::GetWindowWidth(), GL::GetWindowHeight(), 0, 0, GL::GetWindowWidth(), GL::GetWindowHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	DrawFullscreenQuad();
 }
 
 void SkyboxPass()
 {
-	glDepthFunc(GL_FALSE);
-
-	//Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT4);
-
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 	shaders.skybox.Bind();
-	glm::mat4 modifiedViewMatrix = glm::mat4(glm::mat3(Scene::camera.GetView()));
+	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView())); //remove translation
 	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
-	shaders.skybox.SetMat4("view", modifiedViewMatrix);
+	shaders.skybox.SetMat4("view", view);
 	sky.Draw();
-	glDepthFunc(GL_TRUE);
+	glDepthFunc(GL_LESS);
 }
 
 void DrawFullscreenQuad()
