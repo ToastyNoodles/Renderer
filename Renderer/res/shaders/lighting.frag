@@ -52,7 +52,7 @@ void main()
 
     result += diffuse + specular;
 
-    //Point light
+    //Pointlight
     for (int i = 0; i < NUM_POINTLIGHT; i++)
     {
         // diffuse

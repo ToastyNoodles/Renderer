@@ -28,10 +28,10 @@ void DrawFullscreenQuad();
 void Renderer::Init()
 {
 	shaders.color.Load("res/shaders/color.vert", "res/shaders/color.frag");
+	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	shaders.lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
-	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
 
@@ -69,7 +69,7 @@ void Renderer::RenderFrame()
 }
 
 /// <summary>
-/// Render scene geometry to the gbuffer
+/// Renders the scene to the gbuffer
 /// </summary>
 void GeometryPass()
 {
@@ -88,7 +88,7 @@ void GeometryPass()
 }
 
 /// <summary>
-/// Calculate the lighting for the current frame using the gbuffer
+/// Calculates lighting for the current frame using the gbuffer
 /// </summary>
 void LightPass()
 {
