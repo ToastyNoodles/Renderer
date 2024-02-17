@@ -12,4 +12,5 @@ namespace Scene
 
 	void Init();
 	void Update(float deltaTime);
+	void DrawScene(Shader& shader);
 }

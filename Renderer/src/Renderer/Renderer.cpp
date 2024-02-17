@@ -20,7 +20,6 @@ struct Shaders
 GBuffer gbuffer;
 Skybox sky;
 
-void DrawScene(Shader& shader);
 void GeometryPass();
 void LightPass();
 void SkyboxPass();
@@ -57,7 +56,6 @@ void Renderer::RenderFrame()
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	gbuffer.Unbind();
 
 	GeometryPass();
 	LightPass();
@@ -70,27 +68,15 @@ void Renderer::RenderFrame()
 	DrawFullscreenQuad();
 }
 
-void DrawScene(Shader& shader)
-{
-	shader.Bind();
-	for (GameObject& gameObject : Scene::gameObjects)
-	{
-		if (!gameObject.active) { continue; }
-		shader.SetMat4("model", gameObject.transform.GetModelMatrix());
-		gameObject.material.color.Bind(0);
-		gameObject.material.normal.Bind(1);
-		gameObject.material.rma.Bind(2);
-		gameObject.model->Draw();
-	}
-}
-
+/// <summary>
+/// Render scene geometry to the gbuffer
+/// </summary>
 void GeometryPass()
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	gbuffer.Bind();
 	//ColorTexture, NormalTexture, RMATexture, PositionTexture
 	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
@@ -98,9 +84,12 @@ void GeometryPass()
 	shaders.geometry.Bind();
 	shaders.geometry.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.geometry.SetMat4("view", Scene::camera.GetView());
-	DrawScene(shaders.geometry);
+	Scene::DrawScene(shaders.geometry);
 }
 
+/// <summary>
+/// Calculate the lighting for the current frame using the gbuffer
+/// </summary>
 void LightPass()
 {
 	glDisable(GL_DEPTH_TEST);
@@ -147,17 +136,21 @@ void LightPass()
 
 void SkyboxPass()
 {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));
 	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.skybox.SetMat4("view", view);
 	sky.Draw();
-	gbuffer.Unbind();
+
+	glDepthFunc(GL_LESS);
 }
 
 void DrawFullscreenQuad()
 {
-	static uint32_t vao = 0;
+	static uint32_t vao;
 	if (vao == 0)
 	{
 		float quadVertices[] =
@@ -169,6 +162,7 @@ void DrawFullscreenQuad()
 			-1.0f,  1.0f, 0.0f, 1.0f,
 			-1.0f, -1.0f, 0.0f, 0.0f
 		};
+
 		uint32_t vbo;
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);

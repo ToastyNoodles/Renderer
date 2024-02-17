@@ -560,7 +560,10 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\models\cube.fbx" />
     <None Include="res\models\CypressTree.fbx" />
+    <None Include="res\models\plane.fbx" />
+    <None Include="res\models\sphere.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
     <None Include="res\shaders\geometry.frag" />
@@ -721,19 +724,19 @@
     <None Include="vendor\glm\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\backpack_ao.jpg" />
-    <Image Include="res\textures\backpack_diffuse.jpg" />
-    <Image Include="res\textures\backpack_normal.png" />
-    <Image Include="res\textures\backpack_roughness.jpg" />
-    <Image Include="res\textures\backpack_specular.jpg" />
     <Image Include="res\textures\Bark_BaseColor.png" />
     <Image Include="res\textures\Bark_Normal.png" />
-    <Image Include="res\textures\container_diffuse.png" />
-    <Image Include="res\textures\container_normal.png" />
-    <Image Include="res\textures\container_specular.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
+    <Image Include="res\textures\metal_albedo.png" />
+    <Image Include="res\textures\metal_metallic.png" />
+    <Image Include="res\textures\metal_normal.png" />
+    <Image Include="res\textures\metal_roughness.png" />
+    <Image Include="res\textures\planks_albedo.png" />
+    <Image Include="res\textures\planks_metallic.png" />
+    <Image Include="res\textures\planks_normal.png" />
+    <Image Include="res\textures\planks_roughness.png" />
     <Image Include="res\textures\sky\back.jpg" />
     <Image Include="res\textures\sky\bottom.jpg" />
     <Image Include="res\textures\sky\front.jpg" />
@@ -754,11 +757,8 @@
     <Image Include="res\textures\space\top.png" />
     <Image Include="res\textures\wood_diff.png" />
     <Image Include="res\textures\wood_diffuse.jpg" />
-    <Image Include="res\textures\wood_diffuse.png" />
-    <Image Include="res\textures\wood_normal.jpg" />
     <Image Include="res\textures\wood_spec.png" />
     <Image Include="res\textures\wood_specular.jpg" />
-    <Image Include="res\textures\wood_specular.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\assimp\lib\assimp.lib" />
