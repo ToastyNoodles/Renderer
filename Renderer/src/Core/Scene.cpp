@@ -3,8 +3,7 @@
 
 void Scene::Init()
 {
-	sunLight.direction = glm::normalize(glm::vec3(-0.0f, -1.0f, 0.0f));
-	//sunLight.color = glm::vec3(1.0f, 0.94f, 0.67f);
+	sunLight.direction = glm::normalize(glm::vec3(-0.0f, 1.0f, 0.0f));
 	sunLight.color = glm::vec3(0.5f, 0.5f, 0.5f);
 
 	PointLight& red = lights.emplace_back();
@@ -20,7 +19,7 @@ void Scene::Init()
 	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	PointLight& white = lights.emplace_back();
-	white.position = glm::vec3(0.0f, 1.0f, 0.0f);
+	white.position = glm::vec3(0.0f, 1.0f, 5.0f);
 	white.color = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	for (int x = -1; x < 2; x++)
@@ -68,7 +67,4 @@ void Scene::Init()
 void Scene::Update(float deltaTime)
 {
 	camera.Input(GL::GetWindowPtr());
-
-	lights[3].position.x = sin(glfwGetTime()) * 20;
-	lights[3].position.z = cos(glfwGetTime()) * 20;
 }

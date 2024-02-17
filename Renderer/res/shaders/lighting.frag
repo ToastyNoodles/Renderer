@@ -5,6 +5,7 @@ layout (binding = 0) uniform sampler2D colorTexture;
 layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D rmaTexture;
 layout (binding = 3) uniform sampler2D positionTexture;
+layout (binding = 4) uniform sampler2D depthTexture;
 
 in vec2 f_uv;
 
@@ -34,6 +35,7 @@ void main()
     vec3 normal = normalize(vec3(texture(normalTexture, f_uv)));
     vec3 rma = vec3(texture(rmaTexture, f_uv));
     vec3 fragpos = vec3(texture(positionTexture, f_uv));
+    vec3 depth = vec3(texture(depthTexture, f_uv));
     
     vec3 result = color * 0.1;
     vec3 viewDir  = normalize(viewPos - fragpos);

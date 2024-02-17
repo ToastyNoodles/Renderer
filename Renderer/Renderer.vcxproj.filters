@@ -1691,8 +1691,6 @@
     <None Include="vendor\GLFW\lib\glfw3.dll" />
     <None Include="res\shaders\skybox.vert" />
     <None Include="res\shaders\skybox.frag" />
-    <None Include="res\shaders\depth.frag" />
-    <None Include="res\shaders\depth.vert" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
   </ItemGroup>

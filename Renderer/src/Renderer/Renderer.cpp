@@ -33,7 +33,6 @@ void Renderer::Init()
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
-	shaders.depth.Load("res/shaders/depth.vert", "res/shaders/depth.frag");
 
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
 
@@ -58,12 +57,12 @@ void Renderer::RenderFrame()
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gbuffer.Unbind();
 
 	GeometryPass();
 	LightPass();
 	SkyboxPass();
-	
-	gbuffer.Unbind();
+
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
@@ -91,6 +90,7 @@ void GeometryPass()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
+	gbuffer.Bind();
 	//ColorTexture, NormalTexture, RMATexture, PositionTexture
 	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
@@ -117,6 +117,8 @@ void LightPass()
 	glBindTexture(GL_TEXTURE_2D, gbuffer.rmaTexture);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.depthTexture);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
@@ -139,24 +141,18 @@ void LightPass()
 		i++;
 	}
 
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, gbuffer.GetID());
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // write to default framebuffer
-	glBlitFramebuffer(0, 0, GL::GetWindowWidth(), GL::GetWindowHeight(), 0, 0, GL::GetWindowWidth(), GL::GetWindowHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	DrawFullscreenQuad();
+	gbuffer.Unbind();
 }
 
 void SkyboxPass()
 {
-	//glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
 	shaders.skybox.Bind();
-	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView())); //remove translation
+	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));
 	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.skybox.SetMat4("view", view);
 	sky.Draw();
-	glDepthFunc(GL_LESS);
+	gbuffer.Unbind();
 }
 
 void DrawFullscreenQuad()
