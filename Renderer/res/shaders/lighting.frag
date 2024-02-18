@@ -13,6 +13,8 @@ struct PointLight
 {
 	vec3 position;
 	vec3 color;
+    float strength;
+    float radius;
 };
 
 #define NUM_POINTLIGHT 6

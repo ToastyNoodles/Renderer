@@ -1780,18 +1780,6 @@
     <Image Include="res\textures\planks_roughness.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\metal_albedo.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\metal_metallic.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\metal_normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\metal_roughness.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\textures\planks_albedo.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -1799,6 +1787,36 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\planks_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\clouds\back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\clouds\bottom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\clouds\front.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\clouds\left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\clouds\right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\clouds\top.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\foil_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\foil_metallic.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\foil_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\foil_roughness.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

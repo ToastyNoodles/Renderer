@@ -726,13 +726,19 @@
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png" />
     <Image Include="res\textures\Bark_Normal.png" />
+    <Image Include="res\textures\clouds\back.png" />
+    <Image Include="res\textures\clouds\bottom.png" />
+    <Image Include="res\textures\clouds\front.png" />
+    <Image Include="res\textures\clouds\left.png" />
+    <Image Include="res\textures\clouds\right.png" />
+    <Image Include="res\textures\clouds\top.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
-    <Image Include="res\textures\metal_albedo.png" />
-    <Image Include="res\textures\metal_metallic.png" />
-    <Image Include="res\textures\metal_normal.png" />
-    <Image Include="res\textures\metal_roughness.png" />
+    <Image Include="res\textures\foil_albedo.png" />
+    <Image Include="res\textures\foil_metallic.png" />
+    <Image Include="res\textures\foil_normal.png" />
+    <Image Include="res\textures\foil_roughness.png" />
     <Image Include="res\textures\planks_albedo.png" />
     <Image Include="res\textures\planks_metallic.png" />
     <Image Include="res\textures\planks_normal.png" />
