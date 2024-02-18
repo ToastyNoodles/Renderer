@@ -5,6 +5,8 @@
 
 namespace Editor
 {
+	bool showLightsWindow = false;
+	bool showObjectsWindow = false;
 	bool ShowDemoWindow = false;
 }
 
@@ -31,10 +33,36 @@ void Editor::RenderEditor()
 	if (ShowDemoWindow)
 		ImGui::ShowDemoWindow(&ShowDemoWindow);
 
-	ImGui::Begin("Scene");
+	ImGui::BeginMainMenuBar();
+	if (ImGui::MenuItem("Objects")) { showObjectsWindow = !showObjectsWindow; }
+	if (ImGui::MenuItem("Lights")) { showLightsWindow = !showLightsWindow; }
+	ImGui::EndMainMenuBar();
 
-	if (ImGui::TreeNodeEx("Lights"))
+	if (showObjectsWindow)
 	{
+		ImGui::Begin("Objects");
+		int index = 0;
+		for (GameObject& gameObject : Scene::gameObjects)
+		{
+			if (ImGui::TreeNodeEx(std::string("Object " + std::to_string(index++) + " | " + gameObject.model->info.name).c_str()))
+			{
+				ImGui::DragFloat3("Position", (float*)&gameObject.transform.position, 0.1f);
+				ImGui::DragFloat3("Rotation", (float*)&gameObject.transform.rotation, 0.1f);
+				ImGui::DragFloat3("Scale", (float*)&gameObject.transform.scale, 0.1f);
+				ImGui::Text("Albedo", &gameObject.material.albedo.info.name);
+				ImGui::Text("Normal", &gameObject.material.normal.info.name);
+				ImGui::Text("Roughness", &gameObject.material.roughness.info.name);
+				ImGui::Text("Metallic", &gameObject.material.metallic.info.name);
+				ImGui::TreePop();
+			}
+		}
+		ImGui::TreePop();
+		ImGui::End();
+	}
+
+	if (showLightsWindow)
+	{
+		ImGui::Begin("Lights");
 		int index = 0;
 		for (PointLight& light : Scene::lights)
 		{
@@ -42,30 +70,14 @@ void Editor::RenderEditor()
 			{
 				ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
 				ImGui::ColorEdit3("Color", (float*)&light.color, 0.1f);
+				ImGui::DragFloat("Strength", &light.strength, 0.01f);
+				ImGui::DragFloat("Radius", &light.radius, 0.01f);
 				ImGui::TreePop();
 			}
 		}
 		ImGui::TreePop();
+		ImGui::End();
 	}
-
-	if (ImGui::TreeNodeEx("GameObjects"))
-	{
-		int index = 0;
-		for (GameObject& object : Scene::gameObjects)
-		{
-			if (ImGui::TreeNodeEx(std::string("GameObject " + std::to_string(index++) + " | " + object.model->info.name).c_str()))
-			{
-				ImGui::Checkbox("Active", &object.active);
-				ImGui::DragFloat3("Position", (float*)&object.transform.position, 0.1f);
-				ImGui::DragFloat3("Rotation", (float*)&object.transform.rotation, 0.1f);
-				ImGui::DragFloat3("Scale", (float*)&object.transform.scale, 0.1f);
-				ImGui::TreePop();
-			}
-		}
-		ImGui::TreePop();
-	}
-
-	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

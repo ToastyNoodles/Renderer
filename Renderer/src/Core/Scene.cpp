@@ -34,10 +34,10 @@ void Scene::Init()
 			GameObject& plane = gameObjects.emplace_back();
 			plane.SetModel("plane");
 			plane.transform.position = glm::vec3(x * 10, 0.0f, z * 10);
-			plane.material.albedo = *AssetManager::GetTexture("wood_albedo");
-			plane.material.normal = *AssetManager::GetTexture("wood_normal");
-			plane.material.roughness = *AssetManager::GetTexture("wood_roughness");
-			plane.material.metallic = *AssetManager::GetTexture("wood_metallic");
+			plane.material.albedo = *AssetManager::GetTexture("planks_albedo");
+			plane.material.normal = *AssetManager::GetTexture("planks_normal");
+			plane.material.roughness = *AssetManager::GetTexture("planks_roughness");
+			plane.material.metallic = *AssetManager::GetTexture("planks_metallic");
 		}
 	}
 

@@ -23,44 +23,70 @@ uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
 
-float DistributionGGX(vec3 N, vec3 H, float roughness)
-{
-    float a = roughness*roughness;
-    float a2 = a*a;
-    float NdotH = max(dot(N, H), 0.0);
-    float NdotH2 = NdotH*NdotH;
-
-    float nom = a2;
-    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
-    denom = PI * denom * denom;
-
-    return nom / denom;
+float D_GGX(float NoH, float roughness) {
+  float alpha = roughness * roughness;
+  float alpha2 = alpha * alpha;
+  float NoH2 = NoH * NoH;
+  float b = (NoH2 * (alpha2 - 1.0) + 1.0);
+  return alpha2 / (PI * b * b);
 }
 
-float GeometrySchlickGGX(float NdotV, float roughness)
-{
-    float r = (roughness + 1.0);
-    float k = (r*r) / 8.0;
-
-    float nom = NdotV;
-    float denom = NdotV * (1.0 - k) + k;
-
-    return nom / denom;
+float G1_GGX_Schlick(float NdotV, float roughness) {
+  float r = (roughness + 1.0);
+  float k = (r * r) / 8.0;
+  float denom = NdotV * (1.0 - k) + k;
+  return NdotV / denom;
 }
 
-float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
-{
-    float NdotV = max(dot(N, V), 0.0);
-    float NdotL = max(dot(N, L), 0.0);
-    float ggx2 = GeometrySchlickGGX(NdotV, roughness);
-    float ggx1 = GeometrySchlickGGX(NdotL, roughness);
-
-    return ggx1 * ggx2;
+float G_Smith(float NoV, float NoL, float roughness) {
+  float g1_l = G1_GGX_Schlick(NoL, roughness);
+  float g1_v = G1_GGX_Schlick(NoV, roughness);
+  return g1_l * g1_v;
 }
 
-vec3 fresnelSchlick(float cosTheta, vec3 F0)
-{
+vec3 fresnelSchlick(float cosTheta, vec3 F0) {
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+}
+
+vec3 MicrofacetBRDF(vec3 lightDir, vec3 viewDir, vec3 fNormal, vec3 fAlbedo, float fMetallic, float fRoughness) {
+  vec3 halfDir = normalize(viewDir + lightDir);
+  float NoV = clamp(dot(fNormal, viewDir), 0.0, 1.0);
+  float NoL = clamp(dot(fNormal, lightDir), 0.0, 1.0);
+  float NoH = clamp(dot(fNormal, halfDir), 0.0, 1.0);
+  float VoH = clamp(dot(viewDir, halfDir), 0.0, 1.0);      
+  
+  // F0 for dielectics in range [0.0, 0.16] 
+  // default FO is (0.16 * 0.5^2) = 0.04
+  vec3 f0 = vec3(0.16 * (0.5 * 0.5));
+
+  // in case of metals, baseColor contains F0
+  f0 = mix(f0, fAlbedo, fMetallic);
+  // specular microfacet (cook-torrance) BRDF
+  vec3 F = fresnelSchlick(VoH, f0);
+  float D = D_GGX(NoH, fRoughness);
+  float G = G_Smith(NoV, NoL, fRoughness);
+  vec3 spec = (D * G * F) / max(4.0 * NoV * NoL, 0.001);  
+  // diffuse
+  vec3 notSpec = vec3(1.0) - F; // if not specular, use as diffuse
+  notSpec *= 1.0 - fMetallic; // no diffuse for metals
+  vec3 diff = notSpec * fAlbedo / PI;   
+  spec *= 1.05;
+  vec3 result = diff + spec;
+  return result;
+}
+
+vec3 CalculateDirectLight(PointLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 fNormal, float fRoughness, float fMetallic)
+{
+	vec3 viewDir = normalize(viewPos - fWorldPos);
+    vec3 lightDir = normalize(light.position - fWorldPos);
+	float lightRadiance = light.strength * 1;
+
+    float attenuation = smoothstep(light.radius, 0, length(light.position - fWorldPos));
+	float irradiance = max(dot(lightDir, fNormal), 0.0);
+
+	irradiance *= attenuation * lightRadiance;
+	vec3 brdf = MicrofacetBRDF(lightDir, viewDir, fNormal, fAlbedo, fMetallic, fRoughness);
+    return brdf * irradiance * clamp(light.color, 0, 1);
 }
 
 void main()
@@ -71,38 +97,14 @@ void main()
     float metallic = vec3(texture(metallicTexture, f_uv)).r;
     vec3 fragpos = vec3(texture(positionTexture, f_uv));
 
-    vec3 V = normalize(viewPos - fragpos);
-    vec3 F0 = vec3(0.04); 
-    F0 = mix(F0, albedo, metallic);
-
-    vec3 Lo = vec3(0.0);
+    vec3 lighting = vec3(0.0);
     for(int i = 0; i < NUM_POINTLIGHT; i++) 
     {
-        vec3 L = normalize(pointLights[i].position - fragpos);
-        vec3 H = normalize(V + L);
-        float distance = length(pointLights[i].position - fragpos);
-        float attenuation = 1.0 / (distance * distance);
-        vec3 radiance = pointLights[i].color * attenuation;
-
-        float NDF = DistributionGGX(normal, H, roughness);   
-        float G = GeometrySmith(normal, V, L, roughness);      
-        vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
-           
-        vec3 numerator = NDF * G * F; 
-        float denominator = 4.0 * max(dot(normal, V), 0.0) * max(dot(normal, L), 0.0) + 0.0001;
-        vec3 specular = numerator / denominator;
-        
-        vec3 kS = F;
-        vec3 kD = vec3(1.0) - kS;
-        kD *= 1.0 - metallic;	  
-
-        float NdotL = max(dot(normal, L), 0.0);
-        Lo += (kD * albedo / PI + specular) * radiance * NdotL;
+        lighting += CalculateDirectLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
     }   
     
     vec3 ambient = vec3(0.1) * albedo;
-    
-    vec3 color = ambient + Lo;
+    vec3 color = ambient + lighting;
 
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 

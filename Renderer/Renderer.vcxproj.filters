@@ -1819,6 +1819,48 @@
     <Image Include="res\textures\foil_roughness.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\wood_roughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_displacement.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_metallic.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\wood_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\planks_displacement.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\planks_ao.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\metal_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\metal_roughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\metal_metallic.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\metal_displacement.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\metal_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\foil_displacement.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\foil_ao.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\imgui\lib\imgui.lib" />
