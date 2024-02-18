@@ -68,9 +68,6 @@ void Renderer::RenderFrame()
 	DrawFullscreenQuad();
 }
 
-/// <summary>
-/// Renders the scene to the gbuffer
-/// </summary>
 void GeometryPass()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -87,9 +84,6 @@ void GeometryPass()
 	Scene::DrawScene(shaders.geometry);
 }
 
-/// <summary>
-/// Calculates lighting for the current frame using the gbuffer
-/// </summary>
 void LightPass()
 {
 	glDisable(GL_DEPTH_TEST);
@@ -131,13 +125,15 @@ void LightPass()
 	}
 
 	DrawFullscreenQuad();
-	gbuffer.Unbind();
 }
 
 void SkyboxPass()
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+
+	//Final Light Texture
+	glDrawBuffer(GL_COLOR_ATTACHMENT4);
 
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));
@@ -146,6 +142,7 @@ void SkyboxPass()
 	sky.Draw();
 
 	glDepthFunc(GL_LESS);
+	gbuffer.Unbind();
 }
 
 void DrawFullscreenQuad()
