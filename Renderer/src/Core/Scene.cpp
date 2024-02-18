@@ -27,9 +27,9 @@ void Scene::Init()
 	magenta.position = glm::vec3(8.0f, 1.0f, 5.0f);
 	magenta.color = glm::vec3(1.0f, 0.0f, 1.0f);
 
-	for (int x = -1; x < 2; x++)
+	for (int x = -4; x < 5; x++)
 	{
-		for (int z = -1; z < 2; z++)
+		for (int z = -4; z < 5; z++)
 		{
 			GameObject& plane = gameObjects.emplace_back();
 			plane.SetModel("plane");
@@ -48,10 +48,10 @@ void Scene::Init()
 			GameObject& sphere = gameObjects.emplace_back();
 			sphere.SetModel("sphere");
 			sphere.transform.position = glm::vec3(x * 4, y * 3, 0.0f);
-			sphere.material.albedo = *AssetManager::GetTexture("metal_albedo");
-			sphere.material.normal = *AssetManager::GetTexture("metal_normal");
-			sphere.material.roughness = *AssetManager::GetTexture("metal_roughness");
-			sphere.material.metallic = *AssetManager::GetTexture("metal_metallic");
+			sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
+			sphere.material.normal = *AssetManager::GetTexture("foil_normal");
+			sphere.material.roughness = *AssetManager::GetTexture("foil_roughness");
+			sphere.material.metallic = *AssetManager::GetTexture("foil_metallic");
 		}
 	}
 }
