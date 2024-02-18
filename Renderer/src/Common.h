@@ -35,18 +35,10 @@ struct Transform
 	}
 };
 
-struct DirectionalLight
-{
-	glm::vec3 direction = glm::vec3(0.0f);
-	glm::vec3 color = glm::vec3(1.0f);
-};
-
 struct PointLight
 {
 	glm::vec3 position = glm::vec3(0.0f);
 	glm::vec3 color = glm::vec3(1.0f);
-	float linear = 1.0f;
-	float quadratic = 1.0f;
 };
 
 struct FileInfo
@@ -79,13 +71,8 @@ struct Texture
 
 struct Material
 {
-	Texture color;
+	Texture albedo;
 	Texture normal;
-	Texture rma;
-	float meta = 32.0f;
-};
-
-struct FullscreenQuad
-{
-	uint32_t vao = 0, vbo = 0;
+	Texture roughness;
+	Texture metallic;
 };

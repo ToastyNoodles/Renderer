@@ -3,24 +3,29 @@
 
 void Scene::Init()
 {
-	sunLight.direction = glm::normalize(glm::vec3(0.5f, -1.0f, -0.5f));
-	sunLight.color = glm::vec3(0.5f, 0.5f, 0.5f);
-
 	PointLight& red = lights.emplace_back();
-	red.position = glm::vec3(-5.0f, 1.0f, -5.0f);
+	red.position = glm::vec3(-8.0f, 1.0f, -5.0f);
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	PointLight& green = lights.emplace_back();
-	green.position = glm::vec3(-5.0f, 1.0f, 5.0f);
+	green.position = glm::vec3(0.0f, 1.0f, -5.0f);
 	green.color = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	PointLight& blue = lights.emplace_back();
-	blue.position = glm::vec3(5.0f, 1.0f, -5.0f);
+	blue.position = glm::vec3(8.0f, 1.0f, -5.0f);
 	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
 
+	PointLight& yellow = lights.emplace_back();
+	yellow.position = glm::vec3(-8.0f, 1.0f, 5.0f);
+	yellow.color = glm::vec3(1.0f, 1.0f, 0.0f);
+
+	PointLight& cyan = lights.emplace_back();
+	cyan.position = glm::vec3(0.0f, 1.0f, 5.0f);
+	cyan.color = glm::vec3(0.0f, 1.0f, 1.0f);
+
 	PointLight& magenta = lights.emplace_back();
-	magenta.position = glm::vec3(5.0f, 1.0f, 5.0f);
-	magenta.color = glm::vec3(1.0f, 1.0f, 0.0f);
+	magenta.position = glm::vec3(8.0f, 1.0f, 5.0f);
+	magenta.color = glm::vec3(1.0f, 0.0f, 1.0f);
 
 	for (int x = -1; x < 2; x++)
 	{
@@ -29,9 +34,10 @@ void Scene::Init()
 			GameObject& plane = gameObjects.emplace_back();
 			plane.SetModel("plane");
 			plane.transform.position = glm::vec3(x * 10, 0.0f, z * 10);
-			plane.material.color = *AssetManager::GetTexture("planks_albedo");
+			plane.material.albedo = *AssetManager::GetTexture("planks_albedo");
 			plane.material.normal = *AssetManager::GetTexture("planks_normal");
-			plane.material.rma = *AssetManager::GetTexture("planks_metallic");
+			plane.material.roughness = *AssetManager::GetTexture("planks_roughness");
+			plane.material.metallic = *AssetManager::GetTexture("planks_metallic");
 		}
 	}
 
@@ -42,9 +48,10 @@ void Scene::Init()
 			GameObject& sphere = gameObjects.emplace_back();
 			sphere.SetModel("sphere");
 			sphere.transform.position = glm::vec3(x * 4, y * 3, 0.0f);
-			sphere.material.color = *AssetManager::GetTexture("metal_albedo");
+			sphere.material.albedo = *AssetManager::GetTexture("metal_albedo");
 			sphere.material.normal = *AssetManager::GetTexture("metal_normal");
-			sphere.material.rma = *AssetManager::GetTexture("metal_metallic");
+			sphere.material.roughness = *AssetManager::GetTexture("metal_roughness");
+			sphere.material.metallic = *AssetManager::GetTexture("metal_metallic");
 		}
 	}
 }
@@ -61,9 +68,10 @@ void Scene::DrawScene(Shader& shader)
 	{
 		if (!gameObject.active) { continue; }
 		shader.SetMat4("model", gameObject.transform.GetModelMatrix());
-		gameObject.material.color.Bind(0);
+		gameObject.material.albedo.Bind(0);
 		gameObject.material.normal.Bind(1);
-		gameObject.material.rma.Bind(2);
+		gameObject.material.roughness.Bind(2);
+		gameObject.material.metallic.Bind(3);
 		gameObject.model->Draw();
 	}
 }

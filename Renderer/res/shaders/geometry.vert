@@ -1,21 +1,29 @@
 #version 420 core
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 normal;
-layout (location = 2) in vec2 uvs;
+layout (location = 0) in vec3 aPosition;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoord;
+layout (location = 3) in vec3 aTangent;
+layout (location = 4) in vec3 aBitangent;
 
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 
-out vec4 f_worldPos;
-out vec3 f_normal;
-out vec2 f_uvs;
+out vec4 fWorldPos;
+out vec3 fNormal;
+out vec2 fTexCoord;
+out vec3 fTangent;
+out vec3 fBitangent;
 
 void main()
 {
-	f_worldPos = model * vec4(position, 1.0);
-	f_normal =  normal;
-	f_uvs = uvs;
+	mat4 normalMatrix = transpose(inverse(model));
 
-	gl_Position = projection * view * f_worldPos;
+	fWorldPos = model * vec4(aPosition, 1.0);
+	fNormal = normalize((normalMatrix * vec4(aNormal, 0)).xyz);
+	fTexCoord = aTexCoord;
+	fTangent = (model * vec4(aTangent, 0.0)).xyz;
+	fBitangent = normalize(cross(fNormal, fTangent));
+
+	gl_Position = projection * view * fWorldPos;
 }

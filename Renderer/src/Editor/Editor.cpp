@@ -35,12 +35,6 @@ void Editor::RenderEditor()
 
 	if (ImGui::TreeNodeEx("Lights"))
 	{
-		if (ImGui::TreeNodeEx("Directional Light"))
-		{
-			ImGui::DragFloat3("Direction", (float*)&Scene::sunLight.direction, 0.1f);
-			ImGui::ColorEdit3("Color", (float*)&Scene::sunLight.color, 0.1f);
-			ImGui::TreePop();
-		}
 		int index = 0;
 		for (PointLight& light : Scene::lights)
 		{
@@ -48,8 +42,6 @@ void Editor::RenderEditor()
 			{
 				ImGui::DragFloat3("Position", (float*)&light.position, 0.1f);
 				ImGui::ColorEdit3("Color", (float*)&light.color, 0.1f);
-				ImGui::DragFloat("Linear", (float*)&light.linear, 0.1f);
-				ImGui::DragFloat("Quadratic", (float*)&light.quadratic, 0.1f);
 				ImGui::TreePop();
 			}
 		}

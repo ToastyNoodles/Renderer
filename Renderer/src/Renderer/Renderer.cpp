@@ -74,8 +74,8 @@ void GeometryPass()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	//ColorTexture, NormalTexture, RMATexture, PositionTexture
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+	//AlbedoTexture, NormalTexture, RoughnessTexture, MetallicTexture, PositionTexture
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
 	shaders.geometry.Bind();
@@ -90,37 +90,30 @@ void LightPass()
 	glDisable(GL_BLEND);
 
 	//Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT4);
+	glDrawBuffer(GL_COLOR_ATTACHMENT5);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.colorTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.albedoTexture);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.normalTexture);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.rmaTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.roughnessTexture);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.metallicTexture);
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.depthTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
 	shaders.lighting.SetVec3("meta", Scene::camera.position);
-
-	shaders.lighting.SetVec3("light.direction", Scene::sunLight.direction);
-	shaders.lighting.SetVec3("light.color", Scene::sunLight.color);
 
 	int i = 0;
 	for (PointLight& light : Scene::lights)
 	{
 		std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
 		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
-		std::string linear = std::string("pointLights[" + std::to_string(i) + "].linear");
-		std::string quadratic = std::string("pointLights[" + std::to_string(i) + "].quadratic");
 		shaders.lighting.SetVec3(position.c_str(), light.position);
 		shaders.lighting.SetVec3(color.c_str(), light.color);
-		shaders.lighting.SetFloat(linear.c_str(), light.linear);
-		shaders.lighting.SetFloat(quadratic.c_str(), light.quadratic);
 		i++;
 	}
 
@@ -133,7 +126,7 @@ void SkyboxPass()
 	glDepthFunc(GL_LEQUAL);
 
 	//Final Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT4);
+	glDrawBuffer(GL_COLOR_ATTACHMENT5);
 
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));
