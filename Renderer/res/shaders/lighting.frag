@@ -32,14 +32,26 @@ uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
 
-float CalculateShadow(vec4 lightSpaceFrag)
+float CalculateShadow(vec4 lightSpaceFrag, vec3 fNormal, vec3 lightDir)
 {
+    float shadow = 0.0;
     vec3 projCoords = lightSpaceFrag.xyz / lightSpaceFrag.w;
+
+    if(projCoords.z > 1.0) { return 0.0; }
     projCoords = projCoords * 0.5 + 0.5;
 
-    float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
-    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    float bias = max(0.05 * (1.0 - dot(fNormal, normalize(lightDir))), 0.005);
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x)
+    {
+        for(int y = -1; y <= 1; ++y)
+        {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+        }    
+    }
+    shadow /= 9.0;
     return shadow;
 }
 
@@ -126,7 +138,7 @@ void main()
     vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
 
     vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
-    float shadow = CalculateShadow(lightSpaceFrag);
+    float shadow = CalculateShadow(lightSpaceFrag, normal, globalLight.direction);
     vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
     for(int i = 0; i < NUM_POINTLIGHT; i++) 
     {

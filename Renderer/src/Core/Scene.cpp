@@ -3,31 +3,31 @@
 
 void Scene::Init()
 {
-	globalLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+	globalLight.direction = glm::vec3(-0.7f, -0.2f, -0.4f);
 	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
 
 	PointLight& red = lights.emplace_back();
-	red.position = glm::vec3(-8.0f, 1.0f, -5.0f);
+	red.position = glm::vec3(-8.0f, 2.0f, -6.0f);
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	PointLight& green = lights.emplace_back();
-	green.position = glm::vec3(0.0f, 1.0f, -5.0f);
+	green.position = glm::vec3(0.0f, 2.0f, -6.0f);
 	green.color = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	PointLight& blue = lights.emplace_back();
-	blue.position = glm::vec3(8.0f, 1.0f, -5.0f);
+	blue.position = glm::vec3(8.0f, 2.0f, -6.0f);
 	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	PointLight& yellow = lights.emplace_back();
-	yellow.position = glm::vec3(-8.0f, 1.0f, 5.0f);
+	yellow.position = glm::vec3(-8.0f, 2.0f, 6.0f);
 	yellow.color = glm::vec3(1.0f, 1.0f, 0.0f);
 
 	PointLight& cyan = lights.emplace_back();
-	cyan.position = glm::vec3(0.0f, 1.0f, 5.0f);
+	cyan.position = glm::vec3(0.0f, 2.0f, 6.0f);
 	cyan.color = glm::vec3(0.0f, 1.0f, 1.0f);
 
 	PointLight& magenta = lights.emplace_back();
-	magenta.position = glm::vec3(8.0f, 1.0f, 5.0f);
+	magenta.position = glm::vec3(8.0f, 2.0f, 6.0f);
 	magenta.color = glm::vec3(1.0f, 0.0f, 1.0f);
 
 	for (int x = -4; x < 5; x++)
