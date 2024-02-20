@@ -14,6 +14,6 @@ public:
 	uint32_t depthTexture;
 private:
 	uint32_t id = 0;
-	int width = 1024, height = 1024;
+	int width = 2048, height = 2048;
 	glm::mat4 lightSpaceMatrix = glm::mat4(1.0f);
 };

@@ -127,7 +127,7 @@ void main()
 
     vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
     float shadow = CalculateShadow(lightSpaceFrag);
-    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * shadow;
+    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
     for(int i = 0; i < NUM_POINTLIGHT; i++) 
     {
         lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
