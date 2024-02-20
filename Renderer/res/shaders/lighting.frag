@@ -1,14 +1,6 @@
 #version 420 core
 layout (location = 0) out vec4 lightTextureOut;
 
-layout (binding = 0) uniform sampler2D albedoTexture;
-layout (binding = 1) uniform sampler2D normalTexture;
-layout (binding = 2) uniform sampler2D roughnessTexture;
-layout (binding = 3) uniform sampler2D metallicTexture;
-layout (binding = 4) uniform sampler2D positionTexture;
-
-in vec2 f_uv;
-
 struct GlobalLight
 {
 	vec3 direction;
@@ -23,16 +15,32 @@ struct PointLight
     float radius;
 };
 
+layout (binding = 0) uniform sampler2D albedoTexture;
+layout (binding = 1) uniform sampler2D normalTexture;
+layout (binding = 2) uniform sampler2D roughnessTexture;
+layout (binding = 3) uniform sampler2D metallicTexture;
+layout (binding = 4) uniform sampler2D positionTexture;
+layout (binding = 5) uniform sampler2D shadowMap;
+
+in vec2 fTexCoord;
+
 #define NUM_POINTLIGHT 16
 uniform PointLight pointLights[NUM_POINTLIGHT];
 uniform GlobalLight globalLight;
+uniform mat4 lightSpaceMatrix;
 uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float CalculateShadow(vec4 lightSpaceFrag)
 {
-    return 0.0;
+    vec3 projCoords = lightSpaceFrag.xyz / lightSpaceFrag.w;
+    projCoords = projCoords * 0.5 + 0.5;
+
+    float closestDepth = texture(shadowMap, projCoords.xy).r;
+    float currentDepth = projCoords.z;
+    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    return shadow;
 }
 
 float D_GGX(float NoH, float roughness) {
@@ -111,13 +119,15 @@ vec3 CalculateGlobalLight(GlobalLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 
 
 void main()
 {	
-    vec3 albedo = pow(vec3(texture(albedoTexture, f_uv)), vec3(2.2));
-    vec3 normal = normalize(vec3(texture(normalTexture, f_uv)));
-    float roughness = vec3(texture(roughnessTexture, f_uv)).r;
-    float metallic = vec3(texture(metallicTexture, f_uv)).r;
-    vec3 fragpos = vec3(texture(positionTexture, f_uv));
+    vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
+    vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
+    float roughness = vec3(texture(roughnessTexture, fTexCoord)).r;
+    float metallic = vec3(texture(metallicTexture, fTexCoord)).r;
+    vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
 
-    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
+    vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
+    float shadow = CalculateShadow(lightSpaceFrag);
+    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * shadow;
     for(int i = 0; i < NUM_POINTLIGHT; i++) 
     {
         lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);

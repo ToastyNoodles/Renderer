@@ -1,5 +1,6 @@
 #include "ShadowMap.h"
 #include "../Core/GL.h"
+#include "../Core/Scene.h"
 
 void ShadowMap::Init()
 {
@@ -28,6 +29,9 @@ void ShadowMap::Init()
 void ShadowMap::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 50.0f);
+	glm::mat4 lightView = glm::lookAt(-Scene::globalLight.direction * 20.0f, Scene::globalLight.direction, glm::vec3(0.0f, 1.0f, 0.0f));
+	lightSpaceMatrix = lightProjection * lightView;
 }
 
 void ShadowMap::Unbind()

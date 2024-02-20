@@ -82,11 +82,8 @@ void RenderShadowMap()
 	shadowMap.Clear();
 	shadowMap.Bind();
 
-	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 50.0f);
-	glm::mat4 lightView = glm::lookAt(-Scene::globalLight.direction * 20.0f, Scene::globalLight.direction, glm::vec3(0.0f, 1.0f, 0.0f));
-
 	shaders.shadows.Bind();
-	shaders.shadows.SetMat4("lightSpaceMatrix", lightProjection * lightView);
+	shaders.shadows.SetMat4("lightSpaceMatrix", shadowMap.GetLightSpaceMatrix());
 	Scene::DrawScene(shaders.shadows);
 	shadowMap.Unbind();
 }
@@ -126,9 +123,12 @@ void LightPass()
 	glBindTexture(GL_TEXTURE_2D, gbuffer.metallicTexture);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, shadowMap.depthTexture);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
+	shaders.lighting.SetMat4("lightSpaceMatrix", shadowMap.GetLightSpaceMatrix());
 
 	shaders.lighting.SetVec3("globalLight.direction", Scene::globalLight.direction);
 	shaders.lighting.SetVec3("globalLight.color", Scene::globalLight.color);
