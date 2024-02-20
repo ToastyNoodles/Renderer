@@ -62,6 +62,11 @@ void Editor::RenderEditor()
 
 	if (showLightsWindow)
 	{
+		ImGui::Begin("Global Light");
+		ImGui::DragFloat3("Position", (float*)&Scene::globalLight.direction, 0.1f);
+		ImGui::ColorEdit3("Color", (float*)&Scene::globalLight.color, 0.1f); 
+		ImGui::End();
+
 		ImGui::Begin("Lights");
 		int index = 0;
 		for (PointLight& light : Scene::lights)

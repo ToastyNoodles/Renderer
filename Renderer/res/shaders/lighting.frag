@@ -9,6 +9,12 @@ layout (binding = 4) uniform sampler2D positionTexture;
 
 in vec2 f_uv;
 
+struct GlobalLight
+{
+	vec3 direction;
+	vec3 color;
+};
+
 struct PointLight
 {
 	vec3 position;
@@ -17,8 +23,9 @@ struct PointLight
     float radius;
 };
 
-#define NUM_POINTLIGHT 6
+#define NUM_POINTLIGHT 16
 uniform PointLight pointLights[NUM_POINTLIGHT];
+uniform GlobalLight globalLight;
 uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
@@ -75,7 +82,7 @@ vec3 MicrofacetBRDF(vec3 lightDir, vec3 viewDir, vec3 fNormal, vec3 fAlbedo, flo
   return result;
 }
 
-vec3 CalculateDirectLight(PointLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 fNormal, float fRoughness, float fMetallic)
+vec3 CalculatePointLight(PointLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 fNormal, float fRoughness, float fMetallic)
 {
 	vec3 viewDir = normalize(viewPos - fWorldPos);
     vec3 lightDir = normalize(light.position - fWorldPos);
@@ -89,6 +96,14 @@ vec3 CalculateDirectLight(PointLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 f
     return brdf * irradiance * clamp(light.color, 0, 1);
 }
 
+vec3 CalculateGlobalLight(GlobalLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 fNormal, float fRoughness, float fMetallic)
+{
+    vec3 viewDir = normalize(viewPos - fWorldPos);
+	vec3 lightDir = normalize(-light.direction);
+    vec3 brdf = MicrofacetBRDF(lightDir, viewDir, fNormal, fAlbedo, fMetallic, fRoughness);
+    return brdf * light.color;
+}
+
 void main()
 {	
     vec3 albedo = pow(vec3(texture(albedoTexture, f_uv)), vec3(2.2));
@@ -97,13 +112,13 @@ void main()
     float metallic = vec3(texture(metallicTexture, f_uv)).r;
     vec3 fragpos = vec3(texture(positionTexture, f_uv));
 
-    vec3 lighting = vec3(0.0);
+    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
     for(int i = 0; i < NUM_POINTLIGHT; i++) 
     {
-        lighting += CalculateDirectLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
+        lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
     }   
     
-    vec3 ambient = vec3(0.1) * albedo;
+    vec3 ambient = albedo * vec3(0.1);
     vec3 color = ambient + lighting;
 
     color = color / (color + vec3(1.0));

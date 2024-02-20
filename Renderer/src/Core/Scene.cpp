@@ -3,6 +3,9 @@
 
 void Scene::Init()
 {
+	globalLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
+
 	PointLight& red = lights.emplace_back();
 	red.position = glm::vec3(-8.0f, 1.0f, -5.0f);
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);

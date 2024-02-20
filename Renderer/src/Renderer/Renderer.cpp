@@ -105,7 +105,9 @@ void LightPass()
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
-	shaders.lighting.SetVec3("meta", Scene::camera.position);
+
+	shaders.lighting.SetVec3("globalLight.direction", Scene::globalLight.direction);
+	shaders.lighting.SetVec3("globalLight.color", Scene::globalLight.color);
 
 	int i = 0;
 	for (PointLight& light : Scene::lights)
@@ -129,7 +131,7 @@ void SkyboxPass()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
-	//Final Light Texture
+	//Light Texture
 	glDrawBuffer(GL_COLOR_ATTACHMENT5);
 
 	shaders.skybox.Bind();
