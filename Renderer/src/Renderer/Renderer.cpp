@@ -6,20 +6,24 @@
 #include "Shader.h"
 #include "Skybox.h"
 #include "GBuffer.h"
+#include "ShadowMap.h"
 
 struct Shaders
 {
 	Shader color;
+	Shader shadows;
+	Shader geometry;
 	Shader lighting;
 	Shader skybox;
-	Shader screen;
-	Shader geometry;
 	Shader depth;
+	Shader screen;
 } shaders;
 
 GBuffer gbuffer;
+ShadowMap shadowMap;
 Skybox sky;
 
+void RenderShadowMap();
 void GeometryPass();
 void LightPass();
 void SkyboxPass();
@@ -28,12 +32,15 @@ void DrawFullscreenQuad();
 void Renderer::Init()
 {
 	shaders.color.Load("res/shaders/color.vert", "res/shaders/color.frag");
+	shaders.shadows.Load("res/shaders/shadowmap.vert", "res/shaders/shadowmap.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	shaders.lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
+	shaders.depth.Load("res/shaders/screen.vert", "res/shaders/depth.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
+	shadowMap.Init();
 
 	std::vector<std::string> skyboxTextureFilepaths
 	{
@@ -57,6 +64,7 @@ void Renderer::RenderFrame()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	RenderShadowMap();
 	GeometryPass();
 	LightPass();
 	SkyboxPass();
@@ -68,12 +76,28 @@ void Renderer::RenderFrame()
 	DrawFullscreenQuad();
 }
 
+void RenderShadowMap()
+{
+	glEnable(GL_DEPTH_TEST);
+	shadowMap.Clear();
+	shadowMap.Bind();
+
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 50.0f);
+	glm::mat4 lightView = glm::lookAt(-Scene::globalLight.direction * 20.0f, Scene::globalLight.direction, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	shaders.shadows.Bind();
+	shaders.shadows.SetMat4("lightSpaceMatrix", lightProjection * lightView);
+	Scene::DrawScene(shaders.shadows);
+	shadowMap.Unbind();
+}
+
 void GeometryPass()
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
+	gbuffer.Bind();
 	//AlbedoTexture, NormalTexture, RoughnessTexture, MetallicTexture, PositionTexture
 	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);

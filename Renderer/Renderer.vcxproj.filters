@@ -63,6 +63,9 @@
     <ClCompile Include="src\Renderer\GBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\ShadowMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1244,6 +1247,9 @@
     <ClInclude Include="src\Renderer\GBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\ShadowMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vendor\assimp\include\assimp\color4.inl">
@@ -1696,6 +1702,9 @@
     <None Include="res\models\cube.fbx" />
     <None Include="res\models\plane.fbx" />
     <None Include="res\models\sphere.fbx" />
+    <None Include="res\shaders\shadowmap.frag" />
+    <None Include="res\shaders\shadowmap.vert" />
+    <None Include="res\shaders\depth.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">

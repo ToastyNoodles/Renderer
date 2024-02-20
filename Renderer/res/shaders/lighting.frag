@@ -30,6 +30,11 @@ uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
 
+float ShadowCalculation(vec4 fragPosLightSpace)
+{
+    return 0.0;
+}
+
 float D_GGX(float NoH, float roughness) {
   float alpha = roughness * roughness;
   float alpha2 = alpha * alpha;
