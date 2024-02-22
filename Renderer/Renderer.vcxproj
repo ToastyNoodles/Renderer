@@ -152,6 +152,7 @@
     <ClCompile Include="src\Core\Camera.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
+    <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Editor\Editor.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\Core\Camera.h" />
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\GL.h" />
+    <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Editor\Editor.h" />
     <ClInclude Include="src\Renderer\GBuffer.h" />

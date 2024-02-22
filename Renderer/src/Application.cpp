@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Core/GL.h"
 #include "Core/Scene.h"
+#include "Core/Input.h"
 #include "Core/AssetManager.h"
 #include "Renderer/Renderer.h"
 #include "Editor/Editor.h"
@@ -18,6 +19,8 @@ void Application::Run()
 
 		GL::ProcessWindowInput();
 
+		std::cout << Input::IsKeyPressed(GLFW_KEY_A) << "\n";
+
 		Scene::Update((float)deltaTime);
 		Renderer::RenderFrame();
 		Editor::RenderEditor();
@@ -33,6 +36,7 @@ void Application::Init()
 	GL::Init(1280, 720, "Renderer");
 	Editor::Init(GL::GetWindowPtr());
 	AssetManager::LoadAssets();
+	Input::Init();
 	Scene::Init();
 
 	Renderer::Init();

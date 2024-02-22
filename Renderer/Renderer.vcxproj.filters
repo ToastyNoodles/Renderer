@@ -66,6 +66,9 @@
     <ClCompile Include="src\Renderer\ShadowMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1248,6 +1251,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\ShadowMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
