@@ -31,7 +31,7 @@ void ShadowMap::Init()
 void ShadowMap::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
-	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 8.0f);
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.01f, 20.0f);
 	glm::mat4 lightView = glm::lookAt(-Scene::globalLight.direction * 4.0f, Scene::globalLight.direction, glm::vec3(0.0f, 1.0f, 0.0f));
 	lightSpaceMatrix = lightProjection * lightView;
 }

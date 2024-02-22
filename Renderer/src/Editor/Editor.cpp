@@ -47,6 +47,7 @@ void Editor::RenderEditor()
 		{
 			if (ImGui::TreeNodeEx(std::string("Object " + std::to_string(index++) + " | " + gameObject.model->info.name).c_str()))
 			{
+				ImGui::Checkbox("Active", &gameObject.active);
 				ImGui::DragFloat3("Position", (float*)&gameObject.transform.position, 0.1f);
 				ImGui::DragFloat3("Rotation", (float*)&gameObject.transform.rotation, 0.1f);
 				ImGui::DragFloat3("Scale", (float*)&gameObject.transform.scale, 0.1f);

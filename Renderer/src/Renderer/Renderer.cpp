@@ -28,7 +28,6 @@ void GeometryPass();
 void LightPass();
 void SkyboxPass();
 void DrawFullscreenQuad();
-void DrawSmallQuad();
 
 void Renderer::Init()
 {
@@ -83,8 +82,7 @@ void Renderer::RenderFrame()
 void RenderShadowMap()
 {
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	glDisable(GL_CULL_FACE);
 
 	shadowMap.Clear();
 	shadowMap.Bind();
@@ -189,42 +187,6 @@ void DrawFullscreenQuad()
 			 1.0f,  1.0f, 1.0f, 1.0f,
 			-1.0f,  1.0f, 0.0f, 1.0f,
 			-1.0f, -1.0f, 0.0f, 0.0f
-		};
-
-		uint32_t vbo;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
-}
-
-void DrawSmallQuad()
-{
-	static uint32_t vao;
-	if (vao == 0)
-	{
-		float quadVertices[] =
-		{
-			 0.5f,  0.5f, 0.0f, 0.0f,
-			 1.0f,  0.5f, 1.0f, 0.0f,
-			 1.0f,  1.0f, 1.0f, 1.0f,
-			 1.0f,  1.0f, 1.0f, 1.0f,
-			 0.5f,  1.0f, 0.0f, 1.0f,
-			 0.5f,  0.5f, 0.0f, 0.0f
 		};
 
 		uint32_t vbo;
