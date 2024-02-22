@@ -3,9 +3,10 @@
 
 void Scene::Init()
 {
-	globalLight.direction = glm::vec3(-0.7f, -0.2f, -0.4f);
+	globalLight.direction = glm::vec3(-0.73f, -0.53f, -0.42f);
 	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
 
+	/*
 	PointLight& red = lights.emplace_back();
 	red.position = glm::vec3(-8.0f, 2.0f, -6.0f);
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -29,10 +30,28 @@ void Scene::Init()
 	PointLight& magenta = lights.emplace_back();
 	magenta.position = glm::vec3(8.0f, 2.0f, 6.0f);
 	magenta.color = glm::vec3(1.0f, 0.0f, 1.0f);
+	*/
 
-	for (int x = -4; x < 5; x++)
+	GameObject& cube = gameObjects.emplace_back();
+	cube.SetModel("cube");
+	cube.transform.scale = glm::vec3(1.0f, 0.5f, 1.0f);
+	cube.transform.position = glm::vec3(0.0f, 0.5f, 0.0f);
+	cube.material.albedo = *AssetManager::GetTexture("default_albedo");
+	cube.material.normal = *AssetManager::GetTexture("default_normal");
+	cube.material.roughness = *AssetManager::GetTexture("default_roughness");
+	cube.material.metallic = *AssetManager::GetTexture("default_metallic");
+
+	GameObject& sphere = gameObjects.emplace_back();
+	sphere.SetModel("sphere");
+	sphere.transform.position = glm::vec3(0.0f, 2.0f, 0.0f);
+	sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
+	sphere.material.normal = *AssetManager::GetTexture("foil_normal");
+	sphere.material.roughness = *AssetManager::GetTexture("foil_roughness");
+	sphere.material.metallic = *AssetManager::GetTexture("foil_metallic");
+
+	for (int x = -1; x < 2; x++)
 	{
-		for (int z = -4; z < 5; z++)
+		for (int z = -1; z < 2; z++)
 		{
 			GameObject& plane = gameObjects.emplace_back();
 			plane.SetModel("plane");
@@ -43,25 +62,14 @@ void Scene::Init()
 			plane.material.metallic = *AssetManager::GetTexture("planks_metallic");
 		}
 	}
-
-	for (int x = -2; x < 3; x++)
-	{
-		for (int y = 1; y < 3; y++)
-		{
-			GameObject& sphere = gameObjects.emplace_back();
-			sphere.SetModel("sphere");
-			sphere.transform.position = glm::vec3(x * 4, y * 3, 0.0f);
-			sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
-			sphere.material.normal = *AssetManager::GetTexture("foil_normal");
-			sphere.material.roughness = *AssetManager::GetTexture("foil_roughness");
-			sphere.material.metallic = *AssetManager::GetTexture("foil_metallic");
-		}
-	}
 }
 
 void Scene::Update(float deltaTime)
 {
 	camera.Input(GL::GetWindowPtr());
+	globalLight.direction = glm::normalize(globalLight.direction);
+
+	gameObjects[1].transform.position.y = sin(glfwGetTime()) + 4 - 1;
 }
 
 void Scene::DrawScene(Shader& shader)

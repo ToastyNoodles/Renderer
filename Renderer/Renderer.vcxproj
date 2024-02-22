@@ -740,6 +740,10 @@
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
+    <Image Include="res\textures\default_albedo.png" />
+    <Image Include="res\textures\default_metallic.png" />
+    <Image Include="res\textures\default_normal.png" />
+    <Image Include="res\textures\default_roughness.png" />
     <Image Include="res\textures\foil_albedo.png" />
     <Image Include="res\textures\foil_ao.png" />
     <Image Include="res\textures\foil_displacement.png" />

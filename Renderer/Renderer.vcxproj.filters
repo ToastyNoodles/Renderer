@@ -1840,6 +1840,18 @@
     <Image Include="res\textures\foil_ao.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\default_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\default_metallic.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\default_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\default_roughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\imgui\lib\imgui.lib" />

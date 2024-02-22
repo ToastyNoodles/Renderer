@@ -28,21 +28,30 @@ in vec2 fTexCoord;
 uniform PointLight pointLights[NUM_POINTLIGHT];
 uniform GlobalLight globalLight;
 uniform mat4 lightSpaceMatrix;
+uniform bool toggleShadows;
 uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
 
+float random(vec2 st)
+{
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
 float CalculateShadow(vec4 lightSpaceFrag, vec3 fNormal, vec3 lightDir)
 {
     float shadow = 0.0;
+    // perform perspective divide
     vec3 projCoords = lightSpaceFrag.xyz / lightSpaceFrag.w;
-
-    if(projCoords.z > 1.0) { return 0.0; }
+    // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
-
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
-    float bias = max(0.05 * (1.0 - dot(fNormal, normalize(lightDir))), 0.005);
+    // check whether current frag pos is in shadow
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    float bias = max(0.02 * (1.0 - dot(fNormal, lightDir)), 0.01);
     for(int x = -1; x <= 1; ++x)
     {
         for(int y = -1; y <= 1; ++y)
@@ -51,8 +60,11 @@ float CalculateShadow(vec4 lightSpaceFrag, vec3 fNormal, vec3 lightDir)
             shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
-    shadow /= 9.0;
-    return shadow;
+
+    if(projCoords.z > 1.0)
+        shadow = 0.0;
+
+    return shadow /= 9.0;
 }
 
 float D_GGX(float NoH, float roughness) {
@@ -136,16 +148,25 @@ void main()
     float roughness = vec3(texture(roughnessTexture, fTexCoord)).r;
     float metallic = vec3(texture(metallicTexture, fTexCoord)).r;
     vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
-
-    vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
-    float shadow = CalculateShadow(lightSpaceFrag, normal, globalLight.direction);
-    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
+    
+    vec3 lighting;
+    if (toggleShadows)
+    {
+        vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
+        float shadow = CalculateShadow(lightSpaceFrag, normal, globalLight.direction);
+        lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
+    }
+    else
+    {
+        lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
+    }
+    
     for(int i = 0; i < NUM_POINTLIGHT; i++) 
     {
         lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
     }   
     
-    vec3 ambient = albedo * vec3(0.1);
+    vec3 ambient = albedo * globalLight.color * vec3(0.1);
     vec3 color = ambient + lighting;
 
     color = color / (color + vec3(1.0));

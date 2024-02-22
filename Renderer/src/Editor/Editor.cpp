@@ -36,6 +36,7 @@ void Editor::RenderEditor()
 	ImGui::BeginMainMenuBar();
 	if (ImGui::MenuItem("Objects")) { showObjectsWindow = !showObjectsWindow; }
 	if (ImGui::MenuItem("Lights")) { showLightsWindow = !showLightsWindow; }
+	if (ImGui::MenuItem("Shadows")) { Renderer::RenderShadows = !Renderer::RenderShadows; }
 	ImGui::EndMainMenuBar();
 
 	if (showObjectsWindow)
@@ -64,7 +65,7 @@ void Editor::RenderEditor()
 	{
 		ImGui::Begin("Global Light");
 		ImGui::DragFloat3("Position", (float*)&Scene::globalLight.direction, 0.01f);
-		ImGui::ColorEdit3("Color", (float*)&Scene::globalLight.color, 0.1f); 
+		ImGui::ColorEdit3("Color", (float*)&Scene::globalLight.color, 0.1f);
 		ImGui::End();
 
 		ImGui::Begin("Lights");
