@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Input.h"
 
 Camera::Camera(glm::vec3 position)
 {
@@ -24,16 +25,16 @@ glm::mat4 Camera::GetProjection()
 
 void Camera::Input(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	if (Input::IsKeyPressed(GLFW_KEY_W))
 		position += speed * orientation;
 
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	if (Input::IsKeyPressed(GLFW_KEY_S))
 		position += speed * -orientation;
 
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	if (Input::IsKeyPressed(GLFW_KEY_A))
 		position += speed * -glm::normalize(glm::cross(orientation, up));
 
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (Input::IsKeyPressed(GLFW_KEY_D))
 		position += speed * glm::normalize(glm::cross(orientation, up));
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS )

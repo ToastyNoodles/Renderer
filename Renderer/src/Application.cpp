@@ -19,8 +19,6 @@ void Application::Run()
 
 		GL::ProcessWindowInput();
 
-		std::cout << Input::IsKeyPressed(GLFW_KEY_A) << "\n";
-
 		Scene::Update((float)deltaTime);
 		Renderer::RenderFrame();
 		Editor::RenderEditor();
