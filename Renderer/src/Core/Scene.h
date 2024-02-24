@@ -9,7 +9,6 @@ namespace Scene
 	inline std::vector<GameObject> gameObjects;
 	inline std::vector<PointLight> lights;
 	inline GlobalLight globalLight;
-	inline float biasMax = 0.020f, biasMin = 0.010f;
 
 	void Init();
 	void Update(float deltaTime);

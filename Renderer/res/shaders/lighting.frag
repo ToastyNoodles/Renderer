@@ -51,7 +51,7 @@ float CalculateShadow(vec4 lightSpaceFrag, vec3 fNormal, vec3 lightDir)
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    float bias = max(0.004 * (1.0 - dot(fNormal, lightDir)), 0.001);
+    float bias = max(0.01 * (1.0 - dot(fNormal, lightDir)), 0.0015);
     for(int x = -1; x <= 1; ++x)
     {
         for(int y = -1; y <= 1; ++y)

@@ -31,7 +31,6 @@ void DrawFullscreenQuad();
 
 void Renderer::Init()
 {
-
 	shaders.color.Load("res/shaders/color.vert", "res/shaders/color.frag");
 	shaders.shadows.Load("res/shaders/shadowmap.vert", "res/shaders/shadowmap.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
