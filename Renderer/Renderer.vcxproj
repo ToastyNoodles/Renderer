@@ -597,6 +597,14 @@
     <None Include="res\shaders\skybox.vert" />
     <None Include="res\shaders\screen.frag" />
     <None Include="res\shaders\screen.vert" />
+    <None Include="res\shaders\transparency.frag">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="res\shaders\transparency.vert">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="vendor\assimp\include\assimp\color4.inl" />
     <None Include="vendor\assimp\include\assimp\material.inl" />
     <None Include="vendor\assimp\include\assimp\matrix3x3.inl" />

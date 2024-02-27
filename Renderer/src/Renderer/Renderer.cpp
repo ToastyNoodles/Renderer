@@ -14,6 +14,7 @@ struct Shaders
 	Shader shadows;
 	Shader geometry;
 	Shader lighting;
+	Shader transparency;
 	Shader skybox;
 	Shader depth;
 	Shader screen;
@@ -26,6 +27,7 @@ Skybox sky;
 void RenderShadowMap();
 void GeometryPass();
 void LightPass();
+void TransparencyPass();
 void SkyboxPass();
 void DrawFullscreenQuad();
 
@@ -35,6 +37,7 @@ void Renderer::Init()
 	shaders.shadows.Load("res/shaders/shadowmap.vert", "res/shaders/shadowmap.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	shaders.lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
+	shaders.transparency.Load("res/shaders/transparency.vert", "res/shaders/transparency.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.depth.Load("res/shaders/screen.vert", "res/shaders/depth.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
@@ -69,6 +72,7 @@ void Renderer::RenderFrame()
 
 	GeometryPass();
 	LightPass();
+	TransparencyPass();
 	SkyboxPass();
 
 	glDisable(GL_DEPTH_TEST);
@@ -154,6 +158,32 @@ void LightPass()
 	}
 
 	DrawFullscreenQuad();
+}
+
+void TransparencyPass()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+
+	glDrawBuffer(GL_COLOR_ATTACHMENT6);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
+
+	shaders.transparency.Bind();
+	shaders.transparency.SetMat4("projection", Scene::camera.GetProjection());
+	shaders.transparency.SetMat4("view", Scene::camera.GetView());
+
+	for (GameObject object : Scene::transparentObjects)
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, object.material.albedo.id);
+
+		shaders.transparency.SetMat4("model", object.transform.GetModelMatrix());
+		object.model->Draw();
+	}
 }
 
 void SkyboxPass()

@@ -10,8 +10,10 @@ void GBuffer::Init(int width, int height)
 		glGenTextures(1, &roughnessTexture);
 		glGenTextures(1, &metallicTexture);
 		glGenTextures(1, &positionTexture);
-		glGenTextures(1, &depthTexture);
 		glGenTextures(1, &lightTexture);
+		glGenTextures(1, &transparencyTexture);
+		glGenTextures(1, &transparencyCompositeTexture);
+		glGenTextures(1, &depthTexture);
 		this->width = width;
 		this->height = height;
 	}
@@ -65,6 +67,22 @@ void GBuffer::Init(int width, int height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT5, GL_TEXTURE_2D, lightTexture, 0);
 
+	glBindTexture(GL_TEXTURE_2D, transparencyTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT6, GL_TEXTURE_2D, transparencyTexture, 0);
+
+	glBindTexture(GL_TEXTURE_2D, transparencyCompositeTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT7, GL_TEXTURE_2D, transparencyCompositeTexture, 0);
+
 	glBindTexture(GL_TEXTURE_2D, depthTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH32F_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_FLOAT_32_UNSIGNED_INT_24_8_REV, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -94,7 +112,9 @@ void GBuffer::Destory()
 	glDeleteTextures(1, &roughnessTexture);
 	glDeleteTextures(1, &metallicTexture);
 	glDeleteTextures(1, &positionTexture);
-	glDeleteTextures(1, &depthTexture);
 	glDeleteTextures(1, &lightTexture);
+	glDeleteTextures(1, &transparencyTexture);
+	glDeleteTextures(1, &transparencyCompositeTexture);
+	glDeleteTextures(1, &depthTexture);
 	glDeleteFramebuffers(1, &id);
 }

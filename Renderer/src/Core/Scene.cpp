@@ -6,31 +6,21 @@ void Scene::Init()
 	globalLight.direction = glm::vec3(-0.73f, -0.53f, -0.42f);
 	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
 
-	/*
-	PointLight& red = lights.emplace_back();
-	red.position = glm::vec3(-8.0f, 2.0f, -6.0f);
-	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
+	GameObject& window = gameObjects.emplace_back();
+	window.SetModel("window");
+	window.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
+	window.material.albedo = *AssetManager::GetTexture("window_albedo");
+	window.material.normal = *AssetManager::GetTexture("window_normal");
+	window.material.roughness = *AssetManager::GetTexture("default_roughness");
+	window.material.metallic = *AssetManager::GetTexture("default_metallic");
 
-	PointLight& green = lights.emplace_back();
-	green.position = glm::vec3(0.0f, 2.0f, -6.0f);
-	green.color = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	PointLight& blue = lights.emplace_back();
-	blue.position = glm::vec3(8.0f, 2.0f, -6.0f);
-	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
-
-	PointLight& yellow = lights.emplace_back();
-	yellow.position = glm::vec3(-8.0f, 2.0f, 6.0f);
-	yellow.color = glm::vec3(1.0f, 1.0f, 0.0f);
-
-	PointLight& cyan = lights.emplace_back();
-	cyan.position = glm::vec3(0.0f, 2.0f, 6.0f);
-	cyan.color = glm::vec3(0.0f, 1.0f, 1.0f);
-
-	PointLight& magenta = lights.emplace_back();
-	magenta.position = glm::vec3(8.0f, 2.0f, 6.0f);
-	magenta.color = glm::vec3(1.0f, 0.0f, 1.0f);
-	*/
+	GameObject& glass = gameObjects.emplace_back();
+	glass.SetModel("window_glass");
+	glass.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
+	glass.material.albedo = *AssetManager::GetTexture("default_albedo");
+	glass.material.normal = *AssetManager::GetTexture("default_normal");
+	glass.material.roughness = *AssetManager::GetTexture("default_roughness");
+	glass.material.metallic = *AssetManager::GetTexture("default_metallic");
 
 	GameObject& cube = gameObjects.emplace_back();
 	cube.SetModel("cube");
@@ -68,8 +58,6 @@ void Scene::Update(float deltaTime)
 {
 	camera.Input(GL::GetWindowPtr());
 	globalLight.direction = glm::normalize(globalLight.direction);
-
-	gameObjects[1].transform.position.y = sin(glfwGetTime()) + 4 - 1;
 }
 
 void Scene::DrawScene(Shader& shader)
