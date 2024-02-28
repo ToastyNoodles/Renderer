@@ -12,8 +12,8 @@ public:
 	void Load(const char* filepath);
 	void Draw();
 	FileInfo info;
+	std::vector<Mesh> meshes;
 private:
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<Mesh> meshes;
 };

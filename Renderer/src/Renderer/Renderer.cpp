@@ -14,7 +14,8 @@ struct Shaders
 	Shader shadows;
 	Shader geometry;
 	Shader lighting;
-	Shader transparency;
+	Shader glass;
+	Shader glassComposite;
 	Shader skybox;
 	Shader depth;
 	Shader screen;
@@ -37,7 +38,8 @@ void Renderer::Init()
 	shaders.shadows.Load("res/shaders/shadowmap.vert", "res/shaders/shadowmap.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	shaders.lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
-	shaders.transparency.Load("res/shaders/transparency.vert", "res/shaders/transparency.frag");
+	shaders.glass.Load("res/shaders/glass.vert", "res/shaders/glass.frag");
+	shaders.glass.Load("res/shaders/glassComposite.vert", "res/shaders/glassComposite.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.depth.Load("res/shaders/screen.vert", "res/shaders/depth.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
@@ -61,7 +63,7 @@ void Renderer::Init()
 void Renderer::RenderFrame()
 {
 	gbuffer.Bind();
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -165,25 +167,49 @@ void TransparencyPass()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
 
 	glDrawBuffer(GL_COLOR_ATTACHMENT6);
 
 	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.albedoTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.normalTexture);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.roughnessTexture);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.metallicTexture);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
+	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
 
-	shaders.transparency.Bind();
-	shaders.transparency.SetMat4("projection", Scene::camera.GetProjection());
-	shaders.transparency.SetMat4("view", Scene::camera.GetView());
+	shaders.glass.Bind();
+	shaders.glass.SetMat4("projection", Scene::camera.GetProjection());
+	shaders.glass.SetMat4("view", Scene::camera.GetView());
 
-	for (GameObject object : Scene::transparentObjects)
+	shaders.glass.SetVec3("viewPos", Scene::camera.position);
+	shaders.glass.SetMat4("lightSpaceMatrix", shadowMap.GetLightSpaceMatrix());
+	shaders.glass.SetVec3("globalLight.direction", Scene::globalLight.direction);
+	shaders.glass.SetVec3("globalLight.color", Scene::globalLight.color);
+
+	for (GameObject& transparentObject : Scene::transparent)
 	{
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, object.material.albedo.id);
-
-		shaders.transparency.SetMat4("model", object.transform.GetModelMatrix());
-		object.model->Draw();
+		shaders.glass.SetMat4("model", transparentObject.transform.GetModelMatrix());
+		transparentObject.model->Draw();
 	}
+
+	//Composite transparency
+	glDisable(GL_DEPTH_TEST);
+
+	glDrawBuffer(GL_COLOR_ATTACHMENT7);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.glassTexture);
+
+	shaders.glassComposite.Bind();
+	DrawFullscreenQuad();
 }
 
 void SkyboxPass()

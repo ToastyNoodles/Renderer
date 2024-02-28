@@ -6,16 +6,9 @@ void Scene::Init()
 	globalLight.direction = glm::vec3(-0.73f, -0.53f, -0.42f);
 	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
 
-	GameObject& window = gameObjects.emplace_back();
-	window.SetModel("window");
-	window.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
-	window.material.albedo = *AssetManager::GetTexture("window_albedo");
-	window.material.normal = *AssetManager::GetTexture("window_normal");
-	window.material.roughness = *AssetManager::GetTexture("default_roughness");
-	window.material.metallic = *AssetManager::GetTexture("default_metallic");
-
-	GameObject& glass = gameObjects.emplace_back();
-	glass.SetModel("window_glass");
+	GameObject& glass = transparent.emplace_back();
+	glass.SetModel("cube");
+	glass.transform.scale = glm::vec3(3.0f, 0.1f, 3.0f);
 	glass.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
 	glass.material.albedo = *AssetManager::GetTexture("default_albedo");
 	glass.material.normal = *AssetManager::GetTexture("default_normal");
