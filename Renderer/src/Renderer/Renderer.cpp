@@ -49,12 +49,12 @@ void Renderer::Init()
 
 	std::vector<std::string> skyboxTextureFilepaths
 	{
-		"res/textures/space/right.png",
-		"res/textures/space/left.png",
-		"res/textures/space/top.png",
-		"res/textures/space/bottom.png",
-		"res/textures/space/front.png",
-		"res/textures/space/back.png"
+		"res/textures/skybox/right.png",
+		"res/textures/skybox/left.png",
+		"res/textures/skybox/top.png",
+		"res/textures/skybox/bottom.png",
+		"res/textures/skybox/front.png",
+		"res/textures/skybox/back.png"
 	};
 
 	sky.Load(skyboxTextureFilepaths);
