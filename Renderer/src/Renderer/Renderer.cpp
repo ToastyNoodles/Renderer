@@ -29,6 +29,7 @@ void RenderShadowMap();
 void GeometryPass();
 void LightPass();
 void TransparencyPass();
+void CompositeTransparency();
 void SkyboxPass();
 void DrawFullscreenQuad();
 
@@ -39,7 +40,7 @@ void Renderer::Init()
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	shaders.lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
 	shaders.glass.Load("res/shaders/glass.vert", "res/shaders/glass.frag");
-	shaders.glass.Load("res/shaders/glassComposite.vert", "res/shaders/glassComposite.frag");
+	shaders.glassComposite.Load("res/shaders/glassComposite.vert", "res/shaders/glassComposite.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.depth.Load("res/shaders/screen.vert", "res/shaders/depth.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
@@ -81,7 +82,7 @@ void Renderer::RenderFrame()
 
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.glassCompositeTexture);
 	DrawFullscreenQuad();
 }
 
@@ -198,7 +199,11 @@ void TransparencyPass()
 		transparentObject.model->Draw();
 	}
 
-	//Composite transparency
+	CompositeTransparency();
+}
+
+void CompositeTransparency()
+{
 	glDisable(GL_DEPTH_TEST);
 
 	glDrawBuffer(GL_COLOR_ATTACHMENT7);
@@ -218,7 +223,7 @@ void SkyboxPass()
 	glDepthFunc(GL_LEQUAL);
 
 	//Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT5);
+	glDrawBuffer(GL_COLOR_ATTACHMENT7);
 
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));

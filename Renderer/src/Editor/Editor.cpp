@@ -7,6 +7,7 @@ namespace Editor
 {
 	bool showLightsWindow = false;
 	bool showObjectsWindow = false;
+	bool showColorAttachments = false;
 	bool ShowDemoWindow = false;
 }
 
@@ -37,6 +38,7 @@ void Editor::RenderEditor()
 	if (ImGui::MenuItem("Objects")) { showObjectsWindow = !showObjectsWindow; }
 	if (ImGui::MenuItem("Lights")) { showLightsWindow = !showLightsWindow; }
 	if (ImGui::MenuItem("Shadows")) { Renderer::RenderShadows = !Renderer::RenderShadows; }
+	if (ImGui::MenuItem("Attachments")) { showColorAttachments = !showColorAttachments; }
 	ImGui::EndMainMenuBar();
 
 	if (showObjectsWindow)
@@ -83,6 +85,12 @@ void Editor::RenderEditor()
 			}
 		}
 		ImGui::TreePop();
+		ImGui::End();
+	}
+
+	if (showColorAttachments)
+	{
+		ImGui::Begin("Color Attachments");
 		ImGui::End();
 	}
 
