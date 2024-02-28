@@ -145,8 +145,11 @@ void main()
     vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
     vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
     vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
-    float roughness = vec3(texture(rmaTexture, fTexCoord)).r;
-    float metallic = vec3(texture(rmaTexture, fTexCoord)).g;
+    vec3 rma = vec3(texture(rmaTexture, fTexCoord));
+
+    float roughness = rma.r;
+    float metallic = rma.g;
+    float ao = rma.b;
     
     vec3 lighting;
     if (toggleShadows)
@@ -166,7 +169,7 @@ void main()
     }   
     
     vec3 ambient = albedo * globalLight.color * vec3(0.1);
-    vec3 color = ambient + lighting;
+    vec3 color = (ambient + lighting) * ao;
 
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 
