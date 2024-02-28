@@ -9,10 +9,10 @@ void Scene::Init()
 	GameObject& glass = transparent.emplace_back();
 	glass.SetModel("plane");
 	glass.transform.scale = glm::vec3(1.0f, 1.0f, 1.0f);
-	glass.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
+	glass.transform.position = glm::vec3(0.0f, 2.0f, 0.0f);
 	glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
 	glass.material.normal = *AssetManager::GetTexture("glass_normal");
-	glass.material.rma = *AssetManager::GetTexture("glass_roughness");
+	glass.material.rma = *AssetManager::GetTexture("glass_rma");
 
 	GameObject& cube = gameObjects.emplace_back();
 	cube.SetModel("cube");

@@ -1711,10 +1711,10 @@
     <None Include="res\shaders\shadowmap.frag" />
     <None Include="res\shaders\shadowmap.vert" />
     <None Include="res\shaders\depth.frag" />
-    <None Include="res\shaders\glass.vert" />
-    <None Include="res\shaders\glass.frag" />
-    <None Include="res\shaders\glassComposite.vert" />
-    <None Include="res\shaders\glassComposite.frag" />
+    <None Include="res\shaders\transparency.vert" />
+    <None Include="res\shaders\transparency.frag" />
+    <None Include="res\shaders\transparencyComposite.vert" />
+    <None Include="res\shaders\transparencyComposite.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">

@@ -589,19 +589,19 @@
     <None Include="res\shaders\depth.frag" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
-    <None Include="res\shaders\glass.frag">
+    <None Include="res\shaders\transparency.frag">
       <SubType>
       </SubType>
     </None>
-    <None Include="res\shaders\glass.vert">
+    <None Include="res\shaders\transparency.vert">
       <SubType>
       </SubType>
     </None>
-    <None Include="res\shaders\glassComposite.frag">
+    <None Include="res\shaders\transparencyComposite.frag">
       <SubType>
       </SubType>
     </None>
-    <None Include="res\shaders\glassComposite.vert">
+    <None Include="res\shaders\transparencyComposite.vert">
       <SubType>
       </SubType>
     </None>
