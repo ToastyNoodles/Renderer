@@ -10,27 +10,24 @@ void Scene::Init()
 	glass.SetModel("plane");
 	glass.transform.scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	glass.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
-	glass.material.albedo = *AssetManager::GetTexture("default_albedo");
-	glass.material.normal = *AssetManager::GetTexture("default_normal");
-	glass.material.roughness = *AssetManager::GetTexture("default_roughness");
-	glass.material.metallic = *AssetManager::GetTexture("default_metallic");
+	glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
+	glass.material.normal = *AssetManager::GetTexture("glass_normal");
+	glass.material.rma = *AssetManager::GetTexture("glass_roughness");
 
 	GameObject& cube = gameObjects.emplace_back();
 	cube.SetModel("cube");
 	cube.transform.scale = glm::vec3(1.0f, 0.5f, 1.0f);
 	cube.transform.position = glm::vec3(0.0f, 0.5f, 0.0f);
-	cube.material.albedo = *AssetManager::GetTexture("default_albedo");
-	cube.material.normal = *AssetManager::GetTexture("default_normal");
-	cube.material.roughness = *AssetManager::GetTexture("default_roughness");
-	cube.material.metallic = *AssetManager::GetTexture("default_metallic");
+	cube.material.albedo = *AssetManager::GetTexture("foil_albedo");
+	cube.material.normal = *AssetManager::GetTexture("foil_normal");
+	cube.material.rma = *AssetManager::GetTexture("foil_rma");
 
 	GameObject& sphere = gameObjects.emplace_back();
 	sphere.SetModel("sphere");
 	sphere.transform.position = glm::vec3(0.0f, 2.0f, 0.0f);
 	sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
 	sphere.material.normal = *AssetManager::GetTexture("foil_normal");
-	sphere.material.roughness = *AssetManager::GetTexture("foil_roughness");
-	sphere.material.metallic = *AssetManager::GetTexture("foil_metallic");
+	sphere.material.rma = *AssetManager::GetTexture("foil_rma");
 
 	for (int x = -1; x < 2; x++)
 	{
@@ -41,8 +38,7 @@ void Scene::Init()
 			plane.transform.position = glm::vec3(x * 10, 0.0f, z * 10);
 			plane.material.albedo = *AssetManager::GetTexture("planks_albedo");
 			plane.material.normal = *AssetManager::GetTexture("planks_normal");
-			plane.material.roughness = *AssetManager::GetTexture("planks_roughness");
-			plane.material.metallic = *AssetManager::GetTexture("planks_metallic");
+			plane.material.rma = *AssetManager::GetTexture("planks_rma");
 		}
 	}
 }
@@ -62,8 +58,7 @@ void Scene::DrawScene(Shader& shader)
 		shader.SetMat4("model", gameObject.transform.GetModelMatrix());
 		gameObject.material.albedo.Bind(0);
 		gameObject.material.normal.Bind(1);
-		gameObject.material.roughness.Bind(2);
-		gameObject.material.metallic.Bind(3);
+		gameObject.material.rma.Bind(2);
 		gameObject.model->Draw();
 	}
 }

@@ -63,7 +63,7 @@ void Renderer::Init()
 void Renderer::RenderFrame()
 {
 	gbuffer.Bind();
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6, GL_COLOR_ATTACHMENT7 };
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -81,7 +81,7 @@ void Renderer::RenderFrame()
 	glDisable(GL_DEPTH_TEST);
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.glassCompositeTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.transparencyCompositeTexture);
 	DrawFullscreenQuad();
 }
 
@@ -106,8 +106,8 @@ void GeometryPass()
 	glCullFace(GL_BACK);
 
 	gbuffer.Bind();
-	//AlbedoTexture, NormalTexture, RoughnessTexture, MetallicTexture, PositionTexture
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
+	//AlbedoTexture, NormalTexture, RMATexture, PositionTexture
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
 	shaders.geometry.Bind();
@@ -122,19 +122,17 @@ void LightPass()
 	glDisable(GL_BLEND);
 
 	//Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT5);
+	glDrawBuffer(GL_COLOR_ATTACHMENT4);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.albedoTexture);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.normalTexture);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.roughnessTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.rmaTexture);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.metallicTexture);
-	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
-	glActiveTexture(GL_TEXTURE5);
+	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, shadowMap.depthTexture);
 
 	shaders.lighting.Bind();
@@ -168,16 +166,17 @@ void TransparencyPass()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
 
-	glDrawBuffer(GL_COLOR_ATTACHMENT6);
+	//Transparency Texture
+	glDrawBuffer(GL_COLOR_ATTACHMENT5);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("glass_albedo")->id);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("default_normal")->id);
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("glass_normal")->id);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("glass_roughness")->id);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("default_metallic")->id);
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("glass_metallic")->id);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
 	glActiveTexture(GL_TEXTURE5);
@@ -200,12 +199,13 @@ void TransparencyPass()
 
 	glDisable(GL_DEPTH_TEST);
 
-	glDrawBuffer(GL_COLOR_ATTACHMENT7);
+	//TransparencyComposite Texture
+	glDrawBuffer(GL_COLOR_ATTACHMENT6);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.glassTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.transparencyTexture);
 
 	shaders.glassComposite.Bind();
 	DrawFullscreenQuad();
@@ -217,7 +217,7 @@ void SkyboxPass()
 	glDepthFunc(GL_LEQUAL);
 
 	//Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT5);
+	glDrawBuffer(GL_COLOR_ATTACHMENT4);
 
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));

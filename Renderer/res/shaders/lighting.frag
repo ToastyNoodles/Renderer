@@ -17,10 +17,9 @@ struct PointLight
 
 layout (binding = 0) uniform sampler2D albedoTexture;
 layout (binding = 1) uniform sampler2D normalTexture;
-layout (binding = 2) uniform sampler2D roughnessTexture;
-layout (binding = 3) uniform sampler2D metallicTexture;
-layout (binding = 4) uniform sampler2D positionTexture;
-layout (binding = 5) uniform sampler2D shadowMap;
+layout (binding = 2) uniform sampler2D rmaTexture;
+layout (binding = 3) uniform sampler2D positionTexture;
+layout (binding = 4) uniform sampler2D shadowMap;
 
 in vec2 fTexCoord;
 
@@ -143,11 +142,11 @@ vec3 CalculateGlobalLight(GlobalLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 
 
 void main()
 {	
+    vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
     vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
     vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
-    float roughness = vec3(texture(roughnessTexture, fTexCoord)).r;
-    float metallic = vec3(texture(metallicTexture, fTexCoord)).r;
-    vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
+    float roughness = vec3(texture(rmaTexture, fTexCoord)).r;
+    float metallic = vec3(texture(rmaTexture, fTexCoord)).g;
     
     vec3 lighting;
     if (toggleShadows)

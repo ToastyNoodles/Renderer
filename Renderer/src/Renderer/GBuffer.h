@@ -12,12 +12,11 @@ public:
 
 	uint32_t albedoTexture;
 	uint32_t normalTexture;
-	uint32_t roughnessTexture;
-	uint32_t metallicTexture;
+	uint32_t rmaTexture;
 	uint32_t positionTexture;
 	uint32_t lightTexture;
-	uint32_t glassTexture;
-	uint32_t glassCompositeTexture;
+	uint32_t transparencyTexture;
+	uint32_t transparencyCompositeTexture;
 	uint32_t depthTexture;
 private:
 	uint32_t id;

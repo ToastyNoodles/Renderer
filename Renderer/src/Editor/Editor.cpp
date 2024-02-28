@@ -55,8 +55,7 @@ void Editor::RenderEditor()
 				ImGui::DragFloat3("Scale", (float*)&gameObject.transform.scale, 0.1f);
 				ImGui::Text(std::string("Albedo " + gameObject.material.albedo.info.name).c_str());
 				ImGui::Text(std::string("Normal " + gameObject.material.normal.info.name).c_str());
-				ImGui::Text(std::string("Roughness " + gameObject.material.roughness.info.name).c_str());
-				ImGui::Text(std::string("Metallic " + gameObject.material.metallic.info.name).c_str());
+				ImGui::Text(std::string("RMA " + gameObject.material.rma.info.name).c_str());
 				ImGui::TreePop();
 			}
 		}

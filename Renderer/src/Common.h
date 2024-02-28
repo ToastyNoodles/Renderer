@@ -81,6 +81,5 @@ struct Material
 {
 	Texture albedo;
 	Texture normal;
-	Texture roughness;
-	Texture metallic;
+	Texture rma;
 };
