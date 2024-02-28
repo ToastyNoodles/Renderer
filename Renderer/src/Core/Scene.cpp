@@ -7,8 +7,8 @@ void Scene::Init()
 	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
 
 	GameObject& glass = transparent.emplace_back();
-	glass.SetModel("cube");
-	glass.transform.scale = glm::vec3(3.0f, 0.1f, 3.0f);
+	glass.SetModel("plane");
+	glass.transform.scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	glass.transform.position = glm::vec3(0.0f, 8.0f, 0.0f);
 	glass.material.albedo = *AssetManager::GetTexture("default_albedo");
 	glass.material.normal = *AssetManager::GetTexture("default_normal");

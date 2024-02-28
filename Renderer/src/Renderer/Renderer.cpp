@@ -29,7 +29,6 @@ void RenderShadowMap();
 void GeometryPass();
 void LightPass();
 void TransparencyPass();
-void CompositeTransparency();
 void SkyboxPass();
 void DrawFullscreenQuad();
 
@@ -64,7 +63,7 @@ void Renderer::Init()
 void Renderer::RenderFrame()
 {
 	gbuffer.Bind();
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6, GL_COLOR_ATTACHMENT7 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -75,11 +74,11 @@ void Renderer::RenderFrame()
 
 	GeometryPass();
 	LightPass();
-	TransparencyPass();
 	SkyboxPass();
+	TransparencyPass();
 
+	gbuffer.Unbind();
 	glDisable(GL_DEPTH_TEST);
-
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.glassCompositeTexture);
@@ -172,13 +171,13 @@ void TransparencyPass()
 	glDrawBuffer(GL_COLOR_ATTACHMENT6);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.albedoTexture);
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("glass_albedo")->id);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.normalTexture);
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("default_normal")->id);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.roughnessTexture);
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("glass_roughness")->id);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.metallicTexture);
+	glBindTexture(GL_TEXTURE_2D, AssetManager::GetTexture("default_metallic")->id);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
 	glActiveTexture(GL_TEXTURE5);
@@ -199,11 +198,6 @@ void TransparencyPass()
 		transparentObject.model->Draw();
 	}
 
-	CompositeTransparency();
-}
-
-void CompositeTransparency()
-{
 	glDisable(GL_DEPTH_TEST);
 
 	glDrawBuffer(GL_COLOR_ATTACHMENT7);
@@ -223,7 +217,7 @@ void SkyboxPass()
 	glDepthFunc(GL_LEQUAL);
 
 	//Light Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT7);
+	glDrawBuffer(GL_COLOR_ATTACHMENT5);
 
 	shaders.skybox.Bind();
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));
@@ -232,7 +226,6 @@ void SkyboxPass()
 	sky.Draw();
 
 	glDepthFunc(GL_LESS);
-	gbuffer.Unbind();
 }
 
 void DrawFullscreenQuad()
