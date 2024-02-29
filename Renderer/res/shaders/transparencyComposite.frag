@@ -8,15 +8,8 @@ layout (binding = 1) uniform sampler2D transparencyTexture;
 
 void main()
 {
-	vec3 frameColor = texture(frameTexture, fTexCoord).rgb; 
-	vec3 glassColor = texture(transparencyTexture, fTexCoord).rgb;
+	vec4 frameColor = texture(frameTexture, fTexCoord); 
+	vec4 glassColor = texture(transparencyTexture, fTexCoord);
 
-	vec3 final = frameColor;
-
-	if (glassColor != vec3(0.0))
-	{
-		final = glassColor;
-	}
-
-	FragColor = vec4(final, 1.0);
+	FragColor = vec4(mix(glassColor.rgb, frameColor.rgb, glassColor.a), 1.0);
 }

@@ -170,11 +170,6 @@ void TransparencyPass()
 	//Transparency Texture
 	glDrawBuffer(GL_COLOR_ATTACHMENT5);
 
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
-	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
-
 	shaders.transparency.Bind();
 	shaders.transparency.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.transparency.SetMat4("view", Scene::camera.GetView());
@@ -201,8 +196,7 @@ void TransparencyPass()
 	{
 		shaders.transparency.SetMat4("model", transparentObject.transform.GetModelMatrix());
 		transparentObject.material.albedo.Bind(0);
-		transparentObject.material.normal.Bind(1);
-		transparentObject.material.rma.Bind(2);
+		transparentObject.material.rma.Bind(1);
 		transparentObject.model->Draw();
 	}
 

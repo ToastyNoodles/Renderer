@@ -21,10 +21,7 @@ in vec3 fNormal;
 in vec2 fTexCoord;
 
 layout (binding = 0) uniform sampler2D albedoTexture;
-layout (binding = 1) uniform sampler2D normalTexture;
-layout (binding = 2) uniform sampler2D rmaTexture;
-layout (binding = 3) uniform sampler2D positionTexture;
-layout (binding = 4) uniform sampler2D lightingTexture;
+layout (binding = 1) uniform sampler2D rmaTexture;
 
 #define MAX_POINTLIGHTS 32
 uniform PointLight pointLights[MAX_POINTLIGHTS];
@@ -70,20 +67,15 @@ vec3 MicrofacetBRDF(vec3 lightDir, vec3 viewDir, vec3 fNormal, vec3 fAlbedo, flo
   float NoH = clamp(dot(fNormal, halfDir), 0.0, 1.0);
   float VoH = clamp(dot(viewDir, halfDir), 0.0, 1.0);      
   
-  // F0 for dielectics in range [0.0, 0.16] 
-  // default FO is (0.16 * 0.5^2) = 0.04
   vec3 f0 = vec3(0.16 * (0.5 * 0.5));
 
-  // in case of metals, baseColor contains F0
   f0 = mix(f0, fAlbedo, fMetallic);
-  // specular microfacet (cook-torrance) BRDF
   vec3 F = fresnelSchlick(VoH, f0);
   float D = D_GGX(NoH, fRoughness);
   float G = G_Smith(NoV, NoL, fRoughness);
-  vec3 spec = (D * G * F) / max(4.0 * NoV * NoL, 0.001);  
-  // diffuse
-  vec3 notSpec = vec3(1.0) - F; // if not specular, use as diffuse
-  notSpec *= 1.0 - fMetallic; // no diffuse for metals
+  vec3 spec = (D * G * F) / max(4.0 * NoV * NoL, 0.001);
+  vec3 notSpec = vec3(1.0) - F;
+  notSpec *= 1.0 - fMetallic;
   vec3 diff = notSpec * fAlbedo / PI;   
   spec *= 1.05;
   vec3 result = diff + spec;
@@ -115,25 +107,25 @@ vec3 CalculateGlobalLight(GlobalLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 
 void main()
 {
     vec3 fragpos = fWorldPos.xyz;
-    vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
+    vec4 albedo = texture(albedoTexture, fTexCoord);
     vec3 normal = fNormal;
-    vec3 rma = vec3(texture(rmaTexture, fTexCoord));
 
+    vec3 rma = vec3(texture(rmaTexture, fTexCoord));
     float roughness = rma.r;
     float metallic = rma.g;
     float ao = rma.b;
     
-    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
+    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo.rgb, normal, roughness, metallic);
     for(int i = 0; i < MAX_POINTLIGHTS; i++) 
     {
-        lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
+        lighting += CalculatePointLight(pointLights[i], fragpos, albedo.rgb, normal, roughness, metallic);
     }   
     
-    vec3 ambient = albedo * globalLight.color * vec3(0.1);
-    vec3 color = (ambient + lighting) * ao;
+    vec3 ambient = albedo.rgb * globalLight.color * vec3(0.1);
+    vec3 color = (ambient + lighting);
 
     color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2)); 
+    color = pow(color, vec3(1.0/2.2));
 
-    FragColor = vec4(color, 1.0);
+    FragColor = vec4(color, albedo.a);
 }
