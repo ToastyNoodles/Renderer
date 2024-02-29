@@ -586,7 +586,6 @@
     <None Include="res\models\sphere.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
-    <None Include="res\shaders\depth.frag" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
     <None Include="res\shaders\transparency.frag">

@@ -11,22 +11,15 @@ void Scene::Init()
 	lamp.position = glm::vec3(0.0f, 7.0f, 0.0f);
 	lamp.strength = 5.0;
 
-	//for (int y = 0; y < 5; y++)
-	//{
-	//	GameObject& glass = gameObjects.emplace_back();
-	//	glass.SetModel("plane");
-	//	glass.transform.position = glm::vec3(0.0f, y * 2.0f, 0.0f);
-	//	glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
-	//	glass.material.normal = *AssetManager::GetTexture("glass_normal");
-	//	glass.material.rma = *AssetManager::GetTexture("glass_rma");
-	//}
-
-	GameObject& glass = gameObjects.emplace_back();
-	glass.SetModel("plane");
-	glass.transform.position = glm::vec3(0.0f, 5.0f, 0.0f);
-	glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
-	glass.material.normal = *AssetManager::GetTexture("glass_normal");
-	glass.material.rma = *AssetManager::GetTexture("glass_rma");
+	for (int y = 0; y < 5; y++)
+	{
+		GameObject& glass = transparent.emplace_back();
+		glass.SetModel("plane");
+		glass.transform.position = glm::vec3(0.0f, (y * 2.0f) + 1.0f, 0.0f);
+		glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
+		glass.material.normal = *AssetManager::GetTexture("glass_normal");
+		glass.material.rma = *AssetManager::GetTexture("glass_rma");
+	}
 
 	GameObject& cube = gameObjects.emplace_back();
 	cube.SetModel("cube");
@@ -39,9 +32,9 @@ void Scene::Init()
 	GameObject& sphere = gameObjects.emplace_back();
 	sphere.SetModel("sphere");
 	sphere.transform.position = glm::vec3(0.0f, 4.0f, 0.0f);
-	sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
-	sphere.material.normal = *AssetManager::GetTexture("foil_normal");
-	sphere.material.rma = *AssetManager::GetTexture("foil_rma");
+	sphere.material.albedo = *AssetManager::GetTexture("glass_albedo");
+	sphere.material.normal = *AssetManager::GetTexture("glass_normal");
+	sphere.material.rma = *AssetManager::GetTexture("glass_rma");
 
 	for (int x = -1; x < 2; x++)
 	{

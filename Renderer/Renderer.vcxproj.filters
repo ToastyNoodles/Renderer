@@ -1710,7 +1710,6 @@
     <None Include="res\models\sphere.fbx" />
     <None Include="res\shaders\shadowmap.frag" />
     <None Include="res\shaders\shadowmap.vert" />
-    <None Include="res\shaders\depth.frag" />
     <None Include="res\shaders\transparency.vert" />
     <None Include="res\shaders\transparency.frag" />
     <None Include="res\shaders\transparencyComposite.vert" />

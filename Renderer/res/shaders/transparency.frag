@@ -122,10 +122,10 @@ void main()
     }   
     
     vec3 ambient = albedo.rgb * globalLight.color * vec3(0.1);
-    vec3 color = (ambient + lighting);
+    vec3 color = (ambient + lighting) * roughness;
 
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
 
-    FragColor = vec4(color, albedo.a);
+    FragColor = vec4(lighting, albedo.a);
 }

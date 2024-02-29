@@ -17,7 +17,6 @@ struct Shaders
 	Shader transparency;
 	Shader transparencyComposite;
 	Shader skybox;
-	Shader depth;
 	Shader screen;
 } shaders;
 
@@ -41,7 +40,6 @@ void Renderer::Init()
 	shaders.transparency.Load("res/shaders/transparency.vert", "res/shaders/transparency.frag");
 	shaders.transparencyComposite.Load("res/shaders/transparencyComposite.vert", "res/shaders/transparencyComposite.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
-	shaders.depth.Load("res/shaders/screen.vert", "res/shaders/depth.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
