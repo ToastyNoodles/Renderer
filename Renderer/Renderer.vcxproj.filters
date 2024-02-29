@@ -1796,13 +1796,7 @@
     <Image Include="res\textures\skybox\top.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\planks_roughness.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\textures\planks_albedo.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\planks_metallic.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\planks_normal.png">
@@ -1829,37 +1823,46 @@
     <Image Include="res\textures\foil_albedo.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\foil_metallic.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\textures\foil_normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\foil_roughness.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\planks_displacement.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\planks_ao.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\textures\foil_displacement.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\foil_ao.png">
+    <Image Include="res\textures\foil_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\default_albedo.png">
+    <Image Include="res\textures\planks_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\default_metallic.png">
+    <Image Include="res\textures\glass_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\default_normal.png">
+    <Image Include="res\textures\glass_albedo.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\default_roughness.png">
+    <Image Include="res\textures\glass_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\bottom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\front.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\skybox\top.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

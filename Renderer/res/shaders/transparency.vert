@@ -16,7 +16,7 @@ void main()
 	mat4 normalMatrix = transpose(inverse(model));
 
 	fWorldPos = model * vec4(aPosition, 1.0);
-	fNormal = normalize((normalMatrix * vec4(aNormal, 0)).xyz);
+	fNormal = aNormal;
 	fTexCoord = aTexCoord;
 
 	gl_Position = projection * view * fWorldPos;

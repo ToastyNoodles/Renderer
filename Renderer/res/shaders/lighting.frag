@@ -23,8 +23,8 @@ layout (binding = 4) uniform sampler2D shadowMap;
 
 in vec2 fTexCoord;
 
-#define NUM_POINTLIGHT 16
-uniform PointLight pointLights[NUM_POINTLIGHT];
+#define MAX_POINTLIGHTS 32
+uniform PointLight pointLights[MAX_POINTLIGHTS];
 uniform GlobalLight globalLight;
 uniform mat4 lightSpaceMatrix;
 uniform bool toggleShadows;
@@ -152,18 +152,13 @@ void main()
     float ao = rma.b;
     
     vec3 lighting;
-    if (toggleShadows)
-    {
-        vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
-        float shadow = CalculateShadow(lightSpaceFrag, normal, globalLight.direction);
-        lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
-    }
-    else
-    {
-        lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
-    }
+    vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
+    float shadow = CalculateShadow(lightSpaceFrag, normal, globalLight.direction);
+
+    //lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
+    lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
     
-    for(int i = 0; i < NUM_POINTLIGHT; i++) 
+    for(int i = 0; i < MAX_POINTLIGHTS; i++) 
     {
         lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
     }   

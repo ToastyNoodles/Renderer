@@ -183,6 +183,20 @@ void TransparencyPass()
 	shaders.transparency.SetVec3("globalLight.direction", Scene::globalLight.direction);
 	shaders.transparency.SetVec3("globalLight.color", Scene::globalLight.color);
 
+	int i = 0;
+	for (PointLight& light : Scene::lights)
+	{
+		std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
+		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
+		std::string strength = std::string("pointLights[" + std::to_string(i) + "].strength");
+		std::string radius = std::string("pointLights[" + std::to_string(i) + "].radius");
+		shaders.transparency.SetVec3(position.c_str(), light.position);
+		shaders.transparency.SetVec3(color.c_str(), light.color);
+		shaders.transparency.SetFloat(strength.c_str(), light.strength);
+		shaders.transparency.SetFloat(radius.c_str(), light.radius);
+		i++;
+	}
+
 	for (GameObject& transparentObject : Scene::transparent)
 	{
 		shaders.transparency.SetMat4("model", transparentObject.transform.GetModelMatrix());
