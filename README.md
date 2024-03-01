@@ -17,7 +17,7 @@
 - Reimplement PBR
 - Cascading Shadows
 - Animated Models
-- Bloom
+- Post Processing
 - Instancing
 - Scene Editor
 - Scene Serialization
