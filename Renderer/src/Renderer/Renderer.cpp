@@ -163,7 +163,7 @@ void TransparencyPass()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 
 	//Transparency Texture
 	glDrawBuffer(GL_COLOR_ATTACHMENT5);

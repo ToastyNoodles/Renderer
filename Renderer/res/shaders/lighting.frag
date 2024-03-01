@@ -98,20 +98,14 @@ vec3 MicrofacetBRDF(vec3 lightDir, vec3 viewDir, vec3 fNormal, vec3 fAlbedo, flo
   float NoH = clamp(dot(fNormal, halfDir), 0.0, 1.0);
   float VoH = clamp(dot(viewDir, halfDir), 0.0, 1.0);      
   
-  // F0 for dielectics in range [0.0, 0.16] 
-  // default FO is (0.16 * 0.5^2) = 0.04
   vec3 f0 = vec3(0.16 * (0.5 * 0.5));
-
-  // in case of metals, baseColor contains F0
   f0 = mix(f0, fAlbedo, fMetallic);
-  // specular microfacet (cook-torrance) BRDF
   vec3 F = fresnelSchlick(VoH, f0);
   float D = D_GGX(NoH, fRoughness);
   float G = G_Smith(NoV, NoL, fRoughness);
-  vec3 spec = (D * G * F) / max(4.0 * NoV * NoL, 0.001);  
-  // diffuse
-  vec3 notSpec = vec3(1.0) - F; // if not specular, use as diffuse
-  notSpec *= 1.0 - fMetallic; // no diffuse for metals
+  vec3 spec = (D * G * F) / max(4.0 * NoV * NoL, 0.001);
+  vec3 notSpec = vec3(1.0) - F;
+  notSpec *= 1.0 - fMetallic;
   vec3 diff = notSpec * fAlbedo / PI;   
   spec *= 1.05;
   vec3 result = diff + spec;
@@ -155,8 +149,11 @@ void main()
     vec4 lightSpaceFrag = lightSpaceMatrix * vec4(fragpos, 1.0);
     float shadow = CalculateShadow(lightSpaceFrag, normal, globalLight.direction);
 
-    //lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
-    lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
+    if (toggleShadows) {
+        lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic) * (1.0 - shadow);
+    } else {
+        lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
+    }
     
     for(int i = 0; i < MAX_POINTLIGHTS; i++) 
     {

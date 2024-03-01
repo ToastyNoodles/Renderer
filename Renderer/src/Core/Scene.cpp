@@ -21,24 +21,16 @@ void Scene::Init()
 	{
 		GameObject& glass = transparent.emplace_back();
 		glass.SetModel("plane");
-		glass.transform.scale = glm::vec3(2.0f, 0.1f, 2.0f);
-		glass.transform.position = glm::vec3(0.0f, (y * 2.0f) + 8.0f, 0.0f);
+		glass.transform.scale = glm::vec3(1.0f, 1.0f, 1.0f);
+		glass.transform.position = glm::vec3(0.0f, (y * 2.0f) + 2.0f, 0.0f);
 		glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
 		glass.material.normal = *AssetManager::GetTexture("glass_normal");
 		glass.material.rma = *AssetManager::GetTexture("glass_rma");
 	}
-
-	GameObject& cube = gameObjects.emplace_back();
-	cube.SetModel("cube");
-	cube.transform.scale = glm::vec3(1.0f, 0.5f, 1.0f);
-	cube.transform.position = glm::vec3(0.0f, 0.5f, 0.0f);
-	cube.material.albedo = *AssetManager::GetTexture("foil_albedo");
-	cube.material.normal = *AssetManager::GetTexture("foil_normal");
-	cube.material.rma = *AssetManager::GetTexture("foil_rma");
 	
 	GameObject& sphere = gameObjects.emplace_back();
 	sphere.SetModel("sphere");
-	sphere.transform.position = glm::vec3(0.0f, 4.0f, 0.0f);
+	sphere.transform.position = glm::vec3(0.0f, 1.0f, 0.0f);
 	sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
 	sphere.material.normal = *AssetManager::GetTexture("foil_normal");
 	sphere.material.rma = *AssetManager::GetTexture("foil_rma");
@@ -97,7 +89,8 @@ void Scene::DrawSortedTransparency(Shader& shader)
 	{
 		shader.SetMat4("model", transparent[sortedObjects[i]].transform.GetModelMatrix());
 		transparent[sortedObjects[i]].material.albedo.Bind(0);
-		transparent[sortedObjects[i]].material.rma.Bind(1);
+		transparent[sortedObjects[i]].material.normal.Bind(1);
+		transparent[sortedObjects[i]].material.rma.Bind(2);
 		transparent[sortedObjects[i]].model->Draw();
 	}
 }
