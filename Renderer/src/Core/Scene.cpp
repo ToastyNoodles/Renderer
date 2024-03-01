@@ -1,6 +1,12 @@
 #include "Scene.h"
 #include "AssetManager.h"
 
+namespace Scene
+{
+	float objectDistance[8];
+	uint32_t sortedObjects[8];
+}
+
 void Scene::Init()
 {
 	globalLight.direction = glm::vec3(-0.73f, -0.53f, -0.42f);
@@ -15,7 +21,8 @@ void Scene::Init()
 	{
 		GameObject& glass = transparent.emplace_back();
 		glass.SetModel("plane");
-		glass.transform.position = glm::vec3(0.0f, (y * 2.0f) + 1.0f, 0.0f);
+		glass.transform.scale = glm::vec3(2.0f, 0.1f, 2.0f);
+		glass.transform.position = glm::vec3(0.0f, (y * 2.0f) + 8.0f, 0.0f);
 		glass.material.albedo = *AssetManager::GetTexture("glass_albedo");
 		glass.material.normal = *AssetManager::GetTexture("glass_normal");
 		glass.material.rma = *AssetManager::GetTexture("glass_rma");
@@ -32,9 +39,9 @@ void Scene::Init()
 	GameObject& sphere = gameObjects.emplace_back();
 	sphere.SetModel("sphere");
 	sphere.transform.position = glm::vec3(0.0f, 4.0f, 0.0f);
-	sphere.material.albedo = *AssetManager::GetTexture("glass_albedo");
-	sphere.material.normal = *AssetManager::GetTexture("glass_normal");
-	sphere.material.rma = *AssetManager::GetTexture("glass_rma");
+	sphere.material.albedo = *AssetManager::GetTexture("foil_albedo");
+	sphere.material.normal = *AssetManager::GetTexture("foil_normal");
+	sphere.material.rma = *AssetManager::GetTexture("foil_rma");
 
 	for (int x = -1; x < 2; x++)
 	{
@@ -67,5 +74,30 @@ void Scene::DrawScene(Shader& shader)
 		gameObject.material.normal.Bind(1);
 		gameObject.material.rma.Bind(2);
 		gameObject.model->Draw();
+	}
+}
+
+int compare(const void* a, const void* b)
+{
+	double diff = Scene::objectDistance[*(int*)b] - Scene::objectDistance[*(int*)a];
+	return  (0 < diff) - (diff < 0);
+}
+
+void Scene::DrawSortedTransparency(Shader& shader)
+{
+	for (int i = 0; i < transparent.size(); i++)
+	{
+		sortedObjects[i] = i;
+		objectDistance[i] = glm::length(camera.position - transparent[i].transform.position);
+	}
+
+	qsort(sortedObjects, 8, sizeof(uint32_t), compare);
+
+	for (int i = 0; i < transparent.size(); i++)
+	{
+		shader.SetMat4("model", transparent[sortedObjects[i]].transform.GetModelMatrix());
+		transparent[sortedObjects[i]].material.albedo.Bind(0);
+		transparent[sortedObjects[i]].material.rma.Bind(1);
+		transparent[sortedObjects[i]].model->Draw();
 	}
 }

@@ -190,13 +190,7 @@ void TransparencyPass()
 		i++;
 	}
 
-	for (GameObject& transparentObject : Scene::transparent)
-	{
-		shaders.transparency.SetMat4("model", transparentObject.transform.GetModelMatrix());
-		transparentObject.material.albedo.Bind(0);
-		transparentObject.material.rma.Bind(1);
-		transparentObject.model->Draw();
-	}
+	Scene::DrawSortedTransparency(shaders.transparency);
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
