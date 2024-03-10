@@ -584,26 +584,13 @@
     <None Include="res\models\CypressTree.fbx" />
     <None Include="res\models\plane.fbx" />
     <None Include="res\models\sphere.fbx" />
+    <None Include="res\models\weapon.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
-    <None Include="res\shaders\transparency.frag">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="res\shaders\transparency.vert">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="res\shaders\transparencyComposite.frag">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="res\shaders\transparencyComposite.vert">
-      <SubType>
-      </SubType>
-    </None>
+    <None Include="res\shaders\hdrCubemap.frag" />
+    <None Include="res\shaders\hdrCubemap.vert" />
     <None Include="res\shaders\lighting.frag" />
     <None Include="res\shaders\lighting.vert" />
     <None Include="res\shaders\shadowmap.frag" />
@@ -612,6 +599,7 @@
     <None Include="res\shaders\skybox.vert" />
     <None Include="res\shaders\screen.frag" />
     <None Include="res\shaders\screen.vert" />
+    <None Include="res\textures\sky.hdr" />
     <None Include="vendor\assimp\include\assimp\color4.inl" />
     <None Include="vendor\assimp\include\assimp\material.inl" />
     <None Include="vendor\assimp\include\assimp\matrix3x3.inl" />
@@ -773,17 +761,6 @@
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
-    <Image Include="res\textures\foil_albedo.png" />
-    <Image Include="res\textures\foil_displacement.png" />
-    <Image Include="res\textures\foil_normal.png" />
-    <Image Include="res\textures\foil_rma.png" />
-    <Image Include="res\textures\glass_albedo.png" />
-    <Image Include="res\textures\glass_normal.png" />
-    <Image Include="res\textures\glass_rma.png" />
-    <Image Include="res\textures\planks_albedo.png" />
-    <Image Include="res\textures\planks_displacement.png" />
-    <Image Include="res\textures\planks_normal.png" />
-    <Image Include="res\textures\planks_rma.png" />
     <Image Include="res\textures\skybox\back.png" />
     <Image Include="res\textures\skybox\bottom.png" />
     <Image Include="res\textures\skybox\front.png" />
@@ -808,6 +785,9 @@
     <Image Include="res\textures\space\left.png" />
     <Image Include="res\textures\space\right.png" />
     <Image Include="res\textures\space\top.png" />
+    <Image Include="res\textures\weapon_albedo.png" />
+    <Image Include="res\textures\weapon_normal.png" />
+    <Image Include="res\textures\weapon_rma.png" />
     <Image Include="res\textures\wood_diff.png" />
     <Image Include="res\textures\wood_diffuse.jpg" />
     <Image Include="res\textures\wood_spec.png" />

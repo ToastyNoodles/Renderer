@@ -24,10 +24,8 @@ GBuffer gbuffer;
 ShadowMap shadowMap;
 Skybox sky;
 
-void RenderShadowMap();
 void GeometryPass();
 void LightPass();
-void TransparencyPass();
 void SkyboxPass();
 void DrawFullscreenQuad();
 
@@ -37,64 +35,33 @@ void Renderer::Init()
 	shaders.shadows.Load("res/shaders/shadowmap.vert", "res/shaders/shadowmap.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	shaders.lighting.Load("res/shaders/lighting.vert", "res/shaders/lighting.frag");
-	shaders.transparency.Load("res/shaders/transparency.vert", "res/shaders/transparency.frag");
-	shaders.transparencyComposite.Load("res/shaders/transparencyComposite.vert", "res/shaders/transparencyComposite.frag");
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
-	shadowMap.Init();
-
-	std::vector<std::string> skyboxTextureFilepaths
-	{
-		"res/textures/skybox/right.png",
-		"res/textures/skybox/left.png",
-		"res/textures/skybox/top.png",
-		"res/textures/skybox/bottom.png",
-		"res/textures/skybox/front.png",
-		"res/textures/skybox/back.png"
-	};
-
-	sky.Load(skyboxTextureFilepaths);
+	sky.Load("res/textures/clear.hdr");
+	glViewport(0, 0, 1280, 720);
 }
 
 void Renderer::RenderFrame()
 {
 	gbuffer.Bind();
-	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
+	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (RenderShadows)
-		RenderShadowMap();
-
 	GeometryPass();
 	LightPass();
 	SkyboxPass();
-	TransparencyPass();
 
 	gbuffer.Unbind();
 	glDisable(GL_DEPTH_TEST);
 	shaders.screen.Bind();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.transparencyCompositeTexture);
+	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
 	DrawFullscreenQuad();
-}
-
-void RenderShadowMap()
-{
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-
-	shadowMap.Clear();
-	shadowMap.Bind();
-
-	shaders.shadows.Bind();
-	shaders.shadows.SetMat4("lightSpaceMatrix", shadowMap.GetLightSpaceMatrix());
-	Scene::DrawScene(shaders.shadows);
-	shadowMap.Unbind();
 }
 
 void GeometryPass()
@@ -135,9 +102,6 @@ void LightPass()
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
-	shaders.lighting.SetMat4("lightSpaceMatrix", shadowMap.GetLightSpaceMatrix());
-	shaders.lighting.SetBool("toggleShadows", Renderer::RenderShadows);
-
 	shaders.lighting.SetVec3("globalLight.direction", Scene::globalLight.direction);
 	shaders.lighting.SetVec3("globalLight.color", Scene::globalLight.color);
 
@@ -155,56 +119,6 @@ void LightPass()
 		i++;
 	}
 
-	DrawFullscreenQuad();
-}
-
-void TransparencyPass()
-{
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_DEPTH_TEST);
-	//glDisable(GL_CULL_FACE);
-
-	//Transparency Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT5);
-
-	shaders.transparency.Bind();
-	shaders.transparency.SetMat4("projection", Scene::camera.GetProjection());
-	shaders.transparency.SetMat4("view", Scene::camera.GetView());
-
-	shaders.transparency.SetVec3("viewPos", Scene::camera.position);
-	shaders.transparency.SetVec3("globalLight.direction", Scene::globalLight.direction);
-	shaders.transparency.SetVec3("globalLight.color", Scene::globalLight.color);
-
-	int i = 0;
-	for (PointLight& light : Scene::lights)
-	{
-		std::string position = std::string("pointLights[" + std::to_string(i) + "].position");
-		std::string color = std::string("pointLights[" + std::to_string(i) + "].color");
-		std::string strength = std::string("pointLights[" + std::to_string(i) + "].strength");
-		std::string radius = std::string("pointLights[" + std::to_string(i) + "].radius");
-		shaders.transparency.SetVec3(position.c_str(), light.position);
-		shaders.transparency.SetVec3(color.c_str(), light.color);
-		shaders.transparency.SetFloat(strength.c_str(), light.strength);
-		shaders.transparency.SetFloat(radius.c_str(), light.radius);
-		i++;
-	}
-
-	Scene::DrawSortedTransparency(shaders.transparency);
-
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	//TransparencyComposite Texture
-	glDrawBuffer(GL_COLOR_ATTACHMENT6);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.lightTexture);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.transparencyTexture);
-
-	shaders.transparencyComposite.Bind();
 	DrawFullscreenQuad();
 }
 

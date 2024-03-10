@@ -9,6 +9,8 @@ uniform mat4 view;
 void main()
 {
 	fTexCoord = aPosition;
-	vec4 position = projection * view * vec4(aPosition, 1.0);
-	gl_Position = position.xyww;
+
+	mat4 rotView = mat4(mat3(view)); //Removes translation from view matrix
+	vec4 clipPos = projection * rotView * vec4(fTexCoord, 1.0);
+	gl_Position = clipPos.xyww;
 }

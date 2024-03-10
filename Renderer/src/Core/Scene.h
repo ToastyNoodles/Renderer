@@ -5,7 +5,7 @@
 
 namespace Scene
 {
-	inline Camera camera = Camera(glm::vec3(0.0f, 1.0f, 10.0f));
+	inline Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f));
 	inline std::vector<GameObject> gameObjects;
 	inline std::vector<GameObject> transparent;
 	inline std::vector<PointLight> lights;
@@ -14,5 +14,4 @@ namespace Scene
 	void Init();
 	void Update(float deltaTime);
 	void DrawScene(Shader& shader);
-	void DrawSortedTransparency(Shader& shader);
 }

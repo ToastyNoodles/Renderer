@@ -15,8 +15,6 @@ public:
 	uint32_t rmaTexture;
 	uint32_t positionTexture;
 	uint32_t lightTexture;
-	uint32_t transparencyTexture;
-	uint32_t transparencyCompositeTexture;
 	uint32_t depthTexture;
 private:
 	uint32_t id;
