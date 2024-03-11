@@ -39,7 +39,7 @@ void Renderer::Init()
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
-	sky.Load("res/textures/clear.hdr");
+	sky.Load("res/textures/sky.hdr");
 	glViewport(0, 0, 1280, 720);
 }
 
@@ -98,7 +98,7 @@ void LightPass()
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, shadowMap.depthTexture);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.envCubemap);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);

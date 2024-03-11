@@ -19,6 +19,7 @@ layout (binding = 0) uniform sampler2D albedoTexture;
 layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D rmaTexture;
 layout (binding = 3) uniform sampler2D positionTexture;
+layout (binding = 4) uniform samplerCube irradianceCubemap;
 
 in vec2 fTexCoord;
 
@@ -114,7 +115,7 @@ void main()
         lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
     }   
     
-    vec3 ambient = albedo * globalLight.color * vec3(0.1);
+    vec3 ambient = albedo * texture(irradianceCubemap, normal).rgb;
     vec3 color = (ambient + lighting) * ao;
 
     color = color / (color + vec3(1.0));

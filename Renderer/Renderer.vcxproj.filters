@@ -1711,9 +1711,9 @@
     <None Include="res\shaders\shadowmap.frag" />
     <None Include="res\shaders\shadowmap.vert" />
     <None Include="res\textures\sky.hdr" />
-    <None Include="res\models\weapon.fbx" />
     <None Include="res\shaders\hdrCubemap.frag" />
     <None Include="res\shaders\hdrCubemap.vert" />
+    <None Include="res\shaders\irradiance.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1829,15 +1829,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\skybox\top.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\weapon_albedo.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\weapon_normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\textures\weapon_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

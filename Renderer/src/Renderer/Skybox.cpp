@@ -49,8 +49,9 @@ float skyboxVertices[] = {
 void Skybox::Load(const char* filepath)
 {
     hdrToCubemap.Load("res/shaders/hdrCubemap.vert", "res/shaders/hdrCubemap.frag");
+    irradiance.Load("res/shaders/hdrCubemap.vert", "res/shaders/irradiance.frag");
 
-    //HDR Texture
+    //Load HDR Texture
     int width, height, nrComponents;
     stbi_set_flip_vertically_on_load(true);
     float* data = stbi_loadf(filepath, &width, &height, &nrComponents, 0);
@@ -64,6 +65,7 @@ void Skybox::Load(const char* filepath)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
         std::cout << "Loaded HDR texture " << filepath << "\n";
 
         stbi_image_free(data);
@@ -73,7 +75,7 @@ void Skybox::Load(const char* filepath)
         std::cout << "Failed to load HDR texture " << filepath << "\n";
     }
 
-    //Cubemap
+    //Create Cubemap from HDR texture
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     glGenFramebuffers(1, &captureFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
@@ -81,14 +83,14 @@ void Skybox::Load(const char* filepath)
     glGenRenderbuffers(1 , &captureRBO);
     glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
 
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 2048, 2048);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 1024, 1024);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 
     glGenTextures(1, &envCubemap);
     glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
     for (uint32_t i = 0; i < 6; ++i)
     {
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 2048, 2048, 0, GL_RGB, GL_FLOAT, nullptr);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 1024, 1024, 0, GL_RGB, GL_FLOAT, nullptr);
     }
 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -103,12 +105,47 @@ void Skybox::Load(const char* filepath)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, hdrTexture);
 
-    glViewport(0, 0, 2048, 2048);
+    glViewport(0, 0, 1024, 1024);
     glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
     for (uint32_t i = 0; i < 6; ++i)
     {
         hdrToCubemap.SetMat4("view", captureViews[i]);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        Draw();
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    //Create irradiance cubemap, and re-scale capture FBO to irradiance scale
+    glGenTextures(1, &irradianceMap);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
+    for (uint32_t i = 0; i < 6; ++i)
+    {
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 256, 256, 0, GL_RGB, GL_FLOAT, 0);
+    }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+    glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 256, 256);
+
+    irradiance.Bind();
+    irradiance.SetInt("envCubemap", 0);
+    irradiance.SetMat4("projection", captureProjection);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
+
+    glViewport(0, 0, 256, 256);
+    glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+    for (uint32_t i = 0; i < 6; ++i)
+    {
+        irradiance.SetMat4("view", captureViews[i]);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, irradianceMap, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Draw();
     }

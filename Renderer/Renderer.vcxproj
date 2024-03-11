@@ -584,13 +584,13 @@
     <None Include="res\models\CypressTree.fbx" />
     <None Include="res\models\plane.fbx" />
     <None Include="res\models\sphere.fbx" />
-    <None Include="res\models\weapon.fbx" />
     <None Include="res\shaders\color.frag" />
     <None Include="res\shaders\color.vert" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
     <None Include="res\shaders\hdrCubemap.frag" />
     <None Include="res\shaders\hdrCubemap.vert" />
+    <None Include="res\shaders\irradiance.frag" />
     <None Include="res\shaders\lighting.frag" />
     <None Include="res\shaders\lighting.vert" />
     <None Include="res\shaders\shadowmap.frag" />
@@ -785,9 +785,6 @@
     <Image Include="res\textures\space\left.png" />
     <Image Include="res\textures\space\right.png" />
     <Image Include="res\textures\space\top.png" />
-    <Image Include="res\textures\weapon_albedo.png" />
-    <Image Include="res\textures\weapon_normal.png" />
-    <Image Include="res\textures\weapon_rma.png" />
     <Image Include="res\textures\wood_diff.png" />
     <Image Include="res\textures\wood_diffuse.jpg" />
     <Image Include="res\textures\wood_spec.png" />

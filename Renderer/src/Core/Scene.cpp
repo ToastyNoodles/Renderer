@@ -3,14 +3,16 @@
 
 void Scene::Init()
 {
-	globalLight.direction = glm::vec3(-1.0, -1.0f, 1.0);
-	globalLight.color = glm::vec3(1.0f, 0.9f, 0.55f);
-	
-	GameObject& gameObject = gameObjects.emplace_back();
-	gameObject.SetModel("weapon");
-	gameObject.material.albedo = *AssetManager::GetTexture("weapon_albedo");
-	gameObject.material.normal = *AssetManager::GetTexture("weapon_normal");
-	gameObject.material.rma = *AssetManager::GetTexture("weapon_rma");
+	globalLight.direction = glm::vec3(-0.84, -0.08, -0.53);
+	globalLight.color = glm::vec3(1.0f);
+
+	//PointLight light = lights.emplace_back();
+
+	GameObject& m9 = gameObjects.emplace_back();
+	m9.SetModel("m9");
+	m9.material.albedo = *AssetManager::GetTexture("m9_albedo");
+	m9.material.normal = *AssetManager::GetTexture("m9_normal");
+	m9.material.rma = *AssetManager::GetTexture("m9_rma");
 }
 
 void Scene::Update(float deltaTime)
