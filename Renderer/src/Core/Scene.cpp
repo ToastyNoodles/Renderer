@@ -15,7 +15,7 @@ void Scene::Init()
 	weapon1.material.rma = *AssetManager::GetTexture("m16_rma");
 
 	GameObject& weapon2 = gameObjects.emplace_back();
-	weapon2.active = false;
+	weapon2.transform.position = glm::vec3(0.0f, 1.5f, 0.0f);
 	weapon2.SetModel("m9");
 	weapon2.material.albedo = *AssetManager::GetTexture("m9_albedo");
 	weapon2.material.normal = *AssetManager::GetTexture("m9_normal");

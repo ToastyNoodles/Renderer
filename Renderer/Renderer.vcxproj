@@ -582,6 +582,7 @@
   <ItemGroup>
     <None Include="res\models\cube.fbx" />
     <None Include="res\models\CypressTree.fbx" />
+    <None Include="res\models\m16.fbx" />
     <None Include="res\models\m9.fbx" />
     <None Include="res\models\plane.fbx" />
     <None Include="res\models\sphere.fbx" />
@@ -762,6 +763,9 @@
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.png" />
     <Image Include="res\textures\Cypress_LF01_Spring_BaseColor.tga" />
     <Image Include="res\textures\Cypress_LF01_Spring_Normal.png" />
+    <Image Include="res\textures\m16_albedo.png" />
+    <Image Include="res\textures\m16_normal.png" />
+    <Image Include="res\textures\m16_rma.png" />
     <Image Include="res\textures\m9_albedo.png" />
     <Image Include="res\textures\m9_normal.png" />
     <Image Include="res\textures\m9_rma.png" />
