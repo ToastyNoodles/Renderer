@@ -8,11 +8,18 @@ void Scene::Init()
 
 	//PointLight light = lights.emplace_back();
 
-	GameObject& m9 = gameObjects.emplace_back();
-	m9.SetModel("m9");
-	m9.material.albedo = *AssetManager::GetTexture("m9_albedo");
-	m9.material.normal = *AssetManager::GetTexture("m9_normal");
-	m9.material.rma = *AssetManager::GetTexture("m9_rma");
+	GameObject& weapon1 = gameObjects.emplace_back();
+	weapon1.SetModel("m16");
+	weapon1.material.albedo = *AssetManager::GetTexture("m16_albedo");
+	weapon1.material.normal = *AssetManager::GetTexture("m16_normal");
+	weapon1.material.rma = *AssetManager::GetTexture("m16_rma");
+
+	GameObject& weapon2 = gameObjects.emplace_back();
+	weapon2.active = false;
+	weapon2.SetModel("m9");
+	weapon2.material.albedo = *AssetManager::GetTexture("m9_albedo");
+	weapon2.material.normal = *AssetManager::GetTexture("m9_normal");
+	weapon2.material.rma = *AssetManager::GetTexture("m9_rma");
 }
 
 void Scene::Update(float deltaTime)

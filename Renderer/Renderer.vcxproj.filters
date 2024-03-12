@@ -1714,6 +1714,7 @@
     <None Include="res\shaders\hdrCubemap.frag" />
     <None Include="res\shaders\hdrCubemap.vert" />
     <None Include="res\shaders\irradiance.frag" />
+    <None Include="res\models\m9.fbx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1829,6 +1830,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\skybox\top.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\m9_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\m9_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\m9_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
