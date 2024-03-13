@@ -67,11 +67,11 @@ vec3 MicrofacetBRDF(vec3 lightDir, vec3 viewDir, vec3 fNormal, vec3 fAlbedo, flo
   vec3 F = fresnelSchlick(VoH, f0);
   float D = D_GGX(NoH, fRoughness);
   float G = G_Smith(NoV, NoL, fRoughness);
-  vec3 spec = (D * G * F) / max(4.0 * NoV * NoL, 0.001);
+  vec3 spec = (D * G * F) / max(8.0 * NoV * NoL, 0.001);
   vec3 notSpec = vec3(1.0) - F;
   notSpec *= 1.0 - fMetallic;
   vec3 diff = notSpec * fAlbedo / PI;   
-  spec *= 1.05;
+  spec *= 1.1;
   vec3 result = diff + spec;
   return result;
 }

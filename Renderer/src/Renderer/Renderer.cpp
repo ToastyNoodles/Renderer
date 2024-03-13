@@ -6,7 +6,7 @@
 #include "Shader.h"
 #include "Skybox.h"
 #include "GBuffer.h"
-#include "ShadowMap.h"
+#include "PBR.h"
 
 struct Shaders
 {
@@ -20,9 +20,8 @@ struct Shaders
 	Shader screen;
 } shaders;
 
-GBuffer gbuffer;
-ShadowMap shadowMap;
 Skybox sky;
+PBR pbr;
 
 void GeometryPass();
 void LightPass();
@@ -31,6 +30,8 @@ void DrawFullscreenQuad();
 
 void Renderer::Init()
 {
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
 	shaders.color.Load("res/shaders/color.vert", "res/shaders/color.frag");
 	shaders.shadows.Load("res/shaders/shadowmap.vert", "res/shaders/shadowmap.frag");
 	shaders.geometry.Load("res/shaders/geometry.vert", "res/shaders/geometry.frag");
@@ -38,8 +39,8 @@ void Renderer::Init()
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
+	pbr.Load("res/textures/sky.hdr");
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
-	sky.Load("res/textures/sky.hdr");
 	glViewport(0, 0, 1280, 720);
 }
 
@@ -70,7 +71,7 @@ void GeometryPass()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	gbuffer.Bind();
+	Renderer::gbuffer.Bind();
 	//AlbedoTexture, NormalTexture, RMATexture, PositionTexture
 	uint32_t attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(sizeof(attachments) / sizeof(uint32_t), attachments);
@@ -90,15 +91,15 @@ void LightPass()
 	glDrawBuffer(GL_COLOR_ATTACHMENT4);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.albedoTexture);
+	glBindTexture(GL_TEXTURE_2D, Renderer::gbuffer.albedoTexture);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.normalTexture);
+	glBindTexture(GL_TEXTURE_2D, Renderer::gbuffer.normalTexture);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.rmaTexture);
+	glBindTexture(GL_TEXTURE_2D, Renderer::gbuffer.rmaTexture);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, gbuffer.positionTexture);
+	glBindTexture(GL_TEXTURE_2D, Renderer::gbuffer.positionTexture);
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.envCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.irradianceMap);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);

@@ -37,7 +37,6 @@ void Editor::RenderEditor()
 	ImGui::BeginMainMenuBar();
 	if (ImGui::MenuItem("Objects")) { showObjectsWindow = !showObjectsWindow; }
 	if (ImGui::MenuItem("Lights")) { showLightsWindow = !showLightsWindow; }
-	if (ImGui::MenuItem("Shadows")) { Renderer::RenderShadows = !Renderer::RenderShadows; }
 	ImGui::EndMainMenuBar();
 
 	if (showObjectsWindow)

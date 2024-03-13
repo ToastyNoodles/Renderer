@@ -75,5 +75,6 @@ void FramebufferCallback(GLFWwindow* window, int width, int height)
 {
 	GL::windowWidth = width;
 	GL::windowHeight = height;
+	Renderer::gbuffer.Init(width, height);
 	glViewport(0, 0, width, height);
 }

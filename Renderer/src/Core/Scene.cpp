@@ -6,7 +6,8 @@ void Scene::Init()
 	globalLight.direction = glm::vec3(-0.84, -0.08, -0.53);
 	globalLight.color = glm::vec3(1.0f);
 
-	//PointLight light = lights.emplace_back();
+	PointLight light = lights.emplace_back();
+	light.color = glm::vec3(0.0f);
 
 	GameObject& weapon1 = gameObjects.emplace_back();
 	weapon1.SetModel("m16");
@@ -16,10 +17,10 @@ void Scene::Init()
 
 	GameObject& weapon2 = gameObjects.emplace_back();
 	weapon2.transform.position = glm::vec3(0.0f, 1.5f, 0.0f);
-	weapon2.SetModel("m9");
-	weapon2.material.albedo = *AssetManager::GetTexture("m9_albedo");
-	weapon2.material.normal = *AssetManager::GetTexture("m9_normal");
-	weapon2.material.rma = *AssetManager::GetTexture("m9_rma");
+	weapon2.SetModel("colt");
+	weapon2.material.albedo = *AssetManager::GetTexture("colt_albedo");
+	weapon2.material.normal = *AssetManager::GetTexture("colt_normal");
+	weapon2.material.rma = *AssetManager::GetTexture("colt_rma");
 }
 
 void Scene::Update(float deltaTime)
@@ -39,5 +40,15 @@ void Scene::DrawScene(Shader& shader)
 		gameObject.material.normal.Bind(1);
 		gameObject.material.rma.Bind(2);
 		gameObject.model->Draw();
+	}
+
+	for (PointLight& light : lights)
+	{
+		GameObject lightObject;
+		lightObject.SetModel("sphere");
+		lightObject.transform.position = light.position;
+		lightObject.transform.scale = glm::vec3(0.1f);
+		shader.SetMat4("model", lightObject.transform.GetModelMatrix());
+		lightObject.model->Draw();
 	}
 }
