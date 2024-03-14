@@ -13,6 +13,7 @@ public:
 	void Draw();
 	FileInfo info;
 	std::vector<Mesh> meshes;
+	static void DrawCube();
 private:
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);

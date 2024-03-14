@@ -8,7 +8,7 @@ C:\dev\Renderer\Renderer\src\Core\Scene.cpp;C:\dev\Renderer\build\intermediate_d
 C:\dev\Renderer\Renderer\src\Editor\Editor.cpp;C:\dev\Renderer\build\intermediate_directory\Editor.obj
 C:\dev\Renderer\Renderer\src\main.cpp;C:\dev\Renderer\build\intermediate_directory\main.obj
 C:\dev\Renderer\Renderer\src\Renderer\GBuffer.cpp;C:\dev\Renderer\build\intermediate_directory\GBuffer.obj
-C:\dev\Renderer\Renderer\src\Renderer\ShadowMap.cpp;C:\dev\Renderer\build\intermediate_directory\ShadowMap.obj
+C:\dev\Renderer\Renderer\src\Renderer\PBR.cpp;C:\dev\Renderer\build\intermediate_directory\PBR.obj
 C:\dev\Renderer\Renderer\src\Renderer\Skybox.cpp;C:\dev\Renderer\build\intermediate_directory\Skybox.obj
 C:\dev\Renderer\Renderer\src\Renderer\Mesh.cpp;C:\dev\Renderer\build\intermediate_directory\Mesh.obj
 C:\dev\Renderer\Renderer\src\Renderer\Model.cpp;C:\dev\Renderer\build\intermediate_directory\Model.obj

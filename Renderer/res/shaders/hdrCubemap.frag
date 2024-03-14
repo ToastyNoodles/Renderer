@@ -3,7 +3,7 @@ out vec4 FragColor;
 
 in vec3 fPosition;
 
-uniform sampler2D environmentTexture;
+layout (binding = 0) uniform sampler2D environmentTexture;
 
 const vec2 invAtan = vec2(0.1591, 0.3183);
 

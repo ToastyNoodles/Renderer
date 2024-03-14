@@ -1714,8 +1714,8 @@
     <None Include="res\shaders\hdrCubemap.frag" />
     <None Include="res\shaders\hdrCubemap.vert" />
     <None Include="res\shaders\irradiance.frag" />
-    <None Include="res\models\m9.fbx" />
     <None Include="res\models\m16.fbx" />
+    <None Include="res\models\colt.fbx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1849,6 +1849,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\m16_rma.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\colt_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\colt_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\colt_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

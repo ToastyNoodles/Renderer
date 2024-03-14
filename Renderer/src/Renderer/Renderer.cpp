@@ -99,7 +99,7 @@ void LightPass()
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, Renderer::gbuffer.positionTexture);
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.irradianceMap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, pbr.environmentCubemap);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
@@ -135,7 +135,9 @@ void SkyboxPass()
 	glm::mat4 view = glm::mat4(glm::mat3(Scene::camera.GetView()));
 	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.skybox.SetMat4("view", view);
-	sky.Draw();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, pbr.environmentCubemap);
+	Model::DrawCube();
 
 	glDepthFunc(GL_LESS);
 }

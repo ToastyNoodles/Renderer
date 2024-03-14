@@ -6,7 +6,6 @@ class Skybox
 {
 public:
 	void Load(const char* filepath);
-	void Draw();
 	uint32_t hdrTexture = 0, envCubemap = 0, irradianceMap = 0;
 private:
 	uint32_t captureFBO = 0, captureRBO = 0;
