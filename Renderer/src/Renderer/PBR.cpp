@@ -25,7 +25,7 @@ void PBR::Load(const char* filepath)
         stbi_image_free(data);
 
         CreateEnvironmentCubemap();
-        CreateIrradianceMap();
+        //CreateIrradianceMap();
     }
     else
     {
