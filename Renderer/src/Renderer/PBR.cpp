@@ -58,6 +58,7 @@ void PBR::CreateEnvironmentCubemap()
 
     hdrToCubemap.Bind();
     hdrToCubemap.SetMat4("projection", captureProjection);
+    hdrToCubemap.SetInt("environmentTexture", 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, environmentTexture);
 
@@ -95,7 +96,7 @@ void PBR::CreateIrradianceMap()
     irradiance.SetMat4("projection", captureProjection);
     irradiance.SetInt("environmentCubemap", 0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, environmentCubemap);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, environmentCubemap);
 
     glViewport(0, 0, 32, 32);
     for (uint32_t i = 0; i < 6; ++i)
