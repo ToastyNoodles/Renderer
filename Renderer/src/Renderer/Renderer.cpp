@@ -4,7 +4,6 @@
 #include "../Core/Scene.h"
 #include "../Core/AssetManager.h"
 #include "Shader.h"
-#include "Skybox.h"
 #include "GBuffer.h"
 #include "PBR.h"
 
@@ -20,7 +19,6 @@ struct Shaders
 	Shader screen;
 } shaders;
 
-Skybox sky;
 PBR pbr;
 
 void GeometryPass();
@@ -99,7 +97,7 @@ void LightPass()
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, Renderer::gbuffer.positionTexture);
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, pbr.environmentCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, pbr.irradianceMap);
 
 	shaders.lighting.Bind();
 	shaders.lighting.SetVec3("viewPos", Scene::camera.position);
@@ -136,7 +134,7 @@ void SkyboxPass()
 	shaders.skybox.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.skybox.SetMat4("view", view);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, pbr.environmentCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, pbr.envCubemap);
 	Model::DrawCube();
 
 	glDepthFunc(GL_LESS);
