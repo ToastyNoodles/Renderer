@@ -1,7 +1,7 @@
 #version 420 core
 out vec4 FragColor;
 
-in vec3 fPosition;
+in vec3 WorldPos;
 
 uniform sampler2D hdrTexture;
 
@@ -17,7 +17,7 @@ vec2 SampleSphericalMap(vec3 v)
 
 void main()
 {
-	vec2 uv = SampleSphericalMap(normalize(fPosition));
+	vec2 uv = SampleSphericalMap(normalize(WorldPos));
 	vec3 color = texture(hdrTexture, uv).rgb;
 
 	FragColor = vec4(color, 1.0);
