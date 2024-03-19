@@ -30,93 +30,124 @@ uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
 
-float D_GGX(float NoH, float roughness) {
-  float alpha = roughness * roughness;
-  float alpha2 = alpha * alpha;
-  float NoH2 = NoH * NoH;
-  float b = (NoH2 * (alpha2 - 1.0) + 1.0);
-  return alpha2 / (PI * b * b);
+float DistributionGGX(vec3 N, vec3 H, float roughness)
+{
+    float a = roughness*roughness;
+    float a2 = a*a;
+    float NdotH = max(dot(N, H), 0.0);
+    float NdotH2 = NdotH*NdotH;
+
+    float nom   = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = PI * denom * denom;
+
+    return nom / denom;
 }
 
-float G1_GGX_Schlick(float NdotV, float roughness) {
-  float r = (roughness + 1.0);
-  float k = (r * r) / 8.0;
-  float denom = NdotV * (1.0 - k) + k;
-  return NdotV / denom;
+float GeometrySchlickGGX(float NdotV, float roughness)
+{
+    float r = (roughness + 1.0);
+    float k = (r*r) / 8.0;
+
+    float nom   = NdotV;
+    float denom = NdotV * (1.0 - k) + k;
+
+    return nom / denom;
 }
 
-float G_Smith(float NoV, float NoL, float roughness) {
-  float g1_l = G1_GGX_Schlick(NoL, roughness);
-  float g1_v = G1_GGX_Schlick(NoV, roughness);
-  return g1_l * g1_v;
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+{
+    float NdotV = max(dot(N, V), 0.0);
+    float NdotL = max(dot(N, L), 0.0);
+    float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+    float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+
+    return ggx1 * ggx2;
 }
 
-vec3 fresnelSchlick(float cosTheta, vec3 F0) {
+vec3 fresnelSchlick(float cosTheta, vec3 F0)
+{
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
-vec3 MicrofacetBRDF(vec3 lightDir, vec3 viewDir, vec3 fNormal, vec3 fAlbedo, float fMetallic, float fRoughness) {
-  vec3 halfDir = normalize(viewDir + lightDir);
-  float NoV = clamp(dot(fNormal, viewDir), 0.0, 1.0);
-  float NoL = clamp(dot(fNormal, lightDir), 0.0, 1.0);
-  float NoH = clamp(dot(fNormal, halfDir), 0.0, 1.0);
-  float VoH = clamp(dot(viewDir, halfDir), 0.0, 1.0);      
-  
-  vec3 f0 = vec3(0.16 * (0.5 * 0.5));
-  f0 = mix(f0, fAlbedo, fMetallic);
-  vec3 F = fresnelSchlick(VoH, f0);
-  float D = D_GGX(NoH, fRoughness);
-  float G = G_Smith(NoV, NoL, fRoughness);
-  vec3 spec = (D * G * F) / max(8.0 * NoV * NoL, 0.001);
-  vec3 notSpec = vec3(1.0) - F;
-  notSpec *= 1.0 - fMetallic;
-  vec3 diff = notSpec * fAlbedo / PI;   
-  spec *= 1.1;
-  vec3 result = diff + spec;
-  return result;
+vec3 CalculateGlobalLight(GlobalLight light, vec3 viewPos, vec3 worldPos, vec3 albedo, vec3 normal, float roughness, float metallic)
+{
+    vec3 N = normal;
+    vec3 F0 = vec3(0.04);
+    F0 = mix(F0, albedo, metallic);
+    vec3 V = normalize(viewPos - worldPos);
+    vec3 L = normalize(-light.direction);
+    vec3 H = normalize(V + L);
+
+    float NDF = DistributionGGX(N, H, roughness);
+    float G   = GeometrySmith(N, V, L, roughness);
+    vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
+
+    vec3 numerator = NDF * G * F;
+    float denominator = 6.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
+    vec3 specular = numerator / denominator;
+
+    vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+    kD *= 1.0 - metallic;
+    float NdotL = max(dot(N, L), 0.0);
+    return ((kD * albedo / PI + specular) * NdotL) * globalLight.color;
 }
 
-vec3 CalculatePointLight(PointLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 fNormal, float fRoughness, float fMetallic)
+vec3 CalculatePointLight(PointLight light, vec3 viewPos, vec3 worldPos, vec3 albedo, vec3 normal, float roughness, float metallic)
 {
-	vec3 viewDir = normalize(viewPos - fWorldPos);
-    vec3 lightDir = normalize(light.position - fWorldPos);
-	float lightRadiance = light.strength * 1;
+    vec3 N = normal;
+    vec3 F0 = vec3(0.04);
+    F0 = mix(F0, albedo, metallic);
+    vec3 V = normalize(viewPos - worldPos);
+    vec3 L = normalize(light.position - worldPos);
+    vec3 H = normalize(V + L);
+    float attenuation = smoothstep(light.radius, 0.0, length(light.position - worldPos));
+    vec3 radiance = light.color * light.strength;
 
-    float attenuation = smoothstep(light.radius, 0, length(light.position - fWorldPos));
-	float irradiance = max(dot(lightDir, fNormal), 0.0);
+    float NDF = DistributionGGX(N, H, roughness);
+    float G   = GeometrySmith(N, V, L, roughness);
+    vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
-	irradiance *= attenuation * lightRadiance;
-	vec3 brdf = MicrofacetBRDF(lightDir, viewDir, fNormal, fAlbedo, fMetallic, fRoughness);
-    return brdf * irradiance * clamp(light.color, 0, 1);
-}
+    vec3 numerator = NDF * G * F;
+    float denominator = 6.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
+    vec3 specular = numerator / denominator;
 
-vec3 CalculateGlobalLight(GlobalLight light, vec3 fWorldPos, vec3 fAlbedo, vec3 fNormal, float fRoughness, float fMetallic)
-{
-    vec3 viewDir = normalize(viewPos - fWorldPos);
-	vec3 lightDir = normalize(-light.direction);
-    vec3 brdf = MicrofacetBRDF(lightDir, viewDir, fNormal, fAlbedo, fMetallic, fRoughness);
-    return brdf * light.color;
+    vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+    kD *= 1.0 - metallic;
+    float NdotL = max(dot(N, L), 0.0);
+    return (kD * albedo / PI + specular) * radiance * attenuation * NdotL;
 }
 
 void main()
 {	
-    vec3 fragpos = vec3(texture(positionTexture, fTexCoord));
+    vec3 worldPos = vec3(texture(positionTexture, fTexCoord));
     vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
     vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
     vec3 rma = vec3(texture(rmaTexture, fTexCoord));
-
-    float roughness = rma.r;
-    float metallic = rma.g;
-    float ao = rma.b;
+    float roughness = clamp(rma.r, 0.0, 1.0);
+    float metallic = clamp(rma.g, 0.0, 1.0);
+    float ao = clamp(rma.b, 0.0, 1.0);
     
-    vec3 lighting = CalculateGlobalLight(globalLight, fragpos, albedo, normal, roughness, metallic);
-    for(int i = 0; i < MAX_POINTLIGHTS; i++) 
+    //Directional Light
+    vec3 Lo = CalculateGlobalLight(globalLight, viewPos, worldPos, albedo, normal, roughness, metallic);
+    for (int i = 0; i < MAX_POINTLIGHTS; i++)
     {
-        lighting += CalculatePointLight(pointLights[i], fragpos, albedo, normal, roughness, metallic);
-    }   
+        Lo += CalculatePointLight(pointLights[i], viewPos, worldPos, albedo, normal, roughness, metallic);
+    }
+
+    //Ambient Light
+    vec3 V = normalize(viewPos - worldPos);
+    vec3 akS = fresnelSchlick(max(dot(normal, V), 0.0), vec3(0.04));
+    vec3 akD = 1.0 - akS;
+    akD *= 1.0 - metallic;
+    vec3 irradiance = texture(irradianceCubemap, normal).rgb;
+    vec3 diffuse = irradiance * albedo;
+    vec3 ambient = (akD * diffuse) * ao;
+    ambient = albedo * vec3(0.1);
     
-    vec3 ambient = albedo * texture(irradianceCubemap, normal).rgb;
-    vec3 color = (ambient + lighting) * ao;
+    vec3 color = ambient + Lo;
 
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 

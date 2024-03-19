@@ -79,7 +79,10 @@ struct Texture
 
 struct Material
 {
-	Texture albedo;
-	Texture normal;
-	Texture rma;
+	glm::vec3 albedo = glm::vec3(1.0);
+	float roughness = 0.5f;
+	float specular = 0.5f;
+	Texture albedoMap;
+	Texture normalMap;
+	Texture rmaMap;
 };

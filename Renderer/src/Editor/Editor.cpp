@@ -51,23 +51,12 @@ void Editor::RenderEditor()
 				ImGui::DragFloat3("Position", (float*)&gameObject.transform.position, 0.1f);
 				ImGui::DragFloat3("Rotation", (float*)&gameObject.transform.rotation, 0.1f);
 				ImGui::DragFloat3("Scale", (float*)&gameObject.transform.scale, 0.1f);
-				ImGui::Text(std::string("Albedo " + gameObject.material.albedo.info.name).c_str());
-				ImGui::Text(std::string("Normal " + gameObject.material.normal.info.name).c_str());
-				ImGui::Text(std::string("RMA " + gameObject.material.rma.info.name).c_str());
-				ImGui::TreePop();
-			}
-		}
-		for (GameObject& gameObject : Scene::transparent)
-		{
-			if (ImGui::TreeNodeEx(std::string("Object " + std::to_string(index++) + " | " + gameObject.model->info.name).c_str()))
-			{
-				ImGui::Checkbox("Active", &gameObject.active);
-				ImGui::DragFloat3("Position", (float*)&gameObject.transform.position, 0.1f);
-				ImGui::DragFloat3("Rotation", (float*)&gameObject.transform.rotation, 0.1f);
-				ImGui::DragFloat3("Scale", (float*)&gameObject.transform.scale, 0.1f);
-				ImGui::Text(std::string("Albedo " + gameObject.material.albedo.info.name).c_str());
-				ImGui::Text(std::string("Normal " + gameObject.material.normal.info.name).c_str());
-				ImGui::Text(std::string("RMA " + gameObject.material.rma.info.name).c_str());
+				ImGui::ColorEdit3("Color", (float*)&gameObject.material.albedo, 0.01f);
+				ImGui::DragFloat("Specular", (float*)&gameObject.material.specular, 0.01f);
+				ImGui::DragFloat("Roughness", (float*)&gameObject.material.roughness, 0.01f);
+				ImGui::Text(std::string("Albedo Map " + gameObject.material.albedoMap.info.name).c_str());
+				ImGui::Text(std::string("Normal Map " + gameObject.material.normalMap.info.name).c_str());
+				ImGui::Text(std::string("RMA Map " + gameObject.material.rmaMap.info.name).c_str());
 				ImGui::TreePop();
 			}
 		}
