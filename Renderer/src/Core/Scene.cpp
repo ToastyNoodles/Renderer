@@ -8,15 +8,15 @@ void Scene::Init()
 
 	PointLight& red = lights.emplace_back();
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
-	red.position = glm::vec3(3.0f, 5.0f, 3.0f);
+	red.position = glm::vec3(3.0f, 5.0f, 0.0f);
 
 	PointLight& green = lights.emplace_back();
 	green.color = glm::vec3(0.0f, 1.0f, 0.0f);
-	green.position = glm::vec3(5.0f, 1.0f, 3.0f);
+	green.position = glm::vec3(5.0f, 1.0f, 0.0f);
 
 	PointLight& blue = lights.emplace_back();
 	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
-	blue.position = glm::vec3(1.0f, 1.0f, 3.0f);
+	blue.position = glm::vec3(1.0f, 1.0f, 0.0f);
 
 	int rows = 7, cols = 7;
 	for (float x = 0; x < cols; x++)
@@ -26,9 +26,23 @@ void Scene::Init()
 			GameObject& sphere = gameObjects.emplace_back();
 			sphere.SetModel("sphere");
 			sphere.material.albedo = glm::vec3(1.0f);
+			sphere.transform.position = glm::vec3(x, y, 2.0f);
+			sphere.material.albedoMap = *AssetManager::GetTexture("metal_albedo");
+			sphere.material.normalMap = *AssetManager::GetTexture("metal_normal");
+			sphere.material.rmaMap = *AssetManager::GetTexture("metal_rma");
+		}
+	}
+
+	for (float x = 0; x < cols; x++)
+	{
+		for (float y = 0; y < rows; y++)
+		{
+			GameObject& sphere = gameObjects.emplace_back();
+			sphere.SetModel("sphere");
+			sphere.material.albedo = glm::vec3(1.0f);
 			sphere.material.roughness = (float)y / (float)cols;
 			sphere.material.specular = (float)x / (float)rows;
-			sphere.transform.position = glm::vec3(x, y, 0.0f);
+			sphere.transform.position = glm::vec3(x, y, -2.0f);
 		}
 	}
 }

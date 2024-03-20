@@ -84,7 +84,7 @@ vec3 CalculateGlobalLight(GlobalLight light, vec3 viewPos, vec3 worldPos, vec3 a
     vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
     vec3 numerator = NDF * G * F;
-    float denominator = 6.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
+    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
     vec3 specular = numerator / denominator;
 
     vec3 kS = F;
@@ -106,11 +106,11 @@ vec3 CalculatePointLight(PointLight light, vec3 viewPos, vec3 worldPos, vec3 alb
     vec3 radiance = light.color * light.strength;
 
     float NDF = DistributionGGX(N, H, roughness);
-    float G   = GeometrySmith(N, V, L, roughness);
-    vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
+    float G = GeometrySmith(N, V, L, roughness);
+    vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
     vec3 numerator = NDF * G * F;
-    float denominator = 6.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
+    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
     vec3 specular = numerator / denominator;
 
     vec3 kS = F;
@@ -126,9 +126,9 @@ void main()
     vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
     vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
     vec3 rma = vec3(texture(rmaTexture, fTexCoord));
-    float roughness = clamp(rma.r, 0.0, 1.0);
-    float metallic = clamp(rma.g, 0.0, 1.0);
-    float ao = clamp(rma.b, 0.0, 1.0);
+    float roughness = clamp(rma.r, 0.03, 1.0);
+    float metallic = clamp(rma.g, 0.03, 1.0);
+    float ao = clamp(rma.b, 0.03, 1.0);
     
     //Directional Light
     vec3 Lo = CalculateGlobalLight(globalLight, viewPos, worldPos, albedo, normal, roughness, metallic);
