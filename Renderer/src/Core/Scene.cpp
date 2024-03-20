@@ -68,4 +68,19 @@ void Scene::DrawScene(Shader& shader)
 		gameObject.material.rmaMap.Bind(2);
 		gameObject.model->Draw();
 	}
+
+	//For visualizing pointlights
+	for (PointLight& light : lights)
+	{
+		GameObject lightObject;
+		lightObject.SetModel("sphere");
+		lightObject.material.albedo = light.color;
+		lightObject.transform.position = light.position;
+		lightObject.transform.scale = glm::vec3(0.1f);
+		shader.SetMat4("model", lightObject.transform.GetModelMatrix());
+		shader.SetVec3("albedo", lightObject.material.albedo);
+		shader.SetFloat("specular", lightObject.material.specular);
+		shader.SetFloat("roughness", lightObject.material.roughness);
+		lightObject.model->Draw();
+	}
 }

@@ -126,18 +126,18 @@ void main()
     vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
     vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
     vec3 rma = vec3(texture(rmaTexture, fTexCoord));
-    float roughness = clamp(rma.r, 0.03, 1.0);
-    float metallic = clamp(rma.g, 0.03, 1.0);
-    float ao = clamp(rma.b, 0.03, 1.0);
+    float roughness = clamp(rma.r, 0.025, 1.0);
+    float metallic = clamp(rma.g, 0.025, 1.0);
+    float ao = clamp(rma.b, 0.025, 1.0);
     
-    //Directional Light
+    //Lighting calculations
     vec3 Lo = CalculateGlobalLight(globalLight, viewPos, worldPos, albedo, normal, roughness, metallic);
     for (int i = 0; i < MAX_POINTLIGHTS; i++)
     {
         Lo += CalculatePointLight(pointLights[i], viewPos, worldPos, albedo, normal, roughness, metallic);
     }
 
-    //Ambient Light
+    //Ambient lighting
     vec3 V = normalize(viewPos - worldPos);
     vec3 akS = fresnelSchlick(max(dot(normal, V), 0.0), vec3(0.04));
     vec3 akD = 1.0 - akS;
@@ -145,6 +145,8 @@ void main()
     vec3 irradiance = texture(irradianceCubemap, normal).rgb;
     vec3 diffuse = irradiance * albedo;
     vec3 ambient = (akD * diffuse) * ao;
+
+    //Until I figure out how ibl works for now its just a 10% of the color.
     ambient = albedo * vec3(0.1);
     
     vec3 color = ambient + Lo;
