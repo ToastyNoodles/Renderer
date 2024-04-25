@@ -37,7 +37,7 @@ void Renderer::Init()
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
-	pbr.Load("res/textures/sky.hdr");
+	pbr.Load("res/textures/building.hdr");
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
 	glViewport(0, 0, 1280, 720);
 }
@@ -65,6 +65,7 @@ void Renderer::RenderFrame()
 
 void GeometryPass()
 {
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -78,6 +79,7 @@ void GeometryPass()
 	shaders.geometry.SetMat4("projection", Scene::camera.GetProjection());
 	shaders.geometry.SetMat4("view", Scene::camera.GetView());
 	Scene::DrawScene(shaders.geometry);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void LightPass()

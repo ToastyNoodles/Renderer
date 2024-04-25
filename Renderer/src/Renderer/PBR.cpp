@@ -3,6 +3,9 @@
 
 void PBR::Load(const char* filepath)
 {
+    glGenFramebuffers(1, &captureFBO);
+    glGenRenderbuffers(1, &captureRBO);
+
     hdrToCubemap.Load("res/shaders/hdrCubemap.vert", "res/shaders/hdrCubemap.frag");
     irradiance.Load("res/shaders/hdrCubemap.vert", "res/shaders/irradiance.frag");
 
@@ -34,9 +37,6 @@ void PBR::Load(const char* filepath)
 
 void PBR::CreateEnvironmentCubemap()
 {
-    glGenFramebuffers(1, &captureFBO);
-    glGenRenderbuffers(1, &captureRBO);
-
     glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
     glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, cubemapSize, cubemapSize);
@@ -74,11 +74,6 @@ void PBR::CreateEnvironmentCubemap()
 
 void PBR::CreateIrradianceMap()
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
-    glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, irradianceSize, irradianceSize);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
-
     glGenTextures(1, &irradianceMap);
     glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
     for (uint32_t i = 0; i < 6; ++i)
@@ -92,16 +87,20 @@ void PBR::CreateIrradianceMap()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    hdrToCubemap.Bind();
-    hdrToCubemap.SetMat4("projection", captureProjection);
-    hdrToCubemap.SetInt("hdrTexture", 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+    glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, irradianceSize, irradianceSize);
+
+    irradiance.Bind();
+    irradiance.SetMat4("projection", captureProjection);
+    irradiance.SetInt("environmentMap", 0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, hdrTexture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 
     glViewport(0, 0, irradianceSize, irradianceSize);
     for (uint32_t i = 0; i < 6; ++i)
     {
-        hdrToCubemap.SetMat4("view", captureViews[i]);
+        irradiance.SetMat4("view", captureViews[i]);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, irradianceMap, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Model::DrawCube();
