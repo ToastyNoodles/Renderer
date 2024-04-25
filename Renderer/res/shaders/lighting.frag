@@ -131,8 +131,8 @@ void main()
     vec3 albedo = pow(vec3(texture(albedoTexture, fTexCoord)), vec3(2.2));
     vec3 normal = normalize(vec3(texture(normalTexture, fTexCoord)));
     vec3 rma = vec3(texture(rmaTexture, fTexCoord));
-    float roughness = clamp(rma.r, 0.1, 1.0);
-    float metallic = clamp(rma.g, 0.1, 1.0);
+    float roughness = clamp(rma.r, 0.05, 1.0);
+    float metallic = clamp(rma.g, 0.05, 1.0);
     float ao = 1.0;
 
     //Lighting calculations

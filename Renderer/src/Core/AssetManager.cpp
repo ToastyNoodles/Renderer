@@ -74,7 +74,8 @@ uint32_t TextureFromFile(const std::string& filepath)
 	uint32_t textureID;
 	glGenTextures(1, &textureID);
 
-	int width, height, nrComponents;
+	int width, height, nrComponents; 
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{

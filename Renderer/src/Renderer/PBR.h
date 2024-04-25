@@ -16,7 +16,7 @@ private:
 	void CreateIrradianceMap();
 
 	Shader hdrToCubemap, irradiance;
-	int cubemapSize = 1024, irradianceSize = 32;
+	int cubemapSize = 4096, irradianceSize = 32;
 	glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
 	glm::mat4 captureViews[6] = {
 		glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),

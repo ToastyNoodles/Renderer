@@ -3,34 +3,42 @@
 
 void Scene::Init()
 {
-	//globalLight.direction = glm::vec3(-0.84, -0.28, -0.53);
-	//globalLight.color = glm::vec3(1.0f);
+	globalLight.direction = glm::vec3(-0.24f, -0.66, -0.71);
+	globalLight.color = glm::vec3(1.0f);
 
+	/*
 	PointLight& red = lights.emplace_back();
 	red.color = glm::vec3(1.0f, 0.0f, 0.0f);
-	red.position = glm::vec3(2.0f, 2.0f, 0.0f);
+	red.position = glm::vec3(-3.0f, 0.0f, 2.0f);
 
 	PointLight& green = lights.emplace_back();
 	green.color = glm::vec3(0.0f, 1.0f, 0.0f);
-	green.position = glm::vec3(4.0f, 6.0f, 0.0f);
+	green.position = glm::vec3(0.0f, 0.0f, 2.0f);
 
 	PointLight& blue = lights.emplace_back();
 	blue.color = glm::vec3(0.0f, 0.0f, 1.0f);
-	blue.position = glm::vec3(6.0f, 2.0f, 0.0f);
+	blue.position = glm::vec3(3.0f, 0.0f, 2.0f);
+	*/
 
-	int rows = 7, cols = 7;
-	for (float x = 0; x < cols; x++)
-	{
-		for (float y = 0; y < rows; y++)
-		{
-			GameObject& sphere = gameObjects.emplace_back();
-			sphere.SetModel("sphere");
-			sphere.material.albedo = glm::vec3(1.0f);
-			sphere.material.roughness = (float)x / (float)cols;
-			sphere.material.specular = (float)y / (float)rows;
-			sphere.transform.position = glm::vec3(x * 1.2, y * 1.2, -3.0f);
-		}
-	}
+	//int rows = 7, cols = 7;
+	//for (float x = 0; x < cols; x++)
+	//{
+	//	for (float y = 0; y < rows; y++)
+	//	{
+	//		GameObject& sphere = gameObjects.emplace_back();
+	//		sphere.SetModel("sphere");
+	//		sphere.transform.position = glm::vec3(x * 1.2, y * 1.2, -3.0f);
+	//		sphere.material.roughness = (float)x / (float)cols;
+	//		sphere.material.specular = (float)y / (float)rows;
+	//	}
+	//}
+
+	GameObject& weapon = gameObjects.emplace_back();
+	weapon.SetModel("gun");
+	weapon.transform.position = glm::vec3(0.0f, 0.0f, 0.0f);
+	weapon.material.albedoMap = *AssetManager::GetTexture("gun_albedo");
+	weapon.material.normalMap = *AssetManager::GetTexture("gun_normal");
+	weapon.material.rmaMap = *AssetManager::GetTexture("gun_rma");
 }
 
 void Scene::Update(float deltaTime)
@@ -64,9 +72,6 @@ void Scene::DrawScene(Shader& shader)
 		lightObject.transform.position = light.position;
 		lightObject.transform.scale = glm::vec3(0.1f);
 		shader.SetMat4("model", lightObject.transform.GetModelMatrix());
-		shader.SetVec3("albedo", lightObject.material.albedo);
-		shader.SetFloat("specular", lightObject.material.specular);
-		shader.SetFloat("roughness", lightObject.material.roughness);
 		lightObject.model->Draw();
 	}*/
 }

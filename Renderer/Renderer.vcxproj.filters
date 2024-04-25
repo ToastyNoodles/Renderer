@@ -1711,6 +1711,8 @@
     <None Include="res\models\m16.fbx" />
     <None Include="res\models\colt.fbx" />
     <None Include="res\textures\dawn.hdr" />
+    <None Include="res\textures\loft.hdr" />
+    <None Include="res\models\gun.fbx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
@@ -1853,6 +1855,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\colt_rma.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\gun_albedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\gun_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\gun_rma.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

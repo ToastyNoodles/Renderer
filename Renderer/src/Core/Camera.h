@@ -16,6 +16,6 @@ public:
 private:
 	glm::mat4 view;
 	glm::mat4 projection;
-	float fov = 60.0f, near = 0.01f, far = 1000.0f;
+	float fov = 80.0f, near = 0.01f, far = 1000.0f;
 	float speed = 0.02f, sensitivity = 100.0f;
 };

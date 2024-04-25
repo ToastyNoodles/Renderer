@@ -9,6 +9,10 @@ namespace Editor
 	bool showObjectsWindow = false;
 	bool showColorAttachments = false;
 	bool ShowDemoWindow = false;
+
+	int selectedItem = 0;
+	static const char* attachmentItems[] = { "Color", "Normal", "RMA", "Position", "Light", "Depth" };
+	uint32_t currentAttachment;
 }
 
 void Editor::Init(GLFWwindow* window)
@@ -37,6 +41,7 @@ void Editor::RenderEditor()
 	ImGui::BeginMainMenuBar();
 	if (ImGui::MenuItem("Objects")) { showObjectsWindow = !showObjectsWindow; }
 	if (ImGui::MenuItem("Lights")) { showLightsWindow = !showLightsWindow; }
+	if (ImGui::MenuItem("Attachments")) { showColorAttachments = !showColorAttachments; }
 	ImGui::EndMainMenuBar();
 
 	if (showObjectsWindow)
@@ -85,6 +90,23 @@ void Editor::RenderEditor()
 			}
 		}
 		ImGui::TreePop();
+		ImGui::End();
+	}
+
+	if (showColorAttachments)
+	{
+		ImGui::Begin("Attachments");
+		ImVec2 windowScreenPosition = ImGui::GetCursorScreenPos();
+		const float windowWidth = ImGui::GetContentRegionAvail().x;
+		const float windowHeight = ImGui::GetContentRegionAvail().y;
+		ImGui::Combo("Attachment", &selectedItem, attachmentItems, IM_ARRAYSIZE(attachmentItems));
+		if (selectedItem == 0) { currentAttachment = Renderer::gbuffer.albedoTexture; }
+		if (selectedItem == 1) { currentAttachment = Renderer::gbuffer.normalTexture; }
+		if (selectedItem == 2) { currentAttachment = Renderer::gbuffer.rmaTexture; }
+		if (selectedItem == 3) { currentAttachment = Renderer::gbuffer.positionTexture; }
+		if (selectedItem == 4) { currentAttachment = Renderer::gbuffer.lightTexture; }
+		if (selectedItem == 5) { currentAttachment = Renderer::gbuffer.depthTexture; }
+		ImGui::GetWindowDrawList()->AddImage((void*)currentAttachment, ImVec2(windowScreenPosition.x, windowScreenPosition.y + 25.0f), ImVec2(windowScreenPosition.x + windowWidth, (windowScreenPosition.y + 25.0f) + (windowHeight - 25.0f)), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 	}
 
