@@ -37,7 +37,7 @@ void Renderer::Init()
 	shaders.skybox.Load("res/shaders/skybox.vert", "res/shaders/skybox.frag");
 	shaders.screen.Load("res/shaders/screen.vert", "res/shaders/screen.frag");
 
-	pbr.Load("res/textures/building.hdr");
+	pbr.Load("res/textures/dawn.hdr");
 	gbuffer.Init(GL::GetWindowWidth(), GL::GetWindowHeight());
 	glViewport(0, 0, 1280, 720);
 }

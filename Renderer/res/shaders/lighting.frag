@@ -123,31 +123,6 @@ vec3 CalculatePointLight(PointLight light, vec3 viewPos, vec3 worldPos, vec3 alb
     kD *= 1.0 - metallic;
     float NdotL = max(dot(N, L), 0.0);
     return (kD * albedo / PI + specular) * radiance * attenuation * NdotL;
-    
-    //vec3 F0 = vec3(0.04);
-    //F0 = mix(F0, albedo, metallic);
-    //vec3 V = normalize(viewPos - worldPos);
-    //vec3 L = normalize(light.position - worldPos);
-    //vec3 H = normalize(V + L);
-    //vec3 N = normal;
-    //float dist = length(light.position - worldPos);
-    //float attenuation = 1.0 / (dist * dist);
-    //vec3 radiance = light.color * attenuation;
-    //
-    //float NDF = DistributionGGX(N, H, roughness);
-    //float G = GeometrySmith(N, V, L, roughness);
-    //vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
-    //
-    //vec3 numerator = NDF * G * F;
-    //float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
-    //vec3 specular = numerator / denominator;
-    //
-    //vec3 kS = F;
-    //vec3 kD = vec3(1.0) - kS;
-    //kD *= 1.0 - metallic;
-    //float NdotL = max(dot(N, L), 0.0);
-    //
-    //return (kD * albedo / PI + specular) * radiance * NdotL;
 }
 
 void main()
@@ -178,7 +153,7 @@ void main()
     vec3 diffuse = irradiance * albedo;
     vec3 ambient = (akD * diffuse) * ao;
     
-    vec3 color = irradiance;
+    vec3 color = ambient + Lo;
 
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 

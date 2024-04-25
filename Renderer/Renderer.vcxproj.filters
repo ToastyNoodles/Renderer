@@ -1710,7 +1710,7 @@
     <None Include="res\shaders\irradiance.frag" />
     <None Include="res\models\m16.fbx" />
     <None Include="res\models\colt.fbx" />
-    <None Include="res\textures\building.hdr" />
+    <None Include="res\textures\dawn.hdr" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\Bark_BaseColor.png">
