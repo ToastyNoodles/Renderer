@@ -1,4 +1,4 @@
-# 2024 Renderer
+# Custom Renderer
 ## Features
 * Materials
   * With diffuse, normal, roughness, metallic, and ambient occlusion mapping.
