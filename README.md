@@ -1,11 +1,6 @@
 # Custom Renderer
 ## Thirdparty Libraries
-* glfw
-* glad
-* glm
-* Assimp
-* stb
-* imgui
+glfw, glad, glm, assimp, stb, imgui
 
 ## Features
 * Materials
