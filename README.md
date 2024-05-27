@@ -1,4 +1,12 @@
 # Custom Renderer
+## Thirdparty Libraries
+* glfw
+* glad
+* glm
+* Assimp
+* stb
+* imgui
+
 ## Features
 * Materials
   * With diffuse, normal, roughness, metallic, and ambient occlusion mapping.
